@@ -6,6 +6,11 @@ package es.exmaster.expass.gui;
 
 import com.formdev.flatlaf.themes.FlatMacDarkLaf;
 import es.exmaster.expass.ExPassDAO;
+import es.exmaster.expass.Main;
+import es.exmaster.expass.util.RSAUtils;
+
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.util.List;
 import javax.swing.UIManager;
 
@@ -22,6 +27,12 @@ public class DataPopup extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
 
+    }
+    
+    @Override
+    public Image getIconImage() {
+    	Image retValue = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("es/exmaster/expass/images/passlogo.png"));
+		return retValue;
     }
 
     /**
@@ -43,6 +54,7 @@ public class DataPopup extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
+        setIconImage(getIconImage());
 
         userLabel.setText("Usuario:");
 
@@ -168,31 +180,36 @@ public class DataPopup extends javax.swing.JFrame {
     }
             
     private void añadir() {
-        ExPassDAO.agregarDatos("passwords", new String[]{
-            userField.getText(),
-            siteField.getText(),
-            new String(passwordField.getPassword()),
-            es.exmaster.expass.password.Password.isStrong(new String(passwordField.getPassword())).name()
-        });
+        try {
+			ExPassDAO.agregarDatos("passwords", new String[]{
+			    userField.getText(),
+			    siteField.getText(),
+			    RSAUtils.encrypt(new String(passwordField.getPassword()), RSAUtils.loadPublicKeyFromFile(Main.PUBLIC_PATH)),
+			    es.exmaster.expass.password.Password.isStrong(new String(passwordField.getPassword())).name()
+			});
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         ExPassUI.update();
         clearFields();
         this.dispose();
     }
     
     private void modificar() {
-        ExPassDAO.modificarDatosDobleEntrada("passwords", "user", userField.getText(),
-                "site", siteField.getText(), 
-                new String[] {"password", "strength"},
-                new String[] {new String(passwordField.getPassword()), 
-                es.exmaster.expass.password.Password.isStrong(new String(passwordField.getPassword())).name()});
+        try {
+			ExPassDAO.modificarDatosDobleEntrada("passwords", "user", userField.getText(),
+			        "site", siteField.getText(), 
+			        new String[] {"password", "strength"},
+			        new String[] {RSAUtils.encrypt(new String(passwordField.getPassword()), RSAUtils.loadPublicKeyFromFile(Main.PUBLIC_PATH)), 
+			        es.exmaster.expass.password.Password.isStrong(new String(passwordField.getPassword())).name()});
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         ExPassUI.update();
         clearFields();
         this.dispose();
-    }
-        
-        
-    public List<String> getFieldsValues(){
-        return List.of(userField.getText(),siteField.getText(),new String(passwordField.getPassword()));
     }
     
     private void clearFields(){

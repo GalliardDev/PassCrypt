@@ -25,17 +25,17 @@ public class Main {
 	
 	public static void main(String[] args) {
 	// TODO Auto-generated method stub
-            initBDD();
-            initFolder();
-            generateKeys();
-            ExPassDAO.inicializarBaseDeDatos();
-                    
-        try {
+		try {
             UIManager.setLookAndFeel(new FlatMacDarkLaf());
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(ExPassUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        
+		
+        initBDD();
+        initFolder();
+        generateKeys();
+        ExPassDAO.inicializarBaseDeDatos();
+                            
         if(ExPassDAO.leerTabla("master").isEmpty()) {
                 ExPassDAO.agregarDatos("master", new String[]{JOptionPane.showInputDialog("Introduce una contraseña maestra")});
             }

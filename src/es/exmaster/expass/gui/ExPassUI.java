@@ -9,6 +9,10 @@ import es.exmaster.expass.ExPassDAO;
 import es.exmaster.expass.Main;
 import es.exmaster.expass.util.PasswordCellRenderer;
 import es.exmaster.expass.util.PopupHandler;
+import es.exmaster.expass.util.RSAUtils;
+
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
@@ -38,6 +42,12 @@ public class ExPassUI extends javax.swing.JFrame {
     public ExPassUI() {
         initComponents();
         finalizeInit();
+    }
+    
+    @Override
+    public Image getIconImage() {
+    	Image retValue = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("es/exmaster/expass/images/passlogo.png"));
+		return retValue;
     }
 
     public JTable getTabla(){
@@ -82,6 +92,7 @@ public class ExPassUI extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("ExPassword Manager " + Main.VERSION);
         setBackground(new java.awt.Color(255, 255, 255));
+        setIconImage(getIconImage());
 
         toolBar.setRollover(true);
 
@@ -269,7 +280,13 @@ public class ExPassUI extends javax.swing.JFrame {
         if (input != null && input.equals(masterPass)) {
             int rowIndex = table.getSelectedRow();
             if (rowIndex >= 0) {
-                Object password = table.getValueAt(rowIndex, 2);
+                String password = null;
+				try {
+					password = RSAUtils.decrypt(table.getValueAt(rowIndex, 2).toString(), RSAUtils.loadPrivateKeyFromFile(Main.PRIVATE_PATH));
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
                 if (password instanceof String) {
                     JOptionPane.showMessageDialog(rootPane, password);
                 }
