@@ -1,0 +1,82 @@
+JFDML JFormDesigner: "8.1.1.0.298" Java: "17.0.8" encoding: "UTF-8"
+
+new FormModel {
+	contentType: "form/swing"
+	root: new FormRoot {
+		add( new FormWindow( "javax.swing.JDialog", new FormLayoutManager( class java.awt.BorderLayout ) ) {
+			name: "this"
+			"defaultCloseOperation": 2
+			"title": "Acción bloqueada"
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.BorderLayout ) ) {
+				name: "dialogPane"
+				"border": new javax.swing.border.EmptyBorder( 12, 12, 12, 12 )
+				auxiliary() {
+					"JavaCodeGenerator.variableGetter": true
+				}
+				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+					"$horizontalGroup": "par l {seq {space :::p, par l:::p {comp introduceLabel:::p::p, seq {comp masterPassField:::p:134:p, space u:::p, comp showPassLabel::::0:x}}, space :::x}}"
+					"$verticalGroup": "par l {seq l {space :::p, comp introduceLabel:::p::p, space :::p, par l {comp showPassLabel:::p:26:p, comp masterPassField:::p::p}, space ::3:x}}"
+				} ) {
+					name: "contentPanel"
+					auxiliary() {
+						"JavaCodeGenerator.variableGetter": true
+					}
+					add( new FormComponent( "javax.swing.JLabel" ) {
+						name: "introduceLabel"
+						"text": "Introduce la contraseña maestra:"
+						auxiliary() {
+							"JavaCodeGenerator.variableGetter": true
+						}
+					} )
+					add( new FormComponent( "javax.swing.JButton" ) {
+						name: "showPassLabel"
+						"icon": new com.jformdesigner.model.SwingIcon( 0, "/java/es/exmaster/expass/images/show_small.png" )
+						"focusable": false
+						auxiliary() {
+							"JavaCodeGenerator.variableGetter": true
+						}
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "showPassLabelActionPerformed", true ) )
+					} )
+					add( new FormComponent( "javax.swing.JPasswordField" ) {
+						name: "masterPassField"
+						auxiliary() {
+							"JavaCodeGenerator.variableGetter": true
+						}
+					} )
+				}, new FormLayoutConstraints( class java.lang.String ) {
+					"value": "Center"
+				} )
+				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
+					"$columnSpecs": "0:1.0, 80, 80"
+					"$rowSpecs": "0"
+					"$vGap": 5
+					"$hGap": 5
+				} ) {
+					name: "buttonBar"
+					"border": new javax.swing.border.EmptyBorder( 12, 0, 0, 0 )
+					auxiliary() {
+						"JavaCodeGenerator.variableGetter": true
+					}
+					add( new FormComponent( "javax.swing.JButton" ) {
+						name: "okButton"
+						"text": "OK"
+						"focusable": false
+						auxiliary() {
+							"JavaCodeGenerator.variableGetter": true
+						}
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "okActionPerformed", true ) )
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+						"gridx": 2
+					} )
+				}, new FormLayoutConstraints( class java.lang.String ) {
+					"value": "South"
+				} )
+			}, new FormLayoutConstraints( class java.lang.String ) {
+				"value": "Center"
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"location": new java.awt.Point( 0, 0 )
+			"size": new java.awt.Dimension( 210, 150 )
+		} )
+	}
+}

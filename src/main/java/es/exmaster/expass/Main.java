@@ -10,7 +10,8 @@ import javax.swing.UIManager;
 
 import com.formdev.flatlaf.themes.FlatMacDarkLaf;
 
-import es.exmaster.expass.gui.ExPassUI;
+import es.exmaster.expass.gui.MastPassDialog;
+import es.exmaster.expass.gui.UIExPass;
 import es.exmaster.expass.util.PopupHandler;
 import javax.swing.JOptionPane;
 
@@ -21,14 +22,14 @@ public class Main {
 			"C:/Users/" + System.getenv("USERNAME") + "/AppData/Local/.keys/private.txt";
 	public static final String BDD = "C:/Databases/expass.db";
 	
-	public static final String VERSION = "v1.0";
+	public static final String VERSION = "v1.1";
 	
 	public static void main(String[] args) {
 	// TODO Auto-generated method stub
 		try {
             UIManager.setLookAndFeel(new FlatMacDarkLaf());
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ExPassUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(UIExPass.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
 		
         initBDD();
@@ -42,7 +43,7 @@ public class Main {
         
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> {
-            new ExPassUI().setVisible(true);
+            new UIExPass().setVisible(true);
         });
 	}
 	
@@ -74,9 +75,9 @@ public class Main {
 	}
 	
 	private static void initBDD() {
-		String contasocFolderPath = "C:/Databases";
+		String databaseFolderPath = "C:/Databases";
 		
-		File db = new File(contasocFolderPath, "expass.db");
+		File db = new File(databaseFolderPath, "expass.db");
 		
     	if(!(db.exists())) {
     		try {

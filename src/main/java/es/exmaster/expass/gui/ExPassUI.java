@@ -32,6 +32,7 @@ import javax.swing.table.TableColumnModel;
  * @author jomaa
  */
 @SuppressWarnings("serial")
+@Deprecated
 public class ExPassUI extends javax.swing.JFrame {
     private DataPopup dp = new DataPopup();
     private String tempUser;

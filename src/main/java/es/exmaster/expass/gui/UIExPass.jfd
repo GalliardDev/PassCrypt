@@ -1,0 +1,61 @@
+JFDML JFormDesigner: "8.1.1.0.298" Java: "17.0.8" encoding: "UTF-8"
+
+new FormModel {
+	contentType: "form/swing"
+	root: new FormRoot {
+		add( new FormWindow( "javax.swing.JFrame", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+			"$horizontalGroup": "par l {comp toolBar::l::468:x, seq l {space :::p, comp tablePanel::::456:x, space :::p}}"
+			"$verticalGroup": "par l {seq l {comp toolBar:::p::p, space :::p, comp tablePanel::::554:x, space :::p}}"
+		} ) {
+			name: "this"
+			"title": "ExPass Manager {VERSION}"
+			"iconImage": new com.jformdesigner.model.SwingIcon( 0, "/java/es/exmaster/expass/images/passlogo.png" )
+			"defaultCloseOperation": 3
+			"resizable": false
+			add( new FormContainer( "javax.swing.JToolBar", new FormLayoutManager( class javax.swing.JToolBar ) ) {
+				name: "toolBar"
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "newBtn"
+					"text": "Nueva"
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "newBtnActionPerformed", true ) )
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "viewBtn"
+					"text": "Ver"
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "viewBtnActionPerformed", true ) )
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "modifyBtn"
+					"text": "Modificar"
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "modifyBtnActionPerformed", true ) )
+				} )
+				add( new FormComponent( "javax.swing.JToolBar$Separator" ) {
+					name: "sepToolbar"
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "importBtn"
+					"text": "Importar"
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "importBtnActionPerformed", true ) )
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "exportBtn"
+					"text": "Exportar"
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "exportBtnActionPerformed", true ) )
+				} )
+			} )
+			add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+				name: "tablePanel"
+				add( new FormComponent( "javax.swing.JTable" ) {
+					name: "table"
+					auxiliary() {
+						"JavaCodeGenerator.variableModifiers": 9
+						"JavaCodeGenerator.postInitCode": "table.setModel(new javax.swing.table.DefaultTableModel(\n            new Object [][] {\n\n            },\n            new String [] {\n                \"Usuario\", \"Sitio\", \"Contraseña\", \"Fuerza\"\n            }\n        ) {\n            @SuppressWarnings(\"rawtypes\")\n\t\t\tClass[] types = new Class [] {\n                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class\n            };\n            boolean[] canEdit = new boolean [] {\n                false, false, false, false\n            };\n\n            @SuppressWarnings(\"rawtypes\")\n\t\t\tpublic Class getColumnClass(int columnIndex) {\n                return types [columnIndex];\n            }\n\n            public boolean isCellEditable(int rowIndex, int columnIndex) {\n                return canEdit [columnIndex];\n            }\n        });\n        table.getTableHeader().setReorderingAllowed(false);\n        table.addMouseListener(new java.awt.event.MouseAdapter() {\n            public void mouseClicked(java.awt.event.MouseEvent evt) {\n                tableMouseClicked(evt);\n            }\n        });\n        table.addKeyListener(new java.awt.event.KeyAdapter() {\n            public void keyPressed(java.awt.event.KeyEvent evt) {\n                tableKeyPressed(evt);\n            }\n        });\n        tablePanel.setViewportView(table);\n        if (table.getColumnModel().getColumnCount() > 0) {\n            table.getColumnModel().getColumn(0).setResizable(false);\n            table.getColumnModel().getColumn(1).setResizable(false);\n            table.getColumnModel().getColumn(2).setResizable(false);\n            table.getColumnModel().getColumn(3).setResizable(false);\n        }"
+					}
+				} )
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"location": new java.awt.Point( 0, 0 )
+			"size": new java.awt.Dimension( 470, 625 )
+		} )
+	}
+}
