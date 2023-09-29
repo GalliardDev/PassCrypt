@@ -32,10 +32,10 @@
                 </executions>
             </plugin>
         </plugins>
-        <sourceDirectory>src</sourceDirectory>
+        <sourceDirectory>src/main/java</sourceDirectory>
         <resources>
             <resource>
-                <directory>src/es/exmaster/expass</directory>
+                <directory>src/main/resources</directory>
             </resource>
         </resources>
     </build>

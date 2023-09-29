@@ -9,10 +9,8 @@ import es.exmaster.expass.ExPassDAO;
 import es.exmaster.expass.Main;
 import es.exmaster.expass.util.RSAUtils;
 
-import java.awt.Image;
-import java.awt.Toolkit;
 import java.util.List;
-import javax.swing.UIManager;
+import javax.swing.*;
 
 /**
  *
@@ -27,12 +25,6 @@ public class DataPopup extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
 
-    }
-    
-    @Override
-    public Image getIconImage() {
-    	Image retValue = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("es/exmaster/expass/images/passlogo.png"));
-		return retValue;
     }
 
     /**
@@ -54,7 +46,7 @@ public class DataPopup extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
-        setIconImage(getIconImage());
+        setIconImage(new ImageIcon(getClass().getResource("/images/passlogo.png")).getImage());
 
         userLabel.setText("Usuario:");
 
@@ -80,7 +72,7 @@ public class DataPopup extends javax.swing.JFrame {
             }
         });
 
-        showBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/es/exmaster/expass/images/show_small.png"))); // NOI18N
+        showBtn.setIcon(UIManager.getIcon("PasswordField.revealIcon")); // NOI18N
         showBtn.setAlignmentX(0.5F);
         showBtn.setFocusable(false);
         showBtn.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);

@@ -115,7 +115,14 @@ public class MastPassDialog extends JDialog {
                         dp.setVisible(true);
                         DataPopup.userField.setText(UIExPass.getTabla().getValueAt(UIExPass.getTabla().getSelectedRow(), 0).toString());
                         DataPopup.siteField.setText(UIExPass.getTabla().getValueAt(UIExPass.getTabla().getSelectedRow(), 1).toString());
-                        DataPopup.passwordField.setText(UIExPass.getTabla().getValueAt(UIExPass.getTabla().getSelectedRow(), 2).toString());
+                        String selectedPassword = UIExPass.getTabla().getValueAt(UIExPass.getTabla().getSelectedRow(), 2).toString();
+                        String password = "";
+                        try {
+                            password = RSAUtils.decrypt(selectedPassword, RSAUtils.loadPrivateKeyFromFile(Main.PRIVATE_PATH));
+                        } catch (Exception ex) {
+                            throw new RuntimeException(ex);
+                        }
+                        DataPopup.passwordField.setText(password);
                         DataPopup.passwordField.requestFocus();
                         break;
                     case IMPORT:
@@ -203,7 +210,7 @@ public class MastPassDialog extends JDialog {
                 introduceLabel.setText("Introduce la contrase\u00f1a maestra:");
 
                 //---- showPassLabel ----
-                showPassLabel.setIcon(new ImageIcon(getClass().getResource("/java/es/exmaster/expass/images/show_small.png")));
+                showPassLabel.setIcon(UIManager.getIcon("PasswordField.revealIcon"));
                 showPassLabel.setFocusable(false);
                 showPassLabel.addActionListener(e -> showPassLabelActionPerformed(e));
 

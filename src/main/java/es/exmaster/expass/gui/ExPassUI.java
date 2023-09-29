@@ -47,7 +47,7 @@ public class ExPassUI extends javax.swing.JFrame {
     
     @Override
     public Image getIconImage() {
-    	Image retValue = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("es/exmaster/expass/images/passlogo.png"));
+    	Image retValue = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("images/passlogo.png"));
 		return retValue;
     }
 

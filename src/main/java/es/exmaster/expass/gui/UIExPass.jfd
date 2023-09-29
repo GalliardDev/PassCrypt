@@ -9,9 +9,9 @@ new FormModel {
 		} ) {
 			name: "this"
 			"title": "ExPass Manager {VERSION}"
-			"iconImage": new com.jformdesigner.model.SwingIcon( 0, "/java/es/exmaster/expass/images/passlogo.png" )
 			"defaultCloseOperation": 3
 			"resizable": false
+			"iconImage": new com.jformdesigner.model.SwingIcon( 0, "/images/passlogo.png" )
 			add( new FormContainer( "javax.swing.JToolBar", new FormLayoutManager( class javax.swing.JToolBar ) ) {
 				name: "toolBar"
 				add( new FormComponent( "javax.swing.JButton" ) {

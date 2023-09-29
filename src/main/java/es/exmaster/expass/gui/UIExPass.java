@@ -9,7 +9,6 @@ import es.exmaster.expass.Main;
 import es.exmaster.expass.common.ActionType;
 import es.exmaster.expass.util.PasswordCellRenderer;
 import es.exmaster.expass.util.PopupHandler;
-import es.exmaster.expass.util.RSAUtils;
 
 import javax.swing.*;
 import javax.swing.GroupLayout;
@@ -19,16 +18,11 @@ import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 import java.awt.*;
 import java.awt.event.KeyEvent;
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.StandardCopyOption;
 
 /**
  * @author jomaa
  */
 public class UIExPass extends JFrame {
-    private DataPopup dp = new DataPopup();
     private String tempUser;
     private String tempSite;
 
@@ -39,7 +33,8 @@ public class UIExPass extends JFrame {
 
     @Override
     public Image getIconImage() {
-        return Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("es/exmaster/expass/images/passlogo.png"));
+        Image retValue = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("images/passlogo.png"));
+        return retValue;
     }
 
     public static JTable getTabla(){
@@ -123,11 +118,7 @@ public class UIExPass extends JFrame {
         if(selectedRowIndex >= 0){
             tempUser = table.getValueAt(selectedRowIndex, 0).toString();
             tempSite = table.getValueAt(selectedRowIndex, 1).toString();
-            DataPopup.userField.setEditable(false);
-            DataPopup.siteField.setEditable(false);
-            DataPopup.userField.setText(tempUser);
-            DataPopup.siteField.setText(tempSite);
-            DataPopup.passwordField.requestFocus();
+
         }
     }
 
@@ -178,9 +169,9 @@ public class UIExPass extends JFrame {
 
         //======== this ========
         setTitle("ExPass Manager {VERSION}");
-        setIconImage(new ImageIcon(getClass().getResource("/java/es/exmaster/expass/images/passlogo.png")).getImage());
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
+        setIconImage(new ImageIcon(getClass().getResource("/images/passlogo.png")).getImage());
         var contentPane = getContentPane();
 
         //======== toolBar ========
