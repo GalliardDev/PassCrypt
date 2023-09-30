@@ -7,6 +7,7 @@ package es.exmaster.expass.gui;
 import com.formdev.flatlaf.themes.FlatMacDarkLaf;
 import es.exmaster.expass.ExPassDAO;
 import es.exmaster.expass.Main;
+import es.exmaster.expass.gui.UIExPass;
 import es.exmaster.expass.util.RSAUtils;
 
 import java.util.List;
@@ -183,7 +184,7 @@ public class DataPopup extends javax.swing.JFrame {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-        ExPassUI.update();
+        UIExPass.update();
         clearFields();
         this.dispose();
     }
@@ -199,7 +200,7 @@ public class DataPopup extends javax.swing.JFrame {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-        ExPassUI.update();
+        UIExPass.update();
         clearFields();
         this.dispose();
     }
