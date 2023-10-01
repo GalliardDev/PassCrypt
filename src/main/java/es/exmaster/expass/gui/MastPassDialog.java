@@ -120,7 +120,8 @@ public class MastPassDialog extends JDialog {
                 PopupHandler.wrongMasterPassword();
             }
         }
-        dispose();
+        // de momento así
+        setVisible(false);
     }
 
     private void thisWindowClosed(WindowEvent e) {
@@ -128,8 +129,6 @@ public class MastPassDialog extends JDialog {
             System.exit(0);
         }
     }
-
-
 
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents  @formatter:off
