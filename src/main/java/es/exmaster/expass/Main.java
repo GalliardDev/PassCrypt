@@ -10,6 +10,7 @@ import javax.swing.UIManager;
 
 import com.formdev.flatlaf.themes.FlatMacDarkLaf;
 
+import es.exmaster.expass.common.ActionType;
 import es.exmaster.expass.gui.MastPassDialog;
 import es.exmaster.expass.gui.UIExPass;
 import es.exmaster.expass.util.PopupHandler;
@@ -22,7 +23,7 @@ public class Main {
 			"C:/Users/" + System.getenv("USERNAME") + "/AppData/Local/.keys/private.txt";
 	public static final String BDD = "C:/Databases/expass.db";
 	
-	public static final String VERSION = "v2.0.0";
+	public static final String VERSION = "v2.1.0";
 	
 	public static void main(String[] args) {
 		try {
@@ -36,15 +37,18 @@ public class Main {
         initFolder();
         generateKeys();
         ExPassDAO.inicializarBaseDeDatos();
-                            
+
         if(ExPassDAO.leerTabla("master").isEmpty()) {
-                ExPassDAO.agregarDatos("master", new String[]{JOptionPane.showInputDialog("Introduce una contraseña maestra")});
-            }
-        
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> {
-            new UIExPass().setVisible(true);
-        });
+			MastPassDialog mpd = new MastPassDialog(null);
+			mpd.setTitle("Inicializar contraseña maestra");
+			mpd.getIntroduceLabel().setText("Nueva contraseña maestra:");
+			mpd.setActionType(ActionType.INIT);
+			mpd.setVisible(true);
+		} else {
+			java.awt.EventQueue.invokeLater(() -> {
+				new UIExPass().setVisible(true);
+			});
+		}
 	}
 	
 	private static void generateKeys() {

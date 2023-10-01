@@ -40,11 +40,7 @@ public class UIExPass extends JFrame {
         frame = this;
         initComponents();
         finalizeInit();
-        emptyTableOnInit();
-        blockButtonsUntilLogin();
-        MastPassDialog mpd = new MastPassDialog(this);
-        mpd.setVisible(true);
-        mpd.setActionType(ActionType.LOGIN);
+
     }
 
     @Override
@@ -64,6 +60,15 @@ public class UIExPass extends JFrame {
         parseVersion();
         update();
         applyPassFilter();
+        emptyTableOnInit();
+        blockButtonsUntilLogin();
+        if(!(MastPassDialog.getActionType() == ActionType.INIT)) {
+            MastPassDialog mpd = new MastPassDialog(this);
+            mpd.setVisible(true);
+            mpd.setActionType(ActionType.LOGIN);
+        } else {
+            login();
+        }
     }
 
     private void parseVersion() {
@@ -208,7 +213,6 @@ public class UIExPass extends JFrame {
         switch (sel) {
             case JOptionPane.YES_OPTION:
                 ExPassDAO.eliminarDatosDobleEntrada("passwords", "user", tempUser, "site", tempSite);
-                PopupHandler.passwordRemoved();
                 break;
             case JOptionPane.NO_OPTION:
                 break;
@@ -269,6 +273,26 @@ public class UIExPass extends JFrame {
             }
             else break;
         }
+    }
+
+    public JButton getNewBtn() {
+        return newBtn;
+    }
+
+    public JButton getViewBtn() {
+        return viewBtn;
+    }
+
+    public JButton getModifyBtn() {
+        return modifyBtn;
+    }
+
+    public JButton getImportBtn() {
+        return importBtn;
+    }
+
+    public JButton getExportBtn() {
+        return exportBtn;
     }
 
     private void initComponents() {
@@ -386,7 +410,7 @@ public class UIExPass extends JFrame {
                 .addGroup(contentPaneLayout.createSequentialGroup()
                     .addComponent(toolBar, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                     .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(tablePanel, GroupLayout.DEFAULT_SIZE, 548, Short.MAX_VALUE)
+                    .addComponent(tablePanel, GroupLayout.DEFAULT_SIZE, 554, Short.MAX_VALUE)
                     .addContainerGap())
         );
         pack();

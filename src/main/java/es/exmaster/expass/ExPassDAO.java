@@ -98,9 +98,6 @@ public class ExPassDAO {
     }
 
     public static void modificarDatos(String nombreTabla, String columnaBuscar, String valorBuscar, String[] columnas, String[] nuevosValores) {
-        if (columnas.length != nuevosValores.length) {
-        	PopupHandler.columnNumberError();
-        }
 
         StringBuilder queryBuilder = new StringBuilder();
         queryBuilder.append("UPDATE ").append(nombreTabla).append(" SET ");
@@ -131,9 +128,6 @@ public class ExPassDAO {
     }
     
     public static void modificarDatosDobleEntrada(String nombreTabla, String columna1, String dato1, String columna2, String dato2, String[] columnas, String[] nuevosValores) {
-        if (columnas.length != nuevosValores.length) {
-        	PopupHandler.columnNumberError();
-        }
 
         String query = "UPDATE "+nombreTabla+" SET ";
 

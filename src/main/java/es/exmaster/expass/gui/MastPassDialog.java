@@ -26,13 +26,18 @@ import javax.swing.border.*;
  */
 public class MastPassDialog extends JDialog {
 
-    private ActionType actionType;
+    private static ActionType actionType;
 
     public MastPassDialog(Window owner) {
         super(owner);
+        actionType = ActionType.INIT;
         initComponents();
         setLocationRelativeTo(UIExPass.getFrame());
         setResizable(false);
+    }
+
+    public static ActionType getActionType() {
+        return actionType;
     }
 
     public JPanel getDialogPane() {
@@ -87,7 +92,21 @@ public class MastPassDialog extends JDialog {
     }
 
     private void okActionPerformed(ActionEvent e) {
-        if(masterPassOk()) {
+        if(actionType.equals(ActionType.INIT)) {
+            String input = new String(masterPassField.getPassword());
+            try {
+                ExPassDAO.agregarDatos("master", new String[] {RSAUtils.encrypt(input, RSAUtils.loadPublicKeyFromFile(Main.PUBLIC_PATH))});
+                java.awt.EventQueue.invokeLater(() -> {
+                    new UIExPass().setVisible(true);
+                });
+            } catch (Exception ex) {
+                throw new RuntimeException(ex);
+            }
+            java.awt.EventQueue.invokeLater(() -> {
+                new UIExPass().setVisible(true);
+            });
+
+        } else if(masterPassOk()) {
             switch (actionType) {
                 case LOGIN:
                     UIExPass.login();
