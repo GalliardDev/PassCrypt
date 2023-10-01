@@ -86,13 +86,15 @@ public class Password implements Comparable<Password> {
 		Strength res = null;
         if (password.length() >= 8 && containsUppercase(password) && containsLowercase(password)
                 && containsNumber(password) && containsSpecialChar(password)) {
-            res = Strength.HIGH; // Fuerte
+            res = Strength.FUERTE; // Fuerte
         } else if (password.length() >= 6 && (containsUppercase(password) || containsLowercase(password)
                 || containsNumber(password) || containsSpecialChar(password))) {
-        	res = Strength.MEDIUM; // Media
+        	res = Strength.NORMAL; // Media
         } else if (password.length() >= 4) {
-        	res = Strength.LOW; // Débil
-        }
+        	res = Strength.DEBIL; // Débil
+        } else {
+			res = Strength.TERRIBLE; // Terrible
+		}
         return res;
     }
     

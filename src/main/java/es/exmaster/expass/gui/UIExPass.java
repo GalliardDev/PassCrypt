@@ -260,6 +260,16 @@ public class UIExPass extends JFrame {
         passwordColumn.setCellRenderer(passwordCellRenderer);
     }
 
+    private static void setColumnWidths(JTable table, int[] widths) {
+        TableColumnModel columnModel = table.getColumnModel();
+        for (int i = 0; i < widths.length; i++) {
+            if (i < columnModel.getColumnCount()) {
+                columnModel.getColumn(i).setMaxWidth(widths[i]);
+            }
+            else break;
+        }
+    }
+
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents  @formatter:off
         // Generated using JFormDesigner Educational license - José Manuel Amador Gallardo (José Manuel Amador)
@@ -356,6 +366,7 @@ public class UIExPass extends JFrame {
                         table.getColumnModel().getColumn(2).setResizable(false);
                         table.getColumnModel().getColumn(3).setResizable(false);
                     }
+            setColumnWidths(table, new int[] {200,140,80,68});
             tablePanel.setViewportView(table);
         }
 
@@ -363,10 +374,10 @@ public class UIExPass extends JFrame {
         contentPane.setLayout(contentPaneLayout);
         contentPaneLayout.setHorizontalGroup(
             contentPaneLayout.createParallelGroup()
-                .addComponent(toolBar, GroupLayout.DEFAULT_SIZE, 468, Short.MAX_VALUE)
+                .addComponent(toolBar, GroupLayout.DEFAULT_SIZE, 498, Short.MAX_VALUE)
                 .addGroup(contentPaneLayout.createSequentialGroup()
                     .addContainerGap()
-                    .addComponent(tablePanel, GroupLayout.DEFAULT_SIZE, 456, Short.MAX_VALUE)
+                    .addComponent(tablePanel, GroupLayout.DEFAULT_SIZE, 486, Short.MAX_VALUE)
                     .addContainerGap())
         );
         contentPaneLayout.setVerticalGroup(
@@ -374,7 +385,7 @@ public class UIExPass extends JFrame {
                 .addGroup(contentPaneLayout.createSequentialGroup()
                     .addComponent(toolBar, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                     .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(tablePanel, GroupLayout.DEFAULT_SIZE, 554, Short.MAX_VALUE)
+                    .addComponent(tablePanel, GroupLayout.DEFAULT_SIZE, 548, Short.MAX_VALUE)
                     .addContainerGap())
         );
         pack();
