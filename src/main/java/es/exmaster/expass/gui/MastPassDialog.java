@@ -28,11 +28,11 @@ public class MastPassDialog extends JDialog {
 
     private ActionType actionType;
 
-    private DataPopup dp = new DataPopup();
-
     public MastPassDialog(Window owner) {
         super(owner);
         initComponents();
+        setLocationRelativeTo(UIExPass.getFrame());
+        setResizable(false);
     }
 
     public JPanel getDialogPane() {
@@ -75,111 +75,61 @@ public class MastPassDialog extends JDialog {
         return masterPassField;
     }
 
-    private void okActionPerformed(ActionEvent e) {
-        if(this.isVisible()) {
-            String input = new String(masterPassField.getPassword());
-            String masterPass = null;
-            try {
-                masterPass = RSAUtils.decrypt(ExPassDAO.leerTabla("master").get(0), RSAUtils.loadPrivateKeyFromFile(Main.PRIVATE_PATH));
-            } catch (Exception ex) {
-                throw new RuntimeException(ex);
-            }
+    protected static boolean masterPassOk() {
+        String input = new String(masterPassField.getPassword());
+        String masterPass = null;
+        try {
+            masterPass = RSAUtils.decrypt(ExPassDAO.leerTabla("master").get(0), RSAUtils.loadPrivateKeyFromFile(Main.PRIVATE_PATH));
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
+        }
+        return input.equals(masterPass);
+    }
 
-            if (input.equals(masterPass)) {
-                switch (actionType) {
-                    case NEW:
-                        dp.setTitle("Nuevo dato");
-                        dp.setVisible(true);
-                        DataPopup.userField.setText("");
-                        DataPopup.siteField.setText("");
-                        DataPopup.userField.setEditable(true);
-                        DataPopup.siteField.setEditable(true);
-                        break;
-                    case VIEW:
-                        int rowIndex = UIExPass.getTabla().getSelectedRow();
-                        if (rowIndex >= 0) {
-                            String password = null;
-                            try {
-                                password = RSAUtils.decrypt(UIExPass.getTabla().getValueAt(rowIndex, 2).toString(), RSAUtils.loadPrivateKeyFromFile(Main.PRIVATE_PATH));
-                            } catch (Exception ex) {
-                                // TODO Auto-generated catch block
-                                ex.printStackTrace();
-                            }
-                            if (password != null) {
-                                JOptionPane.showMessageDialog(rootPane, password);
-                            }
-                        }
-                        break;
-                    case MODIFY:
-                        dp.setTitle("Modificar dato");
-                        dp.setVisible(true);
-                        DataPopup.userField.setText(UIExPass.getTabla().getValueAt(UIExPass.getTabla().getSelectedRow(), 0).toString());
-                        DataPopup.siteField.setText(UIExPass.getTabla().getValueAt(UIExPass.getTabla().getSelectedRow(), 1).toString());
-                        String selectedPassword = UIExPass.getTabla().getValueAt(UIExPass.getTabla().getSelectedRow(), 2).toString();
-                        String password = "";
-                        try {
-                            password = RSAUtils.decrypt(selectedPassword, RSAUtils.loadPrivateKeyFromFile(Main.PRIVATE_PATH));
-                        } catch (Exception ex) {
-                            throw new RuntimeException(ex);
-                        }
-                        DataPopup.passwordField.setText(password);
-                        DataPopup.passwordField.requestFocus();
-                        break;
-                    case IMPORT:
-                        importBDD();
-                        break;
-                    case EXPORT:
-                        exportBDD();
-                        break;
-                }
+    private void okActionPerformed(ActionEvent e) {
+        if(masterPassOk()) {
+            switch (actionType) {
+                case LOGIN:
+                    UIExPass.login();
+                    break;
+                case NEW:
+                    UIExPass.newPass();
+                    break;
+                case VIEW:
+                    UIExPass.view();
+                    break;
+                case MODIFY:
+                    UIExPass.modify();
+                    break;
+                case IMPORT:
+                    UIExPass.importBDD();
+                    break;
+                case EXPORT:
+                    UIExPass.exportBDD();
+                    break;
+                case REMOVE:
+                    UIExPass.remove();
+                    UIExPass.update();
+                    break;
+            }
+        } else {
+            if(actionType == ActionType.LOGIN) {
+                PopupHandler.wrongMasterPassword();
+                System.exit(0);
             } else {
                 PopupHandler.wrongMasterPassword();
             }
-            dispose();
+        }
+        dispose();
+    }
+
+    private void thisWindowClosed(WindowEvent e) {
+        if(actionType == ActionType.LOGIN) {
+            System.exit(0);
         }
     }
 
-    private void importBDD() {
-        JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setDialogTitle("Selecciona el archivo para importar");
-        int seleccion = fileChooser.showOpenDialog(null);
 
-        if (seleccion == JFileChooser.APPROVE_OPTION) {
-            File archivoSeleccionado = fileChooser.getSelectedFile();
-            File destino = new File("C:/Databases/passwords.db");
-
-            try {
-                Files.copy(archivoSeleccionado.toPath(), destino.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                JOptionPane.showMessageDialog(null, "Importación exitosa", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-            } catch (IOException e) {
-                JOptionPane.showMessageDialog(null, "Error al importar la base de datos", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-        }
-    }
-
-    private void exportBDD() {
-        File origen = new File("C:/Databases/expass.db");
-
-        if (origen.exists()) {
-            JFileChooser fileChooser = new JFileChooser();
-            fileChooser.setDialogTitle("Selecciona la ubicación para exportar");
-            fileChooser.setSelectedFile(new File(System.getProperty("user.home") + "/Desktop/expass.db"));
-            int seleccion = fileChooser.showSaveDialog(null);
-
-            if (seleccion == JFileChooser.APPROVE_OPTION) {
-                File destino = fileChooser.getSelectedFile();
-
-                try {
-                    Files.copy(origen.toPath(), destino.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                    JOptionPane.showMessageDialog(null, "Exportación exitosa", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-                } catch (IOException e) {
-                    JOptionPane.showMessageDialog(null, "Error al exportar la base de datos", "Error", JOptionPane.ERROR_MESSAGE);
-                }
-            }
-        } else {
-            JOptionPane.showMessageDialog(null, "La base de datos no existe en la ubicación especificada", "Error", JOptionPane.ERROR_MESSAGE);
-        }
-    }
 
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents  @formatter:off
@@ -195,6 +145,12 @@ public class MastPassDialog extends JDialog {
         //======== this ========
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Acci\u00f3n bloqueada");
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosed(WindowEvent e) {
+                thisWindowClosed(e);
+            }
+        });
         var contentPane = getContentPane();
         contentPane.setLayout(new BorderLayout());
 
@@ -271,7 +227,7 @@ public class MastPassDialog extends JDialog {
     private JPanel contentPanel;
     private JLabel introduceLabel;
     private JButton showPassLabel;
-    private JPasswordField masterPassField;
+    private static JPasswordField masterPassField;
     private JPanel buttonBar;
     private JButton okButton;
     // JFormDesigner - End of variables declaration  //GEN-END:variables  @formatter:on

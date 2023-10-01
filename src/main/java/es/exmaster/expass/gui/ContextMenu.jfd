@@ -1,0 +1,45 @@
+JFDML JFormDesigner: "8.1.1.0.298" Java: "17.0.8" encoding: "UTF-8"
+
+new FormModel {
+	contentType: "form/swing"
+	root: new FormRoot {
+		add( new FormContainer( "javax.swing.JPopupMenu", new FormLayoutManager( class javax.swing.JPopupMenu ) ) {
+			name: "this"
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "copyBtn"
+				"text": "Copiar"
+				auxiliary() {
+					"JavaCodeGenerator.variableGetter": true
+				}
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "copyBtnActionPerformed", true ) )
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "viewBtn"
+				"text": "Ver"
+				auxiliary() {
+					"JavaCodeGenerator.variableGetter": true
+				}
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "viewBtnActionPerformed", true ) )
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "modifyBtn"
+				"text": "Modificar"
+				auxiliary() {
+					"JavaCodeGenerator.variableGetter": true
+				}
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "modifyBtnActionPerformed", true ) )
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "removeBtn"
+				"text": "Eliminar"
+				auxiliary() {
+					"JavaCodeGenerator.variableGetter": true
+				}
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "removeBtnActionPerformed", true ) )
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"location": new java.awt.Point( 0, 5 )
+			"size": new java.awt.Dimension( 120, 110 )
+		} )
+	}
+}

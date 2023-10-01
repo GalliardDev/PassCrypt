@@ -17,16 +17,25 @@ new FormModel {
 				add( new FormComponent( "javax.swing.JButton" ) {
 					name: "newBtn"
 					"text": "Nueva"
+					auxiliary() {
+						"JavaCodeGenerator.variableModifiers": 12
+					}
 					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "newBtnActionPerformed", true ) )
 				} )
 				add( new FormComponent( "javax.swing.JButton" ) {
 					name: "viewBtn"
 					"text": "Ver"
+					auxiliary() {
+						"JavaCodeGenerator.variableModifiers": 12
+					}
 					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "viewBtnActionPerformed", true ) )
 				} )
 				add( new FormComponent( "javax.swing.JButton" ) {
 					name: "modifyBtn"
 					"text": "Modificar"
+					auxiliary() {
+						"JavaCodeGenerator.variableModifiers": 12
+					}
 					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "modifyBtnActionPerformed", true ) )
 				} )
 				add( new FormComponent( "javax.swing.JToolBar$Separator" ) {
@@ -35,20 +44,29 @@ new FormModel {
 				add( new FormComponent( "javax.swing.JButton" ) {
 					name: "importBtn"
 					"text": "Importar"
+					auxiliary() {
+						"JavaCodeGenerator.variableModifiers": 12
+					}
 					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "importBtnActionPerformed", true ) )
 				} )
 				add( new FormComponent( "javax.swing.JButton" ) {
 					name: "exportBtn"
 					"text": "Exportar"
+					auxiliary() {
+						"JavaCodeGenerator.variableModifiers": 12
+					}
 					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "exportBtnActionPerformed", true ) )
 				} )
 			} )
 			add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
 				name: "tablePanel"
+				auxiliary() {
+					"JavaCodeGenerator.variableModifiers": 12
+				}
 				add( new FormComponent( "javax.swing.JTable" ) {
 					name: "table"
 					auxiliary() {
-						"JavaCodeGenerator.variableModifiers": 9
+						"JavaCodeGenerator.variableModifiers": 12
 						"JavaCodeGenerator.postInitCode": "table.setModel(new javax.swing.table.DefaultTableModel(\n            new Object [][] {\n\n            },\n            new String [] {\n                \"Usuario\", \"Sitio\", \"Contraseña\", \"Fuerza\"\n            }\n        ) {\n            @SuppressWarnings(\"rawtypes\")\n\t\t\tClass[] types = new Class [] {\n                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class\n            };\n            boolean[] canEdit = new boolean [] {\n                false, false, false, false\n            };\n\n            @SuppressWarnings(\"rawtypes\")\n\t\t\tpublic Class getColumnClass(int columnIndex) {\n                return types [columnIndex];\n            }\n\n            public boolean isCellEditable(int rowIndex, int columnIndex) {\n                return canEdit [columnIndex];\n            }\n        });\n        table.getTableHeader().setReorderingAllowed(false);\n        table.addMouseListener(new java.awt.event.MouseAdapter() {\n            public void mouseClicked(java.awt.event.MouseEvent evt) {\n                tableMouseClicked(evt);\n            }\n        });\n        table.addKeyListener(new java.awt.event.KeyAdapter() {\n            public void keyPressed(java.awt.event.KeyEvent evt) {\n                tableKeyPressed(evt);\n            }\n        });\n        tablePanel.setViewportView(table);\n        if (table.getColumnModel().getColumnCount() > 0) {\n            table.getColumnModel().getColumn(0).setResizable(false);\n            table.getColumnModel().getColumn(1).setResizable(false);\n            table.getColumnModel().getColumn(2).setResizable(false);\n            table.getColumnModel().getColumn(3).setResizable(false);\n        }"
 					}
 				} )

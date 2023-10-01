@@ -22,10 +22,9 @@ public class Main {
 			"C:/Users/" + System.getenv("USERNAME") + "/AppData/Local/.keys/private.txt";
 	public static final String BDD = "C:/Databases/expass.db";
 	
-	public static final String VERSION = "v1.1";
+	public static final String VERSION = "v2.0.0";
 	
 	public static void main(String[] args) {
-	// TODO Auto-generated method stub
 		try {
             UIManager.setLookAndFeel(new FlatMacDarkLaf());
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {

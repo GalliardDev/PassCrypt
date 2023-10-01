@@ -9,6 +9,7 @@ import es.exmaster.expass.Main;
 import es.exmaster.expass.common.ActionType;
 import es.exmaster.expass.util.PasswordCellRenderer;
 import es.exmaster.expass.util.PopupHandler;
+import es.exmaster.expass.util.RSAUtils;
 
 import javax.swing.*;
 import javax.swing.GroupLayout;
@@ -17,46 +18,47 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 import java.awt.*;
+import java.awt.datatransfer.StringSelection;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 
 /**
  * @author jomaa
  */
 public class UIExPass extends JFrame {
-    private String tempUser;
-    private String tempSite;
+    private static String tempUser;
+    private static String tempSite;
+    private static DataPopup dp = new DataPopup();
+    private static JFrame frame;
 
     public UIExPass() {
+        frame = this;
         initComponents();
         finalizeInit();
+        emptyTableOnInit();
+        blockButtonsUntilLogin();
+        MastPassDialog mpd = new MastPassDialog(this);
+        mpd.setVisible(true);
+        mpd.requestFocus();
+        mpd.setActionType(ActionType.LOGIN);
     }
 
     @Override
     public Image getIconImage() {
-        Image retValue = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("images/passlogo.png"));
-        return retValue;
+        return Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("images/passlogo.png"));
     }
 
-    public static JTable getTabla(){
+    protected static JTable getTabla(){
         return table;
     }
 
-    public void setTempUser(String user){
-        this.tempUser = user;
+    protected static JFrame getFrame() {
+        return frame;
     }
-
-    public void setTempSite(String site){
-        this.tempSite = site;
-    }
-
-    public String getTempUser(){
-        return this.tempUser;
-    }
-
-    public String getTempSite() {
-        return this.tempSite;
-    }
-
     private void finalizeInit() {
         setLocationRelativeTo(null);
         parseVersion();
@@ -69,42 +71,26 @@ public class UIExPass extends JFrame {
     }
 
     private void newBtnActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
-        MastPassDialog mpd = new MastPassDialog(this);
-        mpd.setVisible(true);
-        mpd.setActionType(ActionType.NEW);
+        newPass();
     }
 
     private void modifyBtnActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
-        MastPassDialog mpd = new MastPassDialog(this);
-        mpd.setVisible(true);
-        mpd.setActionType(ActionType.MODIFY);
+        modify();
     }
 
     private void importBtnActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
-        MastPassDialog mpd = new MastPassDialog(this);
-        mpd.setVisible(true);
-        mpd.setActionType(ActionType.IMPORT);
+        importBDD();
     }
 
     private void exportBtnActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
-        MastPassDialog mpd = new MastPassDialog(this);
-        mpd.setVisible(true);
-        mpd.setActionType(ActionType.EXPORT);
+        exportBDD();
     }
 
     private void viewBtnActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
-        MastPassDialog mpd = new MastPassDialog(this);
-        mpd.setVisible(true);
-        mpd.setActionType(ActionType.VIEW);
+        view();
     }
 
     private void tableKeyPressed(java.awt.event.KeyEvent evt) {
-        // TODO add your handling code here:
         if (evt.getKeyCode() == KeyEvent.VK_DELETE) {
             evt.consume(); // Evitar el comportamiento predeterminado del tabulador
             remove();
@@ -113,33 +99,152 @@ public class UIExPass extends JFrame {
     }
 
     private void tableMouseClicked(java.awt.event.MouseEvent evt) {
-        // TODO add your handling code here:
         int selectedRowIndex = table.getSelectedRow();
-        if(selectedRowIndex >= 0){
+        if(selectedRowIndex >= 0 && evt.getButton() == MouseEvent.BUTTON1){
             tempUser = table.getValueAt(selectedRowIndex, 0).toString();
             tempSite = table.getValueAt(selectedRowIndex, 1).toString();
-
+        } else if(selectedRowIndex >= 0 && evt.getButton() == MouseEvent.BUTTON3) {
+            ContextMenu cm = new ContextMenu();
+            cm.show(evt.getComponent(), evt.getX(), evt.getY());
         }
     }
 
-    private void remove() {
+    protected static void importBDD() {
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Selecciona el archivo para importar");
+        int seleccion = fileChooser.showOpenDialog(null);
+
+        if (seleccion == JFileChooser.APPROVE_OPTION) {
+            File archivoSeleccionado = fileChooser.getSelectedFile();
+            File destino = new File("C:/Databases/passwords.db");
+
+            try {
+                Files.copy(archivoSeleccionado.toPath(), destino.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                JOptionPane.showMessageDialog(null, "Importación exitosa", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            } catch (IOException e) {
+                JOptionPane.showMessageDialog(null, "Error al importar la base de datos", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
+
+    protected static void exportBDD() {
+        File origen = new File("C:/Databases/expass.db");
+
+        if (origen.exists()) {
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setDialogTitle("Selecciona la ubicación para exportar");
+            fileChooser.setSelectedFile(new File(System.getProperty("user.home") + "/Desktop/expass.db"));
+            int seleccion = fileChooser.showSaveDialog(null);
+
+            if (seleccion == JFileChooser.APPROVE_OPTION) {
+                File destino = fileChooser.getSelectedFile();
+
+                try {
+                    Files.copy(origen.toPath(), destino.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                    JOptionPane.showMessageDialog(null, "Exportación exitosa", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                } catch (IOException e) {
+                    JOptionPane.showMessageDialog(null, "Error al exportar la base de datos", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "La base de datos no existe en la ubicación especificada", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    protected static void login() {
+        update();
+        newBtn.setEnabled(true);
+        viewBtn.setEnabled(true);
+        modifyBtn.setEnabled(true);
+        importBtn.setEnabled(true);
+        exportBtn.setEnabled(true);
+    }
+
+    protected static void newPass() {
+        dp.setTitle("Nueva entrada");
+        dp.setVisible(true);
+        DataPopup.userField.setText("");
+        DataPopup.siteField.setText("");
+        DataPopup.passwordField.setText("");
+        DataPopup.userField.setEditable(true);
+        DataPopup.siteField.setEditable(true);
+    }
+
+    protected static void view() {
+        int rowIndex = UIExPass.getTabla().getSelectedRow();
+        if (rowIndex >= 0) {
+            String password = null;
+            try {
+                password = RSAUtils.decrypt(UIExPass.getTabla().getValueAt(rowIndex, 2).toString(), RSAUtils.loadPrivateKeyFromFile(Main.PRIVATE_PATH));
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+            if (password != null) {
+                JOptionPane.showMessageDialog(frame, password, "Contraseña", JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
+    }
+
+    protected static void modify() {
+        dp.setTitle("Modificar entrada");
+        dp.setVisible(true);
+        DataPopup.userField.setText(UIExPass.getTabla().getValueAt(UIExPass.getTabla().getSelectedRow(), 0).toString());
+        DataPopup.siteField.setText(UIExPass.getTabla().getValueAt(UIExPass.getTabla().getSelectedRow(), 1).toString());
+        String selectedPassword = UIExPass.getTabla().getValueAt(UIExPass.getTabla().getSelectedRow(), 2).toString();
+        String password = "";
+        try {
+            password = RSAUtils.decrypt(selectedPassword, RSAUtils.loadPrivateKeyFromFile(Main.PRIVATE_PATH));
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
+        }
+        DataPopup.passwordField.setText(password);
+        DataPopup.passwordField.requestFocus();
+    }
+
+    protected static void remove() {
         String[] options = {"Sí", "No"};
         int sel = JOptionPane.showOptionDialog(null, "¿Seguro que quieres eliminar el dato?", "Confirmar Eliminación", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
         switch (sel) {
             case JOptionPane.YES_OPTION:
                 ExPassDAO.eliminarDatosDobleEntrada("passwords", "user", tempUser, "site", tempSite);
                 PopupHandler.passwordRemoved();
-                break; // Agrega un break para salir del switch
+                break;
             case JOptionPane.NO_OPTION:
-                // No necesitas hacer nada aquí, pero también puedes agregar un break si lo prefieres.
                 break;
         }
-        //ExPassDAO.eliminarDatosDobleEntrada("passwords", "user", tempUser, "site", tempSite);
     }
 
-    public static void update(){
+    protected static void copy() {
+        int rowIndex = UIExPass.getTabla().getSelectedRow();
+        if (rowIndex >= 0) {
+            String password = null;
+            try {
+                password = RSAUtils.decrypt(UIExPass.getTabla().getValueAt(rowIndex, 2).toString(), RSAUtils.loadPrivateKeyFromFile(Main.PRIVATE_PATH));
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+            if (password != null) {
+                Toolkit.getDefaultToolkit().getSystemClipboard().setContents(new StringSelection(password), null);
+                PopupHandler.passwordCopied();
+            }
+        }
+    }
+
+    protected static void update(){
         ((DefaultTableModel) table.getModel()).setRowCount(0);
         ExPassDAO.fillTableFromDatabase((DefaultTableModel) table.getModel());
+    }
+
+    protected static void emptyTableOnInit() {
+        ((DefaultTableModel) table.getModel()).setRowCount(0);
+    }
+
+    protected static void blockButtonsUntilLogin() {
+        newBtn.setEnabled(false);
+        viewBtn.setEnabled(false);
+        modifyBtn.setEnabled(false);
+        importBtn.setEnabled(false);
+        exportBtn.setEnabled(false);
     }
 
     private void applyPassFilter(){
@@ -280,12 +385,12 @@ public class UIExPass extends JFrame {
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables  @formatter:off
     // Generated using JFormDesigner Educational license - José Manuel Amador Gallardo (José Manuel Amador)
     private JToolBar toolBar;
-    private JButton newBtn;
-    private JButton viewBtn;
-    private JButton modifyBtn;
-    private JButton importBtn;
-    private JButton exportBtn;
-    private JScrollPane tablePanel;
-    public static JTable table;
+    protected static JButton newBtn;
+    protected static JButton viewBtn;
+    protected static JButton modifyBtn;
+    protected static JButton importBtn;
+    protected static JButton exportBtn;
+    protected static JScrollPane tablePanel;
+    protected static JTable table;
     // JFormDesigner - End of variables declaration  //GEN-END:variables  @formatter:on
 }

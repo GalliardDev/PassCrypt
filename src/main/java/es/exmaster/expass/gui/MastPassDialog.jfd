@@ -7,6 +7,7 @@ new FormModel {
 			name: "this"
 			"defaultCloseOperation": 2
 			"title": "Acción bloqueada"
+			addEvent( new FormEvent( "java.awt.event.WindowListener", "windowClosed", "thisWindowClosed", true ) )
 			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.BorderLayout ) ) {
 				name: "dialogPane"
 				"border": new javax.swing.border.EmptyBorder( 12, 12, 12, 12 )
@@ -41,6 +42,7 @@ new FormModel {
 						name: "masterPassField"
 						auxiliary() {
 							"JavaCodeGenerator.variableGetter": true
+							"JavaCodeGenerator.variableModifiers": 10
 						}
 					} )
 				}, new FormLayoutConstraints( class java.lang.String ) {

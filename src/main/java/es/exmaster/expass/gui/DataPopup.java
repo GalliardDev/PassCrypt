@@ -24,7 +24,8 @@ public class DataPopup extends javax.swing.JFrame {
      */
     public DataPopup() {
         initComponents();
-        setLocationRelativeTo(null);
+        setLocationRelativeTo(UIExPass.getFrame());
+        setResizable(false);
 
     }
 
