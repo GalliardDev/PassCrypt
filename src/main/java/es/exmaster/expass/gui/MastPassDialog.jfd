@@ -62,7 +62,6 @@ new FormModel {
 					add( new FormComponent( "javax.swing.JButton" ) {
 						name: "okButton"
 						"text": "OK"
-						"focusable": false
 						auxiliary() {
 							"JavaCodeGenerator.variableGetter": true
 						}

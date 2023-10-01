@@ -19,6 +19,7 @@ import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 import java.awt.*;
 import java.awt.datatransfer.StringSelection;
+import java.awt.event.FocusEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.io.File;
@@ -43,7 +44,6 @@ public class UIExPass extends JFrame {
         blockButtonsUntilLogin();
         MastPassDialog mpd = new MastPassDialog(this);
         mpd.setVisible(true);
-        mpd.requestFocus();
         mpd.setActionType(ActionType.LOGIN);
     }
 

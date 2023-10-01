@@ -206,7 +206,6 @@ public class MastPassDialog extends JDialog {
 
                 //---- okButton ----
                 okButton.setText("OK");
-                okButton.setFocusable(false);
                 okButton.addActionListener(e -> okActionPerformed(e));
                 buttonBar.add(okButton, new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0,
                     GridBagConstraints.CENTER, GridBagConstraints.BOTH,
