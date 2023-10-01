@@ -32,6 +32,7 @@ public class Main {
         }
 		
         initBDD();
+		ExPassDAO.parseOldStrengthValues();
         initFolder();
         generateKeys();
         ExPassDAO.inicializarBaseDeDatos();

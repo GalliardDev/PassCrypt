@@ -116,11 +116,12 @@ public class UIExPass extends JFrame {
 
         if (seleccion == JFileChooser.APPROVE_OPTION) {
             File archivoSeleccionado = fileChooser.getSelectedFile();
-            File destino = new File("C:/Databases/passwords.db");
+            File destino = new File("C:/Databases/expass.db");
 
             try {
                 Files.copy(archivoSeleccionado.toPath(), destino.toPath(), StandardCopyOption.REPLACE_EXISTING);
                 JOptionPane.showMessageDialog(null, "Importación exitosa", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                update();
             } catch (IOException e) {
                 JOptionPane.showMessageDialog(null, "Error al importar la base de datos", "Error", JOptionPane.ERROR_MESSAGE);
             }

@@ -306,4 +306,38 @@ public class ExPassDAO {
             e.printStackTrace();
         }
     }
+
+    public static void parseOldStrengthValues() {
+        Connection connection = null;
+        try {
+            // Establecer la conexión a la base de datos SQLite
+            connection = DriverManager.getConnection(URL);
+
+            // Sentencia SQL para actualizar los valores en la columna
+            String updateSql = "UPDATE passwords SET strength = CASE "
+                    + "WHEN strength = 'HIGH' THEN 'FUERTE' "
+                    + "WHEN strength = 'MEDIUM' THEN 'NORMAL' "
+                    + "WHEN strength = 'LOW' THEN 'DEBIL' "
+                    + "ELSE strength END";
+
+            // Preparar y ejecutar la sentencia SQL
+            try (PreparedStatement preparedStatement = connection.prepareStatement(updateSql)) {
+                preparedStatement.executeUpdate();
+                System.out.println("Valores actualizados exitosamente.");
+            } catch (SQLException e) {
+                System.err.println("Error al ejecutar la sentencia SQL: " + e.getMessage());
+            }
+        } catch (SQLException e) {
+            System.err.println("Error al conectar a la base de datos: " + e.getMessage());
+        } finally {
+            // Cerrar la conexión
+            try {
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                System.err.println("Error al cerrar la conexión: " + e.getMessage());
+            }
+        }
+    }
 }
