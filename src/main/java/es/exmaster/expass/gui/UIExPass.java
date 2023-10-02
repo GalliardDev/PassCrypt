@@ -4,9 +4,10 @@
 
 package es.exmaster.expass.gui;
 
-import es.exmaster.expass.ExPassDAO;
-import es.exmaster.expass.Main;
+import es.exmaster.expass.database.ExPassDAO;
+import es.exmaster.expass.ExPasswordManager;
 import es.exmaster.expass.common.ActionType;
+import es.exmaster.expass.util.ExLogger;
 import es.exmaster.expass.util.PasswordCellRenderer;
 import es.exmaster.expass.util.PopupHandler;
 import es.exmaster.expass.util.RSAUtils;
@@ -19,7 +20,6 @@ import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 import java.awt.*;
 import java.awt.datatransfer.StringSelection;
-import java.awt.event.FocusEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.io.File;
@@ -72,7 +72,7 @@ public class UIExPass extends JFrame {
     }
 
     private void parseVersion() {
-        this.setTitle(this.getTitle().replace("{VERSION}", Main.VERSION));
+        this.setTitle(this.getTitle().replace("{VERSION}", ExPasswordManager.VERSION));
     }
 
     private void newBtnActionPerformed(java.awt.event.ActionEvent evt) {
@@ -177,14 +177,13 @@ public class UIExPass extends JFrame {
     }
 
     protected static void view() {
-        // TODO AQUI HAY RSA
         int rowIndex = UIExPass.getTabla().getSelectedRow();
         if (rowIndex >= 0) {
             String password = null;
             try {
-                password = RSAUtils.decrypt(UIExPass.getTabla().getValueAt(rowIndex, 2).toString(), Main.kpm.getKeyPair().getPrivate());
+                password = RSAUtils.decrypt(UIExPass.getTabla().getValueAt(rowIndex, 2).toString(), ExPasswordManager.kpm.getKeyPair().getPrivate());
             } catch (Exception ex) {
-                ex.printStackTrace();
+                new ExLogger(UIExPass.class).error("Error al desencriptar la contraseña", ex);
             }
             if (password != null) {
                 JOptionPane.showMessageDialog(frame, password, "Contraseña", JOptionPane.INFORMATION_MESSAGE);
@@ -194,7 +193,6 @@ public class UIExPass extends JFrame {
 
 
     protected static void modify() {
-        // TODO AQUI HAY RSA
         dp.setTitle("Modificar entrada");
         dp.setVisible(true);
         DataPopup.userField.setText(UIExPass.getTabla().getValueAt(UIExPass.getTabla().getSelectedRow(), 0).toString());
@@ -202,7 +200,7 @@ public class UIExPass extends JFrame {
         String selectedPassword = UIExPass.getTabla().getValueAt(UIExPass.getTabla().getSelectedRow(), 2).toString();
         String password = "";
         try {
-            password = RSAUtils.decrypt(selectedPassword, Main.kpm.getKeyPair().getPrivate());
+            password = RSAUtils.decrypt(selectedPassword, ExPasswordManager.kpm.getKeyPair().getPrivate());
         } catch (Exception ex) {
             throw new RuntimeException(ex);
         }
@@ -223,14 +221,13 @@ public class UIExPass extends JFrame {
     }
 
     protected static void copy() {
-        // TODO AQUI HAY RSA
         int rowIndex = UIExPass.getTabla().getSelectedRow();
         if (rowIndex >= 0) {
             String password = null;
             try {
-                password = RSAUtils.decrypt(UIExPass.getTabla().getValueAt(rowIndex, 2).toString(), Main.kpm.getKeyPair().getPrivate());
+                password = RSAUtils.decrypt(UIExPass.getTabla().getValueAt(rowIndex, 2).toString(), ExPasswordManager.kpm.getKeyPair().getPrivate());
             } catch (Exception ex) {
-                ex.printStackTrace();
+                new ExLogger(UIExPass.class).error("Error al desencriptar la contraseña", ex);
             }
             if (password != null) {
                 Toolkit.getDefaultToolkit().getSystemClipboard().setContents(new StringSelection(password), null);
@@ -258,8 +255,6 @@ public class UIExPass extends JFrame {
 
     private void applyPassFilter(){
         TableColumnModel columnModel = table.getColumnModel();
-        // Obtener el renderer de celdas por defecto
-        TableCellRenderer defaultRenderer = table.getDefaultRenderer(String.class);
         // Crear un nuevo CellRenderer personalizado
         TableCellRenderer passwordCellRenderer = new PasswordCellRenderer();
 
@@ -312,7 +307,7 @@ public class UIExPass extends JFrame {
         table = new JTable();
 
         //======== this ========
-        setTitle("ExPass Manager {VERSION}");
+        setTitle("ExPasswordManager {VERSION}");
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
         setIconImage(new ImageIcon(getClass().getResource("/images/passlogo.png")).getImage());
@@ -414,7 +409,7 @@ public class UIExPass extends JFrame {
                 .addGroup(contentPaneLayout.createSequentialGroup()
                     .addComponent(toolBar, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                     .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(tablePanel, GroupLayout.DEFAULT_SIZE, 554, Short.MAX_VALUE)
+                    .addComponent(tablePanel, GroupLayout.DEFAULT_SIZE, 548, Short.MAX_VALUE)
                     .addContainerGap())
         );
         pack();

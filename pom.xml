@@ -24,7 +24,7 @@
                             <transformers>
                                 <!-- Este transformer evita que el sufijo "jar-with-dependencies" aparezca en el nombre -->
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>es.exmaster.expass.Main</mainClass>
+                                    <mainClass>es.exmaster.expass.ExPasswordManager</mainClass>
                                 </transformer>
                             </transformers>
                         </configuration>
@@ -57,6 +57,11 @@
             <groupId>com.formdev</groupId>
             <artifactId>flatlaf</artifactId>
             <version>3.1.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>2.0.7</version>
         </dependency>
     </dependencies>
     

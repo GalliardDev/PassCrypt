@@ -4,20 +4,15 @@
 
 package es.exmaster.expass.gui;
 
-import es.exmaster.expass.ExPassDAO;
-import es.exmaster.expass.Main;
+import es.exmaster.expass.database.ExPassDAO;
+import es.exmaster.expass.ExPasswordManager;
 import es.exmaster.expass.common.ActionType;
-import es.exmaster.expass.common.KeyPairManager;
+import es.exmaster.expass.util.ExLogger;
 import es.exmaster.expass.util.PopupHandler;
 import es.exmaster.expass.util.RSAUtils;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.StandardCopyOption;
-import java.util.Arrays;
 import javax.swing.*;
 import javax.swing.GroupLayout;
 import javax.swing.border.*;
@@ -41,28 +36,8 @@ public class MastPassDialog extends JDialog {
         return actionType;
     }
 
-    public JPanel getDialogPane() {
-        return dialogPane;
-    }
-
-    public JPanel getContentPanel() {
-        return contentPanel;
-    }
-
     public JLabel getIntroduceLabel() {
         return introduceLabel;
-    }
-
-    public JButton getShowPassLabel() {
-        return showPassLabel;
-    }
-
-    public JPanel getButtonBar() {
-        return buttonBar;
-    }
-
-    public JButton getOkButton() {
-        return okButton;
     }
 
     public void setActionType(ActionType actionType) {
@@ -77,16 +52,12 @@ public class MastPassDialog extends JDialog {
         }
     }
 
-    public JPasswordField getMasterPassField() {
-        return masterPassField;
-    }
-
     protected static boolean masterPassOk() {
         // TODO AQUI HAY RSA
         String input = new String(masterPassField.getPassword());
         String masterPass = null;
         try {
-            masterPass = RSAUtils.decrypt(ExPassDAO.leerTabla("master").get(0), Main.kpm.getKeyPair().getPrivate());
+            masterPass = RSAUtils.decrypt(ExPassDAO.leerTabla("master").get(0), ExPasswordManager.kpm.getKeyPair().getPrivate());
         } catch (Exception ex) {
             throw new RuntimeException(ex);
         }
@@ -98,7 +69,7 @@ public class MastPassDialog extends JDialog {
         if(actionType.equals(ActionType.INIT)) {
             String input = new String(masterPassField.getPassword());
             try {
-                ExPassDAO.agregarDatos("master", new String[] {RSAUtils.encrypt(input, Main.kpm.getKeyPair().getPublic())});
+                ExPassDAO.agregarDatos("master", new String[] {RSAUtils.encrypt(input, ExPasswordManager.kpm.getKeyPair().getPublic())});
                 ExPassDAO.agregarDatos("passwords",
                         new String[] {"", "", "", "", "0"});
                 java.awt.EventQueue.invokeLater(() -> {
@@ -138,6 +109,7 @@ public class MastPassDialog extends JDialog {
                 System.exit(0);
             } else {
                 PopupHandler.wrongMasterPassword();
+                new ExLogger(MastPassDialog.class).error("Contraseña maestra incorrecta");
             }
         }
         // de momento así

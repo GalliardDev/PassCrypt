@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 
-package es.exmaster.expass;
+package es.exmaster.expass.database;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -14,11 +14,10 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Function;
 
 import javax.swing.table.DefaultTableModel;
 
-import es.exmaster.expass.util.PopupHandler;
+import es.exmaster.expass.util.ExLogger;
 
 /**
  *
@@ -35,10 +34,10 @@ public class ExPassDAO {
                 stmt.execute("CREATE TABLE IF NOT EXISTS master (password TEXT)");
                 stmt.execute("CREATE TABLE IF NOT EXISTS passwords (user TEXT, site TEXT, password TEXT, strength TEXT, id INTEGER PRIMARY KEY AUTOINCREMENT); ");
                 stmt.execute("CREATE TABLE IF NOT EXISTS keys (publicLast TEXT, privateLast TEXT);");
-                System.out.println("BDD inicializada");
+                new ExLogger(ExPassDAO.class).success("BDD inicializada con éxito!");
 
             } catch (SQLException e) {
-                e.printStackTrace();
+                new ExLogger(ExPassDAO.class).error("Error al inicializar la base de datos", e);
         }
     }
 	
@@ -47,8 +46,8 @@ public class ExPassDAO {
 	    List<String> aux = new ArrayList<>();
 
 	    try (Connection conn = DriverManager.getConnection(URL);
-	         Statement stmt = conn.createStatement();
-	         ResultSet rs = stmt.executeQuery(query)) {
+             Statement stmt = conn.createStatement();
+         ResultSet rs = stmt.executeQuery(query)) {
 	        ResultSetMetaData metaData = rs.getMetaData();
 	        int columnCount = metaData.getColumnCount();
 
@@ -67,6 +66,7 @@ public class ExPassDAO {
 	            aux.add(dataBuilder.toString());
 	        }
 	    } catch (SQLException e) {
+            new ExLogger(ExPassDAO.class).error("Error al leer la tabla " + nombreTabla, e);
 	    }
 
 	    return aux;
@@ -96,6 +96,7 @@ public class ExPassDAO {
 
             stmt.executeUpdate();
         } catch (SQLException e) {
+            new ExLogger(ExPassDAO.class).error("Error al agregar datos a la tabla " + nombreTabla, e);
         }
     }
 
@@ -126,6 +127,7 @@ public class ExPassDAO {
 
             stmt.executeUpdate();
         } catch (SQLException e) {
+            new ExLogger(ExPassDAO.class).error("Error al modificar datos de la tabla " + nombreTabla, e);
         }
     }
     
@@ -154,7 +156,7 @@ public class ExPassDAO {
 
             stmt.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            new ExLogger(ExPassDAO.class).error("Error al modificar datos de la tabla " + nombreTabla, e);
         }
     }
 
@@ -186,6 +188,7 @@ public class ExPassDAO {
                 }
             }
         } catch (SQLException e) {
+            new ExLogger(ExPassDAO.class).error("Error al buscar datos en la tabla " + nombreTabla, e);
         }
 
         return aux;
@@ -200,7 +203,7 @@ public class ExPassDAO {
              PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setString(1, "%" + dato1 + "%");
             stmt.setString(2, "%" + dato2 + "%");
-            
+
             try (ResultSet rs = stmt.executeQuery()) {
             	ResultSetMetaData metaData = rs.getMetaData();
                 int columnCount = metaData.getColumnCount();
@@ -220,6 +223,7 @@ public class ExPassDAO {
                 }
             }
         } catch (SQLException e) {
+            new ExLogger(ExPassDAO.class).error("Error al buscar datos en la tabla " + nombreTabla, e);
         }
         return aux;
     }
@@ -235,6 +239,7 @@ public class ExPassDAO {
 
             stmt.executeUpdate();
         } catch (SQLException e) {
+            new ExLogger(ExPassDAO.class).error("Error al eliminar datos de la tabla " + nombreTabla, e);
         }
     }
     
@@ -248,6 +253,7 @@ public class ExPassDAO {
 
             stmt.executeUpdate();
         } catch (SQLException e) {
+            new ExLogger(ExPassDAO.class).error("Error al eliminar datos de la tabla " + nombreTabla, e);
         }
     }
         
@@ -264,6 +270,7 @@ public class ExPassDAO {
                 }
             }
         } catch (SQLException e) {
+            new ExLogger(ExPassDAO.class).error("Error al obtener valor de la tabla " + nombreTabla, e);
         }
 
         return null;
@@ -299,7 +306,7 @@ public class ExPassDAO {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            new ExLogger(ExPassDAO.class).error("Error al rellenar la tabla", e);
         }
     }
 
@@ -319,12 +326,12 @@ public class ExPassDAO {
             // Preparar y ejecutar la sentencia SQL
             try (PreparedStatement preparedStatement = connection.prepareStatement(updateSql)) {
                 preparedStatement.executeUpdate();
-                System.out.println("Valores actualizados exitosamente.");
+                new ExLogger(ExPassDAO.class).info("Valores actualizados correctamente");
             } catch (SQLException e) {
-                System.err.println("Error al ejecutar la sentencia SQL: " + e.getMessage());
+                new ExLogger(ExPassDAO.class).error("Error al ejecutar la sentencia SQL", e);
             }
         } catch (SQLException e) {
-            System.err.println("Error al conectar a la base de datos: " + e.getMessage());
+            new ExLogger(ExPassDAO.class).error("Error al conectar a la base de datos", e);
         } finally {
             // Cerrar la conexión
             try {
@@ -332,7 +339,7 @@ public class ExPassDAO {
                     connection.close();
                 }
             } catch (SQLException e) {
-                System.err.println("Error al cerrar la conexión: " + e.getMessage());
+               new ExLogger(ExPassDAO.class).error("Error al cerrar la conexión", e);
             }
         }
     }
@@ -352,10 +359,10 @@ public class ExPassDAO {
             String sql = "DELETE FROM " + table;
             statement.executeUpdate(sql);
 
-            System.out.println("La tabla " + table + " ha sido limpiada correctamente.");
+            new ExLogger(ExPassDAO.class).success("Tabla " + table + " limpiada correctamente");
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            new ExLogger(ExPassDAO.class).error("Error al limpiar la tabla " + table, e);
         } finally {
             try {
                 if (statement != null) {
@@ -365,43 +372,8 @@ public class ExPassDAO {
                     connection.close();
                 }
             } catch (SQLException e) {
-                e.printStackTrace();
+                new ExLogger(ExPassDAO.class).error("Error al cerrar la conexión", e);
             }
-        }
-    }
-
-    public static void aplicarAColumna(String nombreTabla, String nombreColumna, Function<String, String> transformacion) {
-        try (Connection conn = DriverManager.getConnection(URL)) {
-            String selectSql = "SELECT " + nombreColumna + " FROM " + nombreTabla;
-            String updateSql = "UPDATE " + nombreTabla + " SET " + nombreColumna + " = ? WHERE " + nombreColumna + " = ?";
-
-            try (PreparedStatement selectStmt = conn.prepareStatement(selectSql);
-                 PreparedStatement updateStmt = conn.prepareStatement(updateSql)) {
-
-                conn.setAutoCommit(false); // Desactiva la confirmación automática
-
-                try {
-                    ResultSet rs = selectStmt.executeQuery();
-                    while (rs.next()) {
-                        String valorOriginal = rs.getString(nombreColumna);
-                        String valorModificado = transformacion.apply(valorOriginal);
-
-                        // Actualiza el valor en la base de datos
-                        updateStmt.setString(1, valorModificado);
-                        updateStmt.setString(2, valorOriginal);
-                        updateStmt.executeUpdate();
-                    }
-
-                    // Confirma la transacción
-                    conn.commit();
-                } catch (SQLException e) {
-                    // En caso de error, revierte la transacción
-                    conn.rollback();
-                    throw e;
-                }
-            }
-        } catch (SQLException e) {
-            System.err.println(e.getMessage());
         }
     }
 
@@ -418,19 +390,12 @@ public class ExPassDAO {
             preparedStatement.setString(1, nuevoValor);
             preparedStatement.setInt(2, id);
 
-            // Ejecutar la actualización
-            int filasActualizadas = preparedStatement.executeUpdate();
-
-            if (filasActualizadas > 0) {
-                System.out.println("Registro actualizado exitosamente.");
-            } else {
-                System.out.println("No se pudo actualizar el registro.");
-            }
+            preparedStatement.executeUpdate();
 
             // Cerrar la sentencia preparada
             preparedStatement.close();
         } catch (SQLException e) {
-            e.printStackTrace();
+            new ExLogger(ExPassDAO.class).error("Error al actualizar el registro", e);
         }
     }
 }

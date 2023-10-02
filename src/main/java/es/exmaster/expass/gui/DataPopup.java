@@ -5,19 +5,19 @@
 package es.exmaster.expass.gui;
 
 import com.formdev.flatlaf.themes.FlatMacDarkLaf;
-import es.exmaster.expass.ExPassDAO;
-import es.exmaster.expass.Main;
-import es.exmaster.expass.gui.UIExPass;
+import es.exmaster.expass.database.ExPassDAO;
+import es.exmaster.expass.ExPasswordManager;
+import es.exmaster.expass.util.ExLogger;
 import es.exmaster.expass.util.RSAUtils;
 
 import java.util.List;
+import java.util.Objects;
 import javax.swing.*;
 
 /**
  *
  * @author jomaa
  */
-@SuppressWarnings("serial")
 public class DataPopup extends javax.swing.JFrame {
     /**
      * Creates new form NewPopup
@@ -48,7 +48,7 @@ public class DataPopup extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
-        setIconImage(new ImageIcon(getClass().getResource("/images/passlogo.png")).getImage());
+        setIconImage(new ImageIcon(Objects.requireNonNull(getClass().getResource("/images/passlogo.png"))).getImage());
 
         userLabel.setText("Usuario:");
 
@@ -154,9 +154,9 @@ public class DataPopup extends javax.swing.JFrame {
     
     private void enterKeyEvent(java.awt.event.KeyEvent evt) {
         List<String> registroExistente = ExPassDAO.buscarDatosDobleEntrada("passwords", "user", userField.getText(), "site", siteField.getText());
-        if (!(userField.getText().equals("")
-                && siteField.getText().equals("")
-                && new String(passwordField.getPassword()).equals(""))) {
+        if (!(userField.getText().isEmpty()
+                && siteField.getText().isEmpty()
+                && new String(passwordField.getPassword()).isEmpty())) {
             if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
                 evt.consume();
                 if (!registroExistente.isEmpty()) {
@@ -170,7 +170,6 @@ public class DataPopup extends javax.swing.JFrame {
     }
             
     private void añadir() {
-        // TODO AQUI HAY RSA
         String id = ExPassDAO.leerTabla("passwords").get(ExPassDAO.leerTabla("passwords").size()-1).split(";")[4];
         try {
             if(ExPassDAO.leerTabla("passwords").get(0).contains(";;;;0")) {
@@ -180,12 +179,12 @@ public class DataPopup extends javax.swing.JFrame {
 			ExPassDAO.agregarDatos("passwords", new String[]{
 			    userField.getText(),
 			    siteField.getText(),
-			    RSAUtils.encrypt(new String(passwordField.getPassword()), Main.kpm.getKeyPair().getPublic()),
+			    RSAUtils.encrypt(new String(passwordField.getPassword()), ExPasswordManager.kpm.getKeyPair().getPublic()),
 			    es.exmaster.expass.password.Password.isStrong(new String(passwordField.getPassword())).name(),
                 String.valueOf(Integer.parseInt(id)+1)
 			});
 		} catch (Exception e) {
-			e.printStackTrace();
+			new ExLogger(this.getClass()).error("Error al añadir datos", e);
 		}
         UIExPass.update();
         clearFields();
@@ -193,15 +192,14 @@ public class DataPopup extends javax.swing.JFrame {
     }
     
     private void modificar() {
-        // TODO AQUI HAY RSA
         try {
 			ExPassDAO.modificarDatosDobleEntrada("passwords", "user", userField.getText(),
 			        "site", siteField.getText(), 
 			        new String[] {"password", "strength"},
-			        new String[] {RSAUtils.encrypt(new String(passwordField.getPassword()), Main.kpm.getKeyPair().getPublic()),
+			        new String[] {RSAUtils.encrypt(new String(passwordField.getPassword()), ExPasswordManager.kpm.getKeyPair().getPublic()),
 			        es.exmaster.expass.password.Password.isStrong(new String(passwordField.getPassword())).name()});
 		} catch (Exception e) {
-			e.printStackTrace();
+			new ExLogger(this.getClass()).error("Error al modificar datos", e);
 		}
         UIExPass.update();
         clearFields();
@@ -217,7 +215,7 @@ public class DataPopup extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
+    public static void main(String[] args) {
         try {
             UIManager.setLookAndFeel(new FlatMacDarkLaf());
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {

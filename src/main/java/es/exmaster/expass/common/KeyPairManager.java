@@ -1,13 +1,13 @@
 package es.exmaster.expass.common;
 
-import es.exmaster.expass.ExPassDAO;
+import es.exmaster.expass.database.ExPassDAO;
+import es.exmaster.expass.util.ExLogger;
 import es.exmaster.expass.util.RSAUtils;
 
 import java.security.KeyPair;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class KeyPairManager {
@@ -86,9 +86,12 @@ public class KeyPairManager {
             }
         }).forEach(aux::add);
 
+        int regs = 0;
         for(int id = 1; id < ls.size(); id++) {
             ExPassDAO.update("passwords", id, aux.get(id-1));
+            regs = id;
         }
         ExPassDAO.update("passwords", ls.size(), aux.get(ls.size()-1));
+        new ExLogger(KeyPairManager.class).success("Se han actualizado " + Math.addExact(regs, 1) + " registros.");
     }
 }

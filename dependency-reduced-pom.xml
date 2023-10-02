@@ -24,7 +24,7 @@
             <configuration>
               <transformers>
                 <transformer>
-                  <mainClass>es.exmaster.expass.Main</mainClass>
+                  <mainClass>es.exmaster.expass.ExPasswordManager</mainClass>
                 </transformer>
               </transformers>
             </configuration>

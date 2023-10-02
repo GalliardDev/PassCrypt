@@ -5,10 +5,10 @@ new FormModel {
 	root: new FormRoot {
 		add( new FormWindow( "javax.swing.JFrame", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
 			"$horizontalGroup": "par l {comp toolBar::l::498:x, seq l {space :::p, comp tablePanel::::486:x, space :::p}}"
-			"$verticalGroup": "par l {seq l {comp toolBar:::p::p, space :::p, comp tablePanel::::554:x, space :::p}}"
+			"$verticalGroup": "par l {seq l {comp toolBar:::p::p, space :::p, comp tablePanel::::548:x, space :::p}}"
 		} ) {
 			name: "this"
-			"title": "ExPass Manager {VERSION}"
+			"title": "ExPasswordManager {VERSION}"
 			"defaultCloseOperation": 3
 			"resizable": false
 			"iconImage": new com.jformdesigner.model.SwingIcon( 0, "/images/passlogo.png" )

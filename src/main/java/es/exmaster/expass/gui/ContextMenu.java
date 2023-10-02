@@ -4,9 +4,6 @@
 
 package es.exmaster.expass.gui;
 
-import es.exmaster.expass.common.ActionType;
-
-import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
@@ -53,10 +50,6 @@ public class ContextMenu extends JPopupMenu {
         // TODO add your code here
         this.setVisible(false);
         UIExPass.view();
-    }
-
-    public JButton getViewBtn() {
-        return viewBtn;
     }
 
     private void initComponents() {
