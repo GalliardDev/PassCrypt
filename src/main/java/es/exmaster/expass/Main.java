@@ -22,7 +22,7 @@ import es.exmaster.expass.util.RSAUtils;
 import javax.swing.JOptionPane;
 
 public class Main {
-	public static final String VERSION = "v2.2.0-BETA";
+	public static final String VERSION = "v2.2.0";
 	public static final KeyPairManager kpm = new KeyPairManager();
 
 	public static void main(String[] args) {
