@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>es.exmaster</groupId>
   <artifactId>ExPasswordManager</artifactId>
-  <version>v2.2.0-BETA</version>
+  <version>v2.2.0</version>
   <build>
     <sourceDirectory>src/main/java</sourceDirectory>
     <resources>
