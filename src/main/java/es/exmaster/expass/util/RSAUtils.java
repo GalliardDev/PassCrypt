@@ -46,32 +46,25 @@ public class RSAUtils {
         return new String(decryptedBytes, StandardCharsets.UTF_8);
     }
 
-    public static PublicKey loadPublicKeyFromFile(String fileName) throws Exception {
-        FileInputStream fis = new FileInputStream(fileName);
-        byte[] publicKeyBytes = new byte[fis.available()];
-        fis.read(publicKeyBytes);
-        fis.close();
-
-        X509EncodedKeySpec spec = new X509EncodedKeySpec(Base64.getDecoder().decode(publicKeyBytes));
-        KeyFactory keyFactory = KeyFactory.getInstance("RSA");
-        return keyFactory.generatePublic(spec);
-    }
-
-    public static PrivateKey loadPrivateKeyFromFile(String fileName) throws Exception {
-        FileInputStream fis = new FileInputStream(fileName);
-        byte[] privateKeyBytes = new byte[fis.available()];
-        fis.read(privateKeyBytes);
-        fis.close();
-
+    public static PrivateKey privateOfString(String s) throws Exception {
+        byte[] privateKeyBytes = s.getBytes();
         PKCS8EncodedKeySpec spec = new PKCS8EncodedKeySpec(Base64.getDecoder().decode(privateKeyBytes));
         KeyFactory keyFactory = KeyFactory.getInstance("RSA");
         return keyFactory.generatePrivate(spec);
     }
 
-    public static void saveKeyToFile(Key key, String fileName) throws Exception {
-        byte[] keyBytes = key.getEncoded();
-        FileOutputStream fos = new FileOutputStream(fileName);
-        fos.write(Base64.getEncoder().encode(keyBytes));
-        fos.close();
+    public static PublicKey publicOfString(String s) throws Exception {
+        byte[] publicKeyBytes = s.getBytes();
+        X509EncodedKeySpec spec = new X509EncodedKeySpec(Base64.getDecoder().decode(publicKeyBytes));
+        KeyFactory keyFactory = KeyFactory.getInstance("RSA");
+        return keyFactory.generatePublic(spec);
+    }
+
+    public static String privateToBase64(PrivateKey pk) {
+        return Base64.getEncoder().encodeToString(pk.getEncoded());
+    }
+
+    public static String publicToBase64(PublicKey pk) {
+        return Base64.getEncoder().encodeToString(pk.getEncoded());
     }
 }

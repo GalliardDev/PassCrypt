@@ -133,7 +133,6 @@ public class DataPopup extends javax.swing.JFrame {
     }// </editor-fold>                        
 
     private void showBtnActionPerformed(java.awt.event.ActionEvent evt) {                                        
-        // TODO add your handling code here:
         if(passwordField.getEchoChar()=='\u2022'){
             passwordField.setEchoChar('\u0000');
         } else {
@@ -142,17 +141,14 @@ public class DataPopup extends javax.swing.JFrame {
     }                                       
 
     private void userFieldKeyPressed(java.awt.event.KeyEvent evt) {                                     
-        // TODO add your handling code here:
         enterKeyEvent(evt);
     }                                    
 
     private void siteFieldKeyPressed(java.awt.event.KeyEvent evt) {                                     
-        // TODO add your handling code here:
         enterKeyEvent(evt);
     }                                    
 
     private void passwordFieldKeyPressed(java.awt.event.KeyEvent evt) {                                         
-        // TODO add your handling code here:
         enterKeyEvent(evt);
     }                                        
     
@@ -174,15 +170,21 @@ public class DataPopup extends javax.swing.JFrame {
     }
             
     private void añadir() {
+        // TODO AQUI HAY RSA
+        String id = ExPassDAO.leerTabla("passwords").get(ExPassDAO.leerTabla("passwords").size()-1).split(";")[4];
         try {
+            if(ExPassDAO.leerTabla("passwords").get(0).contains(";;;;1")) {
+                ExPassDAO.limpiarTabla("passwords");
+                UIExPass.update();
+            }
 			ExPassDAO.agregarDatos("passwords", new String[]{
 			    userField.getText(),
 			    siteField.getText(),
-			    RSAUtils.encrypt(new String(passwordField.getPassword()), RSAUtils.loadPublicKeyFromFile(Main.PUBLIC_PATH)),
-			    es.exmaster.expass.password.Password.isStrong(new String(passwordField.getPassword())).name()
+			    RSAUtils.encrypt(new String(passwordField.getPassword()), Main.kpm.getKeyPair().getPublic()),
+			    es.exmaster.expass.password.Password.isStrong(new String(passwordField.getPassword())).name(),
+                String.valueOf(Integer.parseInt(id)+1)
 			});
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
         UIExPass.update();
@@ -191,14 +193,14 @@ public class DataPopup extends javax.swing.JFrame {
     }
     
     private void modificar() {
+        // TODO AQUI HAY RSA
         try {
 			ExPassDAO.modificarDatosDobleEntrada("passwords", "user", userField.getText(),
 			        "site", siteField.getText(), 
 			        new String[] {"password", "strength"},
-			        new String[] {RSAUtils.encrypt(new String(passwordField.getPassword()), RSAUtils.loadPublicKeyFromFile(Main.PUBLIC_PATH)), 
+			        new String[] {RSAUtils.encrypt(new String(passwordField.getPassword()), Main.kpm.getKeyPair().getPublic()),
 			        es.exmaster.expass.password.Password.isStrong(new String(passwordField.getPassword())).name()});
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
         UIExPass.update();

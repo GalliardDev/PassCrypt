@@ -14,6 +14,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 
 import javax.swing.table.DefaultTableModel;
 
@@ -24,7 +25,7 @@ import es.exmaster.expass.util.PopupHandler;
  * @author jomaa
  */
 public class ExPassDAO {
-    private static final String URL = "jdbc:sqlite:" + Main.BDD;
+    private static final String URL = "jdbc:sqlite:C:/Databases/expass.db";
 
 	public static void inicializarBaseDeDatos() {
             try (Connection conn = DriverManager.getConnection(URL); 
@@ -32,7 +33,8 @@ public class ExPassDAO {
 
                 // Crear tabla pagos
                 stmt.execute("CREATE TABLE IF NOT EXISTS master (password TEXT)");
-                stmt.execute("CREATE TABLE IF NOT EXISTS passwords (user TEXT, site TEXT, password TEXT, strength TEXT);");
+                stmt.execute("CREATE TABLE IF NOT EXISTS passwords (user TEXT, site TEXT, password TEXT, strength TEXT, id INTEGER PRIMARY KEY AUTOINCREMENT); ");
+                stmt.execute("CREATE TABLE IF NOT EXISTS keys (publicLast TEXT, privateLast TEXT);");
                 System.out.println("BDD inicializada");
 
             } catch (SQLException e) {
@@ -270,7 +272,7 @@ public class ExPassDAO {
     public static void fillTableFromDatabase(DefaultTableModel model) {
         // Conexión a la base de datos SQLite
         try {
-            try (Connection connection = DriverManager.getConnection("jdbc:sqlite:"+Main.BDD); Statement statement = connection.createStatement()) {
+            try (Connection connection = DriverManager.getConnection(URL); Statement statement = connection.createStatement()) {
                 
                 // Nombre de la tabla y consulta SQL para seleccionar todos los datos
                 String tableName = "passwords";
@@ -332,6 +334,103 @@ public class ExPassDAO {
             } catch (SQLException e) {
                 System.err.println("Error al cerrar la conexión: " + e.getMessage());
             }
+        }
+    }
+
+    public static void limpiarTabla(String table) {
+        Connection connection = null;
+        Statement statement = null;
+
+        try {
+            // Conectar a la base de datos SQLite
+            connection = DriverManager.getConnection(URL);
+
+            // Crear una declaración SQL
+            statement = connection.createStatement();
+
+            // Ejecutar una consulta SQL para borrar todos los registros de la tabla
+            String sql = "DELETE FROM " + table;
+            statement.executeUpdate(sql);
+
+            System.out.println("La tabla " + table + " ha sido limpiada correctamente.");
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (statement != null) {
+                    statement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public static void aplicarAColumna(String nombreTabla, String nombreColumna, Function<String, String> transformacion) {
+        try (Connection conn = DriverManager.getConnection(URL)) {
+            String selectSql = "SELECT " + nombreColumna + " FROM " + nombreTabla;
+            String updateSql = "UPDATE " + nombreTabla + " SET " + nombreColumna + " = ? WHERE " + nombreColumna + " = ?";
+
+            try (PreparedStatement selectStmt = conn.prepareStatement(selectSql);
+                 PreparedStatement updateStmt = conn.prepareStatement(updateSql)) {
+
+                conn.setAutoCommit(false); // Desactiva la confirmación automática
+
+                try {
+                    ResultSet rs = selectStmt.executeQuery();
+                    while (rs.next()) {
+                        String valorOriginal = rs.getString(nombreColumna);
+                        String valorModificado = transformacion.apply(valorOriginal);
+
+                        // Actualiza el valor en la base de datos
+                        updateStmt.setString(1, valorModificado);
+                        updateStmt.setString(2, valorOriginal);
+                        updateStmt.executeUpdate();
+                    }
+
+                    // Confirma la transacción
+                    conn.commit();
+                } catch (SQLException e) {
+                    // En caso de error, revierte la transacción
+                    conn.rollback();
+                    throw e;
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+    }
+
+    public static void update(String table, int id, String nuevoValor) {
+        try {
+            Connection connection = DriverManager.getConnection(URL);
+            // Consulta SQL para actualizar un registro en la tabla
+            String sql = "UPDATE " + table + " SET password = ? WHERE id = ?";
+
+            // Crear una sentencia preparada
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+
+            // Establecer los parámetros
+            preparedStatement.setString(1, nuevoValor);
+            preparedStatement.setInt(2, id);
+
+            // Ejecutar la actualización
+            int filasActualizadas = preparedStatement.executeUpdate();
+
+            if (filasActualizadas > 0) {
+                System.out.println("Registro actualizado exitosamente.");
+            } else {
+                System.out.println("No se pudo actualizar el registro.");
+            }
+
+            // Cerrar la sentencia preparada
+            preparedStatement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 }

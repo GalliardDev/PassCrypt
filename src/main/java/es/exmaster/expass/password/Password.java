@@ -75,7 +75,7 @@ public class Password implements Comparable<Password> {
 	
 	@Override
 	public String toString() {
-		return "Password [user=" + user + ", site=" + site + ", password=" + password + ", strength=" + strength + "]";
+		return user + ";" + site + ";" + password + ";" + strength;
 	}
         
         /**

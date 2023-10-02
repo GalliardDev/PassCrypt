@@ -177,11 +177,12 @@ public class UIExPass extends JFrame {
     }
 
     protected static void view() {
+        // TODO AQUI HAY RSA
         int rowIndex = UIExPass.getTabla().getSelectedRow();
         if (rowIndex >= 0) {
             String password = null;
             try {
-                password = RSAUtils.decrypt(UIExPass.getTabla().getValueAt(rowIndex, 2).toString(), RSAUtils.loadPrivateKeyFromFile(Main.PRIVATE_PATH));
+                password = RSAUtils.decrypt(UIExPass.getTabla().getValueAt(rowIndex, 2).toString(), Main.kpm.getKeyPair().getPrivate());
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
@@ -191,7 +192,9 @@ public class UIExPass extends JFrame {
         }
     }
 
+
     protected static void modify() {
+        // TODO AQUI HAY RSA
         dp.setTitle("Modificar entrada");
         dp.setVisible(true);
         DataPopup.userField.setText(UIExPass.getTabla().getValueAt(UIExPass.getTabla().getSelectedRow(), 0).toString());
@@ -199,7 +202,7 @@ public class UIExPass extends JFrame {
         String selectedPassword = UIExPass.getTabla().getValueAt(UIExPass.getTabla().getSelectedRow(), 2).toString();
         String password = "";
         try {
-            password = RSAUtils.decrypt(selectedPassword, RSAUtils.loadPrivateKeyFromFile(Main.PRIVATE_PATH));
+            password = RSAUtils.decrypt(selectedPassword, Main.kpm.getKeyPair().getPrivate());
         } catch (Exception ex) {
             throw new RuntimeException(ex);
         }
@@ -220,11 +223,12 @@ public class UIExPass extends JFrame {
     }
 
     protected static void copy() {
+        // TODO AQUI HAY RSA
         int rowIndex = UIExPass.getTabla().getSelectedRow();
         if (rowIndex >= 0) {
             String password = null;
             try {
-                password = RSAUtils.decrypt(UIExPass.getTabla().getValueAt(rowIndex, 2).toString(), RSAUtils.loadPrivateKeyFromFile(Main.PRIVATE_PATH));
+                password = RSAUtils.decrypt(UIExPass.getTabla().getValueAt(rowIndex, 2).toString(), Main.kpm.getKeyPair().getPrivate());
             } catch (Exception ex) {
                 ex.printStackTrace();
             }

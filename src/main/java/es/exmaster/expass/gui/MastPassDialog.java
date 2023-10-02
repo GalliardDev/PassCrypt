@@ -7,6 +7,7 @@ package es.exmaster.expass.gui;
 import es.exmaster.expass.ExPassDAO;
 import es.exmaster.expass.Main;
 import es.exmaster.expass.common.ActionType;
+import es.exmaster.expass.common.KeyPairManager;
 import es.exmaster.expass.util.PopupHandler;
 import es.exmaster.expass.util.RSAUtils;
 
@@ -81,10 +82,11 @@ public class MastPassDialog extends JDialog {
     }
 
     protected static boolean masterPassOk() {
+        // TODO AQUI HAY RSA
         String input = new String(masterPassField.getPassword());
         String masterPass = null;
         try {
-            masterPass = RSAUtils.decrypt(ExPassDAO.leerTabla("master").get(0), RSAUtils.loadPrivateKeyFromFile(Main.PRIVATE_PATH));
+            masterPass = RSAUtils.decrypt(ExPassDAO.leerTabla("master").get(0), Main.kpm.getKeyPair().getPrivate());
         } catch (Exception ex) {
             throw new RuntimeException(ex);
         }
@@ -92,20 +94,19 @@ public class MastPassDialog extends JDialog {
     }
 
     private void okActionPerformed(ActionEvent e) {
+        // TODO AQUI HAY RSA
         if(actionType.equals(ActionType.INIT)) {
             String input = new String(masterPassField.getPassword());
             try {
-                ExPassDAO.agregarDatos("master", new String[] {RSAUtils.encrypt(input, RSAUtils.loadPublicKeyFromFile(Main.PUBLIC_PATH))});
+                ExPassDAO.agregarDatos("master", new String[] {RSAUtils.encrypt(input, Main.kpm.getKeyPair().getPublic())});
+                ExPassDAO.agregarDatos("passwords",
+                        new String[] {"", "", "", "", "1"});
                 java.awt.EventQueue.invokeLater(() -> {
                     new UIExPass().setVisible(true);
                 });
             } catch (Exception ex) {
                 throw new RuntimeException(ex);
             }
-            java.awt.EventQueue.invokeLater(() -> {
-                new UIExPass().setVisible(true);
-            });
-
         } else if(masterPassOk()) {
             switch (actionType) {
                 case LOGIN:
