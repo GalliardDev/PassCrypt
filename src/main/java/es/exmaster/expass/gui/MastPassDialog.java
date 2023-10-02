@@ -100,7 +100,7 @@ public class MastPassDialog extends JDialog {
             try {
                 ExPassDAO.agregarDatos("master", new String[] {RSAUtils.encrypt(input, Main.kpm.getKeyPair().getPublic())});
                 ExPassDAO.agregarDatos("passwords",
-                        new String[] {"", "", "", "", "1"});
+                        new String[] {"", "", "", "", "0"});
                 java.awt.EventQueue.invokeLater(() -> {
                     new UIExPass().setVisible(true);
                 });

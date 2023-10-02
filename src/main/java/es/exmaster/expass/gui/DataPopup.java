@@ -173,7 +173,7 @@ public class DataPopup extends javax.swing.JFrame {
         // TODO AQUI HAY RSA
         String id = ExPassDAO.leerTabla("passwords").get(ExPassDAO.leerTabla("passwords").size()-1).split(";")[4];
         try {
-            if(ExPassDAO.leerTabla("passwords").get(0).contains(";;;;1")) {
+            if(ExPassDAO.leerTabla("passwords").get(0).contains(";;;;0")) {
                 ExPassDAO.limpiarTabla("passwords");
                 UIExPass.update();
             }
