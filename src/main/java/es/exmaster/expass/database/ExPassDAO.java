@@ -326,7 +326,7 @@ public class ExPassDAO {
             // Preparar y ejecutar la sentencia SQL
             try (PreparedStatement preparedStatement = connection.prepareStatement(updateSql)) {
                 preparedStatement.executeUpdate();
-                new ExLogger(ExPassDAO.class).info("Valores actualizados correctamente");
+                new ExLogger(ExPassDAO.class).success("Valores actualizados correctamente");
             } catch (SQLException e) {
                 new ExLogger(ExPassDAO.class).error("Error al ejecutar la sentencia SQL", e);
             }

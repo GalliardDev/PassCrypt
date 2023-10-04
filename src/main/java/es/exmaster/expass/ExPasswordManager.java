@@ -16,8 +16,10 @@ import es.exmaster.expass.util.ExLogger;
 import es.exmaster.expass.util.PopupHandler;
 
 public class ExPasswordManager {
-	public static final String VERSION = "v2.2.0";
+	public static final String VERSION = "v2.2.1-BETA";
 	public static final KeyPairManager kpm = new KeyPairManager();
+
+	public static boolean isReady = false;
 
 	public static void main(String[] args) {
 		try {
@@ -29,17 +31,17 @@ public class ExPasswordManager {
 		initBDD();
         ExPassDAO.inicializarBaseDeDatos();
 
-		if(!ExPassDAO.leerTabla("keys").isEmpty()
-				&& !ExPassDAO.leerTabla("master").isEmpty()
-				&& !ExPassDAO.leerTabla("passwords").isEmpty()) {
-			ExPassDAO.parseOldStrengthValues();
-			KeyPairManager.decryptOldThenEncryptNew();
-			KeyPairManager.saveKeysBase64();
-		} else {
-			KeyPairManager.saveKeysBase64();
+		showSplashScreen();
+
+        while(!isReady) {
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException e) {
+				new ExLogger(ExPasswordManager.class).error(e.getMessage());
+			}
 		}
 
-        if(ExPassDAO.leerTabla("master").isEmpty()) {
+		if(ExPassDAO.leerTabla("master").isEmpty()) {
 			MastPassDialog mpd = new MastPassDialog(null);
 			mpd.setTitle("Inicializar contraseña maestra");
 			mpd.getIntroduceLabel().setText("Nueva contraseña maestra:");
@@ -50,6 +52,12 @@ public class ExPasswordManager {
 				new UIExPass().setVisible(true);
 			});
 		}
+	}
+
+	private static void showSplashScreen() {
+		java.awt.EventQueue.invokeLater(() -> {
+			new es.exmaster.expass.gui.SplashScreen().setVisible(true);
+		});
 	}
 
 	private static void initBDD() {
