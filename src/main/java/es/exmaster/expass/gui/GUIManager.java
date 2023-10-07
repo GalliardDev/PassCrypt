@@ -129,19 +129,21 @@ public class GUIManager {
 
 
     protected void modify() {
-        dp.setTitle("Modificar entrada");
-        dp.setVisible(true);
-        DataPopup.userField.setText(UIExPass.getTabla().getValueAt(UIExPass.getTabla().getSelectedRow(), 0).toString());
-        DataPopup.siteField.setText(UIExPass.getTabla().getValueAt(UIExPass.getTabla().getSelectedRow(), 1).toString());
-        String selectedPassword = UIExPass.getTabla().getValueAt(UIExPass.getTabla().getSelectedRow(), 2).toString();
-        String password = "";
-        try {
-            password = RSAUtils.decrypt(selectedPassword, ExPasswordManager.kpm.getKeyPair().getPrivate());
-        } catch (Exception ex) {
-            throw new RuntimeException(ex);
+        if(UIExPass.table.getSelectedRow()!=-1) {
+            dp.setTitle("Modificar entrada");
+            dp.setVisible(true);
+            DataPopup.userField.setText(UIExPass.getTabla().getValueAt(UIExPass.getTabla().getSelectedRow(), 0).toString());
+            DataPopup.siteField.setText(UIExPass.getTabla().getValueAt(UIExPass.getTabla().getSelectedRow(), 1).toString());
+            String selectedPassword = UIExPass.getTabla().getValueAt(UIExPass.getTabla().getSelectedRow(), 2).toString();
+            String password = "";
+            try {
+                password = RSAUtils.decrypt(selectedPassword, ExPasswordManager.kpm.getKeyPair().getPrivate());
+            } catch (Exception ex) {
+                throw new RuntimeException(ex);
+            }
+            DataPopup.passwordField.setText(password);
+            DataPopup.passwordField.requestFocus();
         }
-        DataPopup.passwordField.setText(password);
-        DataPopup.passwordField.requestFocus();
     }
 
     protected void remove() {
@@ -230,6 +232,7 @@ public class GUIManager {
         DefaultTableModel model = new DefaultTableModel(data, columnNames);
         table.setModel(model);
         applyPassFilter();
+        setColumnWidths(table, new int[] {200,140,80,68});
     }
 
     protected Object[][] search(String text) {
@@ -244,5 +247,16 @@ public class GUIManager {
             result[i] = aux.get(i).split(";");
         }
         return result;
+    }
+
+    public void blockUntilLogin() {
+        ((DefaultTableModel) UIExPass.table.getModel()).setRowCount(0);
+        UIExPass.getInstance().getNewBtn().setEnabled(false);
+        UIExPass.getInstance().getViewBtn().setEnabled(false);
+        UIExPass.getInstance().getModifyBtn().setEnabled(false);
+        UIExPass.getInstance().getImportBtn().setEnabled(false);
+        UIExPass.getInstance().getExportBtn().setEnabled(false);
+        UIExPass.getInstance().getSearchField().setEnabled(false);
+        UIExPass.getInstance().getSearchField().setEnabled(false);
     }
 }
