@@ -19,6 +19,7 @@ import javax.swing.table.DefaultTableModel;
 
 import es.exmaster.expass.util.ExLogger;
 
+
 /**
  *
  * @author jomaa
@@ -160,7 +161,7 @@ public class ExPassDAO {
         }
     }
 
-    public static List<String> buscarDatos(String nombreTabla, String columna, String valor) {
+    public static String[][] buscarDatos(String nombreTabla, String columna, String valor) {
         String query = "SELECT * FROM " + nombreTabla + " WHERE " + columna + " = ?";
         List<String> aux = new ArrayList<>();
 
@@ -191,7 +192,7 @@ public class ExPassDAO {
             new ExLogger(ExPassDAO.class).error("Error al buscar datos en la tabla " + nombreTabla, e);
         }
 
-        return aux;
+        return aux.stream().map(s -> s.split(";")).toArray(String[][]::new);
     }
     
     public static List<String> buscarDatosDobleEntrada(String nombreTabla, String columna1, String dato1, String columna2, String dato2) {
@@ -398,4 +399,6 @@ public class ExPassDAO {
             new ExLogger(ExPassDAO.class).error("Error al actualizar el registro", e);
         }
     }
+
+
 }

@@ -28,7 +28,7 @@ public class ExPasswordManager {
             new ExLogger(ExPasswordManager.class).error(ex.getMessage());
         }
 
-		initBDD();
+		createDBFile();
         ExPassDAO.inicializarBaseDeDatos();
 
 		showSplashScreen();
@@ -60,7 +60,7 @@ public class ExPasswordManager {
 		});
 	}
 
-	private static void initBDD() {
+	private static void createDBFile() {
 		String databaseFolderPath = "C:/Databases";
 		
 		File db = new File(databaseFolderPath, "expass.db");

@@ -174,7 +174,7 @@ public class DataPopup extends javax.swing.JFrame {
         try {
             if(ExPassDAO.leerTabla("passwords").get(0).contains(";;;;0")) {
                 ExPassDAO.limpiarTabla("passwords");
-                UIExPass.update();
+                UIExPass.getGuiManager().update(UIExPass.getInstance());
             }
 			ExPassDAO.agregarDatos("passwords", new String[]{
 			    userField.getText(),
@@ -186,7 +186,7 @@ public class DataPopup extends javax.swing.JFrame {
 		} catch (Exception e) {
 			new ExLogger(this.getClass()).error("Error al añadir datos", e);
 		}
-        UIExPass.update();
+        UIExPass.getGuiManager().update(UIExPass.getInstance());
         clearFields();
         this.dispose();
     }
@@ -201,7 +201,7 @@ public class DataPopup extends javax.swing.JFrame {
 		} catch (Exception e) {
 			new ExLogger(this.getClass()).error("Error al modificar datos", e);
 		}
-        UIExPass.update();
+        UIExPass.getGuiManager().update(UIExPass.getInstance());
         clearFields();
         this.dispose();
     }

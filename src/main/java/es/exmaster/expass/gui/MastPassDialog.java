@@ -30,6 +30,7 @@ public class MastPassDialog extends JDialog {
         initComponents();
         setLocationRelativeTo(UIExPass.getFrame());
         setResizable(false);
+        requestFocus(true);
     }
 
     public static ActionType getActionType() {
@@ -81,26 +82,26 @@ public class MastPassDialog extends JDialog {
         } else if(masterPassOk()) {
             switch (actionType) {
                 case LOGIN:
-                    UIExPass.login();
+                    UIExPass.getGuiManager().login(UIExPass.getInstance());
                     break;
                 case NEW:
-                    UIExPass.newPass();
+                    UIExPass.getGuiManager().newPass();
                     break;
                 case VIEW:
-                    UIExPass.view();
+                    UIExPass.getGuiManager().view();
                     break;
                 case MODIFY:
-                    UIExPass.modify();
+                    UIExPass.getGuiManager().modify();
                     break;
                 case IMPORT:
-                    UIExPass.importBDD();
+                    UIExPass.getGuiManager().importBDD(UIExPass.getInstance());
                     break;
                 case EXPORT:
-                    UIExPass.exportBDD();
+                    UIExPass.getGuiManager().exportBDD();
                     break;
                 case REMOVE:
-                    UIExPass.remove();
-                    UIExPass.update();
+                    UIExPass.getGuiManager().remove();
+                    UIExPass.getGuiManager().update(UIExPass.getInstance());
                     break;
             }
         } else {
