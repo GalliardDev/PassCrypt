@@ -77,6 +77,7 @@ public class UIExPass extends JFrame {
         } else {
             guiManager.login(this);
         }
+
     }
 
     private void parseVersion() {
@@ -165,7 +166,7 @@ public class UIExPass extends JFrame {
         table = new JTable();
 
         //======== this ========
-        setTitle("ExPasswordManager v{VERSION}");
+        setTitle("ExPasswordManager {VERSION}");
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
         setIconImage(new ImageIcon(getClass().getResource("/images/passlogo.png")).getImage());
@@ -271,7 +272,7 @@ public class UIExPass extends JFrame {
                 .addGroup(contentPaneLayout.createSequentialGroup()
                     .addComponent(toolBar, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                     .addGap(3, 3, 3)
-                    .addComponent(tablePanel, GroupLayout.DEFAULT_SIZE, 555, Short.MAX_VALUE)
+                    .addComponent(tablePanel, GroupLayout.DEFAULT_SIZE, 551, Short.MAX_VALUE)
                     .addContainerGap())
         );
         pack();

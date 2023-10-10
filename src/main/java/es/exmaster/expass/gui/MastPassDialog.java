@@ -115,6 +115,7 @@ public class MastPassDialog extends JDialog {
         }
         // de momento así
         setVisible(false);
+        new UpdateChecker().run();
     }
 
     private void thisWindowClosed(WindowEvent e) {
