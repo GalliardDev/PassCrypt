@@ -178,6 +178,7 @@ public class UIExPass extends JFrame {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
         setIconImage(new ImageIcon(getClass().getResource("/images/passlogo.png")).getImage());
+        setAutoRequestFocus(false);
         var contentPane = getContentPane();
 
         //======== toolBar ========
@@ -280,7 +281,7 @@ public class UIExPass extends JFrame {
                 .addGroup(contentPaneLayout.createSequentialGroup()
                     .addComponent(toolBar, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                     .addGap(3, 3, 3)
-                    .addComponent(tablePanel, GroupLayout.DEFAULT_SIZE, 555, Short.MAX_VALUE)
+                    .addComponent(tablePanel, GroupLayout.DEFAULT_SIZE, 551, Short.MAX_VALUE)
                     .addContainerGap())
         );
         pack();

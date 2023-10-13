@@ -31,6 +31,7 @@ public class MastPassDialog extends JDialog {
         setLocationRelativeTo(UIExPass.getFrame());
         setResizable(false);
         setFocusableWindowState(true);
+        setAutoRequestFocus(true);
 
     }
 

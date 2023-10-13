@@ -16,7 +16,7 @@ import es.exmaster.expass.util.ExLogger;
 import es.exmaster.expass.util.PopupHandler;
 
 public class ExPasswordManager {
-	public static final String VERSION = "v2.3.0";
+	public static final String VERSION = "v2.3.1";
 	public static final KeyPairManager kpm = new KeyPairManager();
 
 	public static boolean isReady = false;
@@ -24,6 +24,8 @@ public class ExPasswordManager {
 	public static void main(String[] args) {
 		try {
             UIManager.setLookAndFeel(new FlatMacDarkLaf());
+			System.setProperty("flatlaf.useWindowDecorations", "true");
+			System.setProperty("flatlaf.menuBarEmbedded", "true");
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             new ExLogger(ExPasswordManager.class).error(ex.getMessage());
         }

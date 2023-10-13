@@ -102,8 +102,6 @@ public class GUIManager {
         ui.getImportBtn().setEnabled(true);
         ui.getExportBtn().setEnabled(true);
         ui.getSearchField().setEnabled(true);
-        ui.getTablePanel().setFocusable(true);
-        ui.getTable().setFocusable(true);
     }
 
     protected void newPass() {
@@ -252,7 +250,5 @@ public class GUIManager {
         UIExPass.getInstance().getExportBtn().setEnabled(false);
         UIExPass.getInstance().getSearchField().setEnabled(false);
         UIExPass.getInstance().getSearchField().setEnabled(false);
-        UIExPass.getInstance().getTablePanel().setFocusable(false);
-        UIExPass.getInstance().getTable().setFocusable(false);
     }
 }
