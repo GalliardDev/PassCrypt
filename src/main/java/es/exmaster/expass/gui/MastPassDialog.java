@@ -30,7 +30,8 @@ public class MastPassDialog extends JDialog {
         initComponents();
         setLocationRelativeTo(UIExPass.getFrame());
         setResizable(false);
-        requestFocus(true);
+        setFocusableWindowState(true);
+
     }
 
     public static ActionType getActionType() {
@@ -124,6 +125,36 @@ public class MastPassDialog extends JDialog {
         }
     }
 
+    public JPanel getDialogPane() {
+        return dialogPane;
+    }
+
+    public JPanel getContentPanel() {
+        return contentPanel;
+    }
+
+    public JButton getShowPassLabel() {
+        return showPassLabel;
+    }
+
+    public JPasswordField getMasterPassField() {
+        return masterPassField;
+    }
+
+    public JPanel getButtonBar() {
+        return buttonBar;
+    }
+
+    public JButton getOkButton() {
+        return okButton;
+    }
+
+    private void masterPassFieldKeyPressed(KeyEvent e) {
+        if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+            okActionPerformed(null);
+        }
+    }
+
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents  @formatter:off
         // Generated using JFormDesigner Educational license - José Manuel Amador Gallardo (José Manuel Amador)
@@ -162,6 +193,14 @@ public class MastPassDialog extends JDialog {
                 showPassLabel.setIcon(UIManager.getIcon("PasswordField.revealIcon"));
                 showPassLabel.setFocusable(false);
                 showPassLabel.addActionListener(e -> showPassLabelActionPerformed(e));
+
+                //---- masterPassField ----
+                masterPassField.addKeyListener(new KeyAdapter() {
+                    @Override
+                    public void keyPressed(KeyEvent e) {
+                        masterPassFieldKeyPressed(e);
+                    }
+                });
 
                 GroupLayout contentPanelLayout = new GroupLayout(contentPanel);
                 contentPanel.setLayout(contentPanelLayout);

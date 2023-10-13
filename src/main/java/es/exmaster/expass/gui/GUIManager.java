@@ -12,6 +12,8 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
+import javax.swing.text.Position;
+import javax.xml.stream.Location;
 import java.awt.*;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.KeyAdapter;
@@ -100,6 +102,8 @@ public class GUIManager {
         ui.getImportBtn().setEnabled(true);
         ui.getExportBtn().setEnabled(true);
         ui.getSearchField().setEnabled(true);
+        ui.getTablePanel().setFocusable(true);
+        ui.getTable().setFocusable(true);
     }
 
     protected void newPass() {
@@ -169,7 +173,7 @@ public class GUIManager {
             }
             if (password != null) {
                 Toolkit.getDefaultToolkit().getSystemClipboard().setContents(new StringSelection(password), null);
-                PopupHandler.passwordCopied();
+
             }
         }
     }
@@ -177,16 +181,6 @@ public class GUIManager {
     protected void update(UIExPass ui) {
         ((DefaultTableModel) UIExPass.table.getModel()).setRowCount(0);
         ExPassDAO.fillTableFromDatabase((DefaultTableModel) UIExPass.table.getModel());
-    }
-
-    protected void blockUntilLogin(UIExPass ui) {
-        ((DefaultTableModel) UIExPass.table.getModel()).setRowCount(0);
-        ui.getNewBtn().setEnabled(false);
-        ui.getViewBtn().setEnabled(false);
-        ui.getModifyBtn().setEnabled(false);
-        ui.getImportBtn().setEnabled(false);
-        ui.getExportBtn().setEnabled(false);
-        ui.getSearchField().setEnabled(false);
     }
 
     protected void applyPassFilter(){
@@ -258,5 +252,7 @@ public class GUIManager {
         UIExPass.getInstance().getExportBtn().setEnabled(false);
         UIExPass.getInstance().getSearchField().setEnabled(false);
         UIExPass.getInstance().getSearchField().setEnabled(false);
+        UIExPass.getInstance().getTablePanel().setFocusable(false);
+        UIExPass.getInstance().getTable().setFocusable(false);
     }
 }

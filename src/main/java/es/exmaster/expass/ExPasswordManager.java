@@ -42,11 +42,12 @@ public class ExPasswordManager {
 		}
 
 		if(ExPassDAO.leerTabla("master").isEmpty()) {
-			MastPassDialog mpd = new MastPassDialog(null);
+			MastPassDialog mpd = new MastPassDialog(UIExPass.getFrame());
+			mpd.setActionType(ActionType.INIT);
 			mpd.setTitle("Inicializar contraseña maestra");
 			mpd.getIntroduceLabel().setText("Nueva contraseña maestra:");
-			mpd.setActionType(ActionType.INIT);
 			mpd.setVisible(true);
+			mpd.getMasterPassField().requestFocus();
 		} else {
 			java.awt.EventQueue.invokeLater(() -> {
 				new UIExPass().setVisible(true);

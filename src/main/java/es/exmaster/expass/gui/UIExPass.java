@@ -59,7 +59,7 @@ public class UIExPass extends JFrame {
         return table;
     }
 
-    protected static JFrame getFrame() {
+    public static JFrame getFrame() {
         return frame;
     }
     private void finalizeInit() {
@@ -150,6 +150,14 @@ public class UIExPass extends JFrame {
     private void searchFieldInputMethodTextChanged(InputMethodEvent e) {
         // TODO add your code here
 
+    }
+
+    public JScrollPane getTablePanel() {
+        return tablePanel;
+    }
+
+    public JTable getTable() {
+        return table;
     }
 
     private void initComponents() {
@@ -272,7 +280,7 @@ public class UIExPass extends JFrame {
                 .addGroup(contentPaneLayout.createSequentialGroup()
                     .addComponent(toolBar, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                     .addGap(3, 3, 3)
-                    .addComponent(tablePanel, GroupLayout.DEFAULT_SIZE, 551, Short.MAX_VALUE)
+                    .addComponent(tablePanel, GroupLayout.DEFAULT_SIZE, 555, Short.MAX_VALUE)
                     .addContainerGap())
         );
         pack();

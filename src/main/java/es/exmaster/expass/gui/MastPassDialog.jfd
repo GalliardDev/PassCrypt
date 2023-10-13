@@ -1,4 +1,4 @@
-JFDML JFormDesigner: "8.1.1.0.298" Java: "17.0.8" encoding: "UTF-8"
+JFDML JFormDesigner: "8.1.1.0.298" Java: "17.0.8.1" encoding: "UTF-8"
 
 new FormModel {
 	contentType: "form/swing"
@@ -44,6 +44,7 @@ new FormModel {
 							"JavaCodeGenerator.variableGetter": true
 							"JavaCodeGenerator.variableModifiers": 10
 						}
+						addEvent( new FormEvent( "java.awt.event.KeyListener", "keyPressed", "masterPassFieldKeyPressed", true ) )
 					} )
 				}, new FormLayoutConstraints( class java.lang.String ) {
 					"value": "Center"

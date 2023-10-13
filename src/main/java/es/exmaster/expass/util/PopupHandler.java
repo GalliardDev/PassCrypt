@@ -14,7 +14,4 @@ public class PopupHandler {
 	public static void wrongMasterPassword() throws HeadlessException {
 		JOptionPane.showMessageDialog(null, "Contraseña maestra incorrecta", "Error", JOptionPane.ERROR_MESSAGE);
 	}
-    public static void passwordCopied() {
-		JOptionPane.showMessageDialog(null, "Contraseña copiada", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-    }
 }

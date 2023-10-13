@@ -13,39 +13,30 @@ import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.Objects;
 
 public class UpdateChecker implements Runnable{
-    private int answer = 0;
-    private static final String GITHUB_ACCESS_TOKEN = "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";
-    private final String VERSION_URL = "https://github.com/ExceptionMaster/ExPasswordManager/releases/latest";
-    private final String API_URL = "https://api.github.com/repos/ExceptionMaster/ExPasswordManager/releases/latest";
+
     public UpdateChecker() {
         super();
     }
 
     @Override
     public void run() {
-        while(true) {
-            try {
-                if(getLatestRelease(API_URL).compareTo(ExPasswordManager.VERSION) > 0) {
-                    answer = JOptionPane.showConfirmDialog(UIExPass.getFrame(),"Hay una nueva versión disponible. ¿Quieres descargarla?","Actualización disponible",JOptionPane.YES_NO_OPTION);
-                    if(answer == JOptionPane.YES_OPTION) {
-                        try {
-                            Desktop.getDesktop().browse(new URI(VERSION_URL));
-                        } catch (IOException | URISyntaxException e) {
-                            new ExLogger(ExPasswordManager.class).error(e.getMessage());
-                        }
-                    } else {
-                        break;
+        try {
+            String API_URL = "https://api.github.com/repos/ExceptionMaster/ExPasswordManager/releases/latest";
+            if(getLatestRelease(API_URL).compareTo(ExPasswordManager.VERSION) > 0) {
+                int answer = JOptionPane.showConfirmDialog(UIExPass.getFrame(), "Hay una nueva versión disponible. ¿Quieres descargarla?", "Actualización disponible", JOptionPane.OK_CANCEL_OPTION);
+                if(answer == JOptionPane.OK_OPTION) {
+                    try {
+                        String VERSION_URL = "https://github.com/ExceptionMaster/ExPasswordManager/releases/latest";
+                        Desktop.getDesktop().browse(new URI(VERSION_URL));
+                    } catch (IOException | URISyntaxException e) {
+                        new ExLogger(ExPasswordManager.class).error(e.getMessage());
                     }
-
                 }
-                break;
-            } catch (IOException e) {
-                throw new RuntimeException(e);
             }
-            //Thread.sleep();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -54,9 +45,6 @@ public class UpdateChecker implements Runnable{
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("GET");
         connection.setRequestProperty("Accept", "application/vnd.github.v3+json");
-
-        String auth = "token " + GITHUB_ACCESS_TOKEN;
-        connection.setRequestProperty("Authorization", auth);
 
         int responseCode = connection.getResponseCode();
         if (responseCode == HttpURLConnection.HTTP_OK) {
