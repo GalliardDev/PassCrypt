@@ -5,6 +5,7 @@
 package es.exmaster.expass.gui;
 
 import java.awt.event.*;
+import java.util.*;
 import es.exmaster.expass.database.ExPassDAO;
 import es.exmaster.expass.ExPasswordManager;
 import es.exmaster.expass.common.ActionType;
@@ -70,6 +71,7 @@ public class UIExPass extends JFrame {
         guiManager.blockUntilLogin();
         guiManager.addListenerToSearchBar(this);
         guiManager.setColumnWidths(table, new int[] {200,140,80,68});
+        this.getRootPane().setJMenuBar(toolBar);
         if(!(MastPassDialog.getActionType() == ActionType.INIT)) {
             MastPassDialog mpd = new MastPassDialog(this);
             mpd.setVisible(true);
@@ -163,55 +165,26 @@ public class UIExPass extends JFrame {
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents  @formatter:off
         // Generated using JFormDesigner Educational license - José Manuel Amador Gallardo (José Manuel Amador)
-        toolBar = new JToolBar();
+        tablePanel = new JScrollPane();
+        table = new JTable();
+        searchField = new JTextField();
+        buscarLabel = new JLabel();
+        toolBar = new JMenuBar();
         newBtn = new JButton();
         viewBtn = new JButton();
         modifyBtn = new JButton();
+        separator1 = new JPopupMenu.Separator();
         importBtn = new JButton();
         exportBtn = new JButton();
-        searchField = new JTextField();
-        tablePanel = new JScrollPane();
-        table = new JTable();
 
         //======== this ========
-        setTitle("ExPasswordManager {VERSION}");
+        System.setProperty("flatlaf.useWindowDecorations", "true");
+        System.setProperty("flatlaf.menuBarEmbedded", "true");
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setResizable(false);
         setIconImage(new ImageIcon(getClass().getResource("/images/passlogo.png")).getImage());
         setAutoRequestFocus(false);
+        setResizable(false);
         var contentPane = getContentPane();
-
-        //======== toolBar ========
-        {
-
-            //---- newBtn ----
-            newBtn.setText("Nueva");
-            newBtn.addActionListener(e -> newBtnActionPerformed(e));
-            toolBar.add(newBtn);
-
-            //---- viewBtn ----
-            viewBtn.setText("Ver");
-            viewBtn.addActionListener(e -> viewBtnActionPerformed(e));
-            toolBar.add(viewBtn);
-
-            //---- modifyBtn ----
-            modifyBtn.setText("Modificar");
-            modifyBtn.addActionListener(e -> modifyBtnActionPerformed(e));
-            toolBar.add(modifyBtn);
-            toolBar.addSeparator();
-
-            //---- importBtn ----
-            importBtn.setText("Importar");
-            importBtn.addActionListener(e -> importBtnActionPerformed(e));
-            toolBar.add(importBtn);
-
-            //---- exportBtn ----
-            exportBtn.setText("Exportar");
-            exportBtn.addActionListener(e -> exportBtnActionPerformed(e));
-            toolBar.add(exportBtn);
-            toolBar.addSeparator();
-            toolBar.add(searchField);
-        }
 
         //======== tablePanel ========
         {
@@ -264,41 +237,100 @@ public class UIExPass extends JFrame {
             tablePanel.setViewportView(table);
         }
 
+        //---- buscarLabel ----
+        buscarLabel.setText("Buscar");
+
         GroupLayout contentPaneLayout = new GroupLayout(contentPane);
         contentPane.setLayout(contentPaneLayout);
         contentPaneLayout.setHorizontalGroup(
             contentPaneLayout.createParallelGroup()
-                .addGroup(contentPaneLayout.createSequentialGroup()
-                    .addGap(6, 6, 6)
-                    .addComponent(toolBar, GroupLayout.DEFAULT_SIZE, 492, Short.MAX_VALUE))
-                .addGroup(contentPaneLayout.createSequentialGroup()
+                .addGroup(GroupLayout.Alignment.TRAILING, contentPaneLayout.createSequentialGroup()
                     .addContainerGap()
-                    .addComponent(tablePanel, GroupLayout.DEFAULT_SIZE, 486, Short.MAX_VALUE)
+                    .addGroup(contentPaneLayout.createParallelGroup(GroupLayout.Alignment.TRAILING)
+                        .addComponent(tablePanel, GroupLayout.DEFAULT_SIZE, 506, Short.MAX_VALUE)
+                        .addGroup(contentPaneLayout.createSequentialGroup()
+                            .addComponent(buscarLabel)
+                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(searchField, GroupLayout.DEFAULT_SIZE, 465, Short.MAX_VALUE)))
                     .addContainerGap())
         );
         contentPaneLayout.setVerticalGroup(
             contentPaneLayout.createParallelGroup()
                 .addGroup(contentPaneLayout.createSequentialGroup()
-                    .addComponent(toolBar, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                    .addGap(3, 3, 3)
-                    .addComponent(tablePanel, GroupLayout.DEFAULT_SIZE, 551, Short.MAX_VALUE)
+                    .addContainerGap()
+                    .addGroup(contentPaneLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                        .addComponent(buscarLabel)
+                        .addComponent(searchField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(tablePanel, GroupLayout.DEFAULT_SIZE, 550, Short.MAX_VALUE)
                     .addContainerGap())
         );
         pack();
         setLocationRelativeTo(getOwner());
+
+        //======== toolBar ========
+        {
+
+            //---- newBtn ----
+            newBtn.setText("Nueva");
+            newBtn.setMaximumSize(new Dimension(88, 26));
+            newBtn.setMargin(new Insets(2, 2, 2, 2));
+            newBtn.setIcon(new ImageIcon(getClass().getResource("/images/newpass_small.png")));
+            newBtn.setFocusable(false);
+            newBtn.addActionListener(e -> newBtnActionPerformed(e));
+            toolBar.add(newBtn);
+
+            //---- viewBtn ----
+            viewBtn.setText("Ver");
+            viewBtn.setMargin(new Insets(2, 2, 2, 12));
+            viewBtn.setIcon(new ImageIcon(getClass().getResource("/images/view_small.png")));
+            viewBtn.setFocusable(false);
+            viewBtn.addActionListener(e -> viewBtnActionPerformed(e));
+            toolBar.add(viewBtn);
+
+            //---- modifyBtn ----
+            modifyBtn.setIcon(new ImageIcon(getClass().getResource("/images/edit_small.png")));
+            modifyBtn.setText("Editar");
+            modifyBtn.setMargin(new Insets(2, 2, 2, 12));
+            modifyBtn.setFocusable(false);
+            modifyBtn.addActionListener(e -> modifyBtnActionPerformed(e));
+            toolBar.add(modifyBtn);
+
+            //---- separator1 ----
+            separator1.setForeground(new Color(0xdddddd));
+            toolBar.add(separator1);
+
+            //---- importBtn ----
+            importBtn.setIcon(new ImageIcon(getClass().getResource("/images/import_small.png")));
+            importBtn.setText("Importar");
+            importBtn.setMargin(new Insets(2, 2, 2, 12));
+            importBtn.setFocusable(false);
+            importBtn.addActionListener(e -> importBtnActionPerformed(e));
+            toolBar.add(importBtn);
+
+            //---- exportBtn ----
+            exportBtn.setIcon(new ImageIcon(getClass().getResource("/images/export_small.png")));
+            exportBtn.setText("Exportar");
+            exportBtn.setMargin(new Insets(2, 2, 2, 12));
+            exportBtn.setFocusable(false);
+            exportBtn.addActionListener(e -> exportBtnActionPerformed(e));
+            toolBar.add(exportBtn);
+        }
         // JFormDesigner - End of component initialization  //GEN-END:initComponents  @formatter:on
     }
 
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables  @formatter:off
     // Generated using JFormDesigner Educational license - José Manuel Amador Gallardo (José Manuel Amador)
-    private JToolBar toolBar;
+    protected static JScrollPane tablePanel;
+    protected static JTable table;
+    public static JTextField searchField;
+    private JLabel buscarLabel;
+    private JMenuBar toolBar;
     protected static JButton newBtn;
     protected static JButton viewBtn;
     protected static JButton modifyBtn;
+    private JPopupMenu.Separator separator1;
     protected static JButton importBtn;
     protected static JButton exportBtn;
-    public static JTextField searchField;
-    protected static JScrollPane tablePanel;
-    protected static JTable table;
     // JFormDesigner - End of variables declaration  //GEN-END:variables  @formatter:on
 }

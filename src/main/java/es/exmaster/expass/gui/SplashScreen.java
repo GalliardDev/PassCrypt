@@ -91,7 +91,7 @@ public class SplashScreen extends JFrame {
         contentPane.setLayout(null);
 
         //---- progressBar ----
-        progressBar.setForeground(new Color(0x3399ff));
+        progressBar.setForeground(new Color(0xfc8400));
         progressBar.setBorder(null);
         progressBar.setBackground(new Color(0x00323232, true));
         contentPane.add(progressBar);

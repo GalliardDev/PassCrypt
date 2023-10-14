@@ -4,79 +4,17 @@ new FormModel {
 	contentType: "form/swing"
 	root: new FormRoot {
 		add( new FormWindow( "javax.swing.JFrame", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-			"$horizontalGroup": "par l {seq l {space :p:6:p, comp toolBar::::492:x}, seq l {space :::p, comp tablePanel::::486:x, space :::p}}"
-			"$verticalGroup": "par l {seq l {comp toolBar:::p::p, space :p:3:p, comp tablePanel::::551:x, space :::p}}"
+			"$horizontalGroup": "par l {seq t {space :::p, par t {comp tablePanel::::506:x, seq {comp buscarLabel:::p::p, space :::p, comp searchField::::465:x}}, space :::p}}"
+			"$verticalGroup": "par l {seq l {space :::p, par b {comp buscarLabel::b:p::p, comp searchField::b:p::p}, space :::p, comp tablePanel::::550:x, space :::p}}"
 		} ) {
 			name: "this"
-			"title": "ExPasswordManager {VERSION}"
 			"defaultCloseOperation": 3
-			"resizable": false
 			"iconImage": new com.jformdesigner.model.SwingIcon( 0, "/images/passlogo.png" )
 			"autoRequestFocus": false
-			add( new FormContainer( "javax.swing.JToolBar", new FormLayoutManager( class javax.swing.JToolBar ) ) {
-				name: "toolBar"
-				add( new FormComponent( "javax.swing.JButton" ) {
-					name: "newBtn"
-					"text": "Nueva"
-					auxiliary() {
-						"JavaCodeGenerator.variableModifiers": 12
-						"JavaCodeGenerator.variableGetter": true
-					}
-					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "newBtnActionPerformed", true ) )
-				} )
-				add( new FormComponent( "javax.swing.JButton" ) {
-					name: "viewBtn"
-					"text": "Ver"
-					auxiliary() {
-						"JavaCodeGenerator.variableModifiers": 12
-						"JavaCodeGenerator.variableGetter": true
-					}
-					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "viewBtnActionPerformed", true ) )
-				} )
-				add( new FormComponent( "javax.swing.JButton" ) {
-					name: "modifyBtn"
-					"text": "Modificar"
-					auxiliary() {
-						"JavaCodeGenerator.variableModifiers": 12
-						"JavaCodeGenerator.variableGetter": true
-					}
-					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "modifyBtnActionPerformed", true ) )
-				} )
-				add( new FormComponent( "javax.swing.JToolBar$Separator" ) {
-					name: "sepToolbar"
-					auxiliary() {
-						"JavaCodeGenerator.variableGetter": true
-					}
-				} )
-				add( new FormComponent( "javax.swing.JButton" ) {
-					name: "importBtn"
-					"text": "Importar"
-					auxiliary() {
-						"JavaCodeGenerator.variableModifiers": 12
-						"JavaCodeGenerator.variableGetter": true
-					}
-					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "importBtnActionPerformed", true ) )
-				} )
-				add( new FormComponent( "javax.swing.JButton" ) {
-					name: "exportBtn"
-					"text": "Exportar"
-					auxiliary() {
-						"JavaCodeGenerator.variableModifiers": 12
-						"JavaCodeGenerator.variableGetter": true
-					}
-					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "exportBtnActionPerformed", true ) )
-				} )
-				add( new FormComponent( "javax.swing.JToolBar$Separator" ) {
-					name: "sepToolbar1"
-				} )
-				add( new FormComponent( "javax.swing.JTextField" ) {
-					name: "searchField"
-					auxiliary() {
-						"JavaCodeGenerator.variableModifiers": 9
-						"JavaCodeGenerator.variableGetter": true
-					}
-				} )
-			} )
+			"resizable": false
+			auxiliary() {
+				"JavaCodeGenerator.preInitCode": "System.setProperty(\"flatlaf.useWindowDecorations\", \"true\");\nSystem.setProperty(\"flatlaf.menuBarEmbedded\", \"true\");"
+			}
 			add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
 				name: "tablePanel"
 				auxiliary() {
@@ -92,9 +30,90 @@ new FormModel {
 					}
 				} )
 			} )
+			add( new FormComponent( "javax.swing.JTextField" ) {
+				name: "searchField"
+				auxiliary() {
+					"JavaCodeGenerator.variableModifiers": 9
+					"JavaCodeGenerator.variableGetter": true
+				}
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "buscarLabel"
+				"text": "Buscar"
+			} )
 		}, new FormLayoutConstraints( null ) {
 			"location": new java.awt.Point( 0, 0 )
-			"size": new java.awt.Dimension( 500, 625 )
+			"size": new java.awt.Dimension( 520, 625 )
+		} )
+		add( new FormContainer( "javax.swing.JMenuBar", new FormLayoutManager( class javax.swing.JMenuBar ) ) {
+			name: "toolBar"
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "newBtn"
+				"text": "Nueva"
+				"maximumSize": new java.awt.Dimension( 88, 26 )
+				"margin": new java.awt.Insets( 2, 2, 2, 2 )
+				"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/newpass_small.png" )
+				"focusable": false
+				auxiliary() {
+					"JavaCodeGenerator.variableModifiers": 12
+					"JavaCodeGenerator.variableGetter": true
+				}
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "newBtnActionPerformed", true ) )
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "viewBtn"
+				"text": "Ver"
+				"margin": new java.awt.Insets( 2, 2, 2, 12 )
+				"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/view_small.png" )
+				"focusable": false
+				auxiliary() {
+					"JavaCodeGenerator.variableModifiers": 12
+					"JavaCodeGenerator.variableGetter": true
+				}
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "viewBtnActionPerformed", true ) )
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "modifyBtn"
+				"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/edit_small.png" )
+				"text": "Editar"
+				"margin": new java.awt.Insets( 2, 2, 2, 12 )
+				"focusable": false
+				auxiliary() {
+					"JavaCodeGenerator.variableModifiers": 12
+					"JavaCodeGenerator.variableGetter": true
+				}
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "modifyBtnActionPerformed", true ) )
+			} )
+			add( new FormComponent( "javax.swing.JPopupMenu$Separator" ) {
+				name: "separator1"
+				"foreground": new java.awt.Color( 221, 221, 221, 255 )
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "importBtn"
+				"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/import_small.png" )
+				"text": "Importar"
+				"margin": new java.awt.Insets( 2, 2, 2, 12 )
+				"focusable": false
+				auxiliary() {
+					"JavaCodeGenerator.variableModifiers": 12
+					"JavaCodeGenerator.variableGetter": true
+				}
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "importBtnActionPerformed", true ) )
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "exportBtn"
+				"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/export_small.png" )
+				"text": "Exportar"
+				"margin": new java.awt.Insets( 2, 2, 2, 12 )
+				"focusable": false
+				auxiliary() {
+					"JavaCodeGenerator.variableModifiers": 12
+					"JavaCodeGenerator.variableGetter": true
+				}
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "exportBtnActionPerformed", true ) )
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"location": new java.awt.Point( 0, 630 )
 		} )
 	}
 }

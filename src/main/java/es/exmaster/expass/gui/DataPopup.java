@@ -74,7 +74,7 @@ public class DataPopup extends javax.swing.JFrame {
             }
         });
 
-        showBtn.setIcon(UIManager.getIcon("PasswordField.revealIcon")); // NOI18N
+        showBtn.setIcon(new ImageIcon(Objects.requireNonNull(getClass().getResource("/images/view_small.png")))); // NOI18N
         showBtn.setAlignmentX(0.5F);
         showBtn.setFocusable(false);
         showBtn.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);

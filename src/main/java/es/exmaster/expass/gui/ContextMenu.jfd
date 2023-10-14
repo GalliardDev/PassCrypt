@@ -1,13 +1,16 @@
-JFDML JFormDesigner: "8.1.1.0.298" Java: "17.0.8" encoding: "UTF-8"
+JFDML JFormDesigner: "8.1.1.0.298" Java: "17.0.8.1" encoding: "UTF-8"
 
 new FormModel {
 	contentType: "form/swing"
 	root: new FormRoot {
 		add( new FormContainer( "javax.swing.JPopupMenu", new FormLayoutManager( class javax.swing.JPopupMenu ) ) {
 			name: "this"
+			"background": new java.awt.Color( 30, 30, 30, 255 )
 			add( new FormComponent( "javax.swing.JButton" ) {
 				name: "copyBtn"
 				"text": "Copiar"
+				"focusable": false
+				"maximumSize": new java.awt.Dimension( 85, 26 )
 				auxiliary() {
 					"JavaCodeGenerator.variableGetter": true
 				}
@@ -16,6 +19,8 @@ new FormModel {
 			add( new FormComponent( "javax.swing.JButton" ) {
 				name: "viewBtn"
 				"text": "Ver"
+				"focusable": false
+				"maximumSize": new java.awt.Dimension( 85, 26 )
 				auxiliary() {
 					"JavaCodeGenerator.variableGetter": true
 				}
@@ -24,6 +29,7 @@ new FormModel {
 			add( new FormComponent( "javax.swing.JButton" ) {
 				name: "modifyBtn"
 				"text": "Modificar"
+				"focusable": false
 				auxiliary() {
 					"JavaCodeGenerator.variableGetter": true
 				}
@@ -32,6 +38,8 @@ new FormModel {
 			add( new FormComponent( "javax.swing.JButton" ) {
 				name: "removeBtn"
 				"text": "Eliminar"
+				"focusable": false
+				"maximumSize": new java.awt.Dimension( 85, 26 )
 				auxiliary() {
 					"JavaCodeGenerator.variableGetter": true
 				}

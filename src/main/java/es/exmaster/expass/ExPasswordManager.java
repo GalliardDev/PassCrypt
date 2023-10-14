@@ -1,5 +1,6 @@
 package es.exmaster.expass;
 
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 
@@ -24,8 +25,16 @@ public class ExPasswordManager {
 	public static void main(String[] args) {
 		try {
             UIManager.setLookAndFeel(new FlatMacDarkLaf());
-			System.setProperty("flatlaf.useWindowDecorations", "true");
-			System.setProperty("flatlaf.menuBarEmbedded", "true");
+			UIManager.put("TextField.selectionBackground", Color.decode("#ffa84f"));
+			UIManager.put("TextField.selectionForeground", Color.decode("#000000"));
+			UIManager.put("Component.focusedBorderColor", Color.decode("#febf00"));
+			UIManager.put("Button.arc", 5);
+			UIManager.put("JComponent.background", Color.decode("#c2701b"));
+			UIManager.put("TitlePane.closeHoverBackground", Color.decode("#c2701b"));
+			UIManager.put("TitlePane.closePressedBackground", Color.decode("#be6000"));
+			UIManager.put("TableHeader.background", Color.decode("#c2701b"));
+			UIManager.put("Table.selectionBackground", Color.decode("#ffa84f"));
+			UIManager.put("Table.selectionForeground", Color.decode("#000000"));
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             new ExLogger(ExPasswordManager.class).error(ex.getMessage());
         }

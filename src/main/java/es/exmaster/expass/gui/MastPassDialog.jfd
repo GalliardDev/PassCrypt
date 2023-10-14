@@ -31,7 +31,7 @@ new FormModel {
 					} )
 					add( new FormComponent( "javax.swing.JButton" ) {
 						name: "showPassLabel"
-						"icon": new com.jformdesigner.model.SwingIcon( 2, "PasswordField.revealIcon" )
+						"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/view_small.png" )
 						"focusable": false
 						auxiliary() {
 							"JavaCodeGenerator.variableGetter": true

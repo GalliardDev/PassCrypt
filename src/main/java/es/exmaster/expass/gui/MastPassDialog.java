@@ -191,7 +191,7 @@ public class MastPassDialog extends JDialog {
                 introduceLabel.setText("Introduce la contrase\u00f1a maestra:");
 
                 //---- showPassLabel ----
-                showPassLabel.setIcon(UIManager.getIcon("PasswordField.revealIcon"));
+                showPassLabel.setIcon(new ImageIcon(getClass().getResource("/images/view_small.png")));
                 showPassLabel.setFocusable(false);
                 showPassLabel.addActionListener(e -> showPassLabelActionPerformed(e));
 

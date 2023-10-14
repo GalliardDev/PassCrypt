@@ -4,6 +4,7 @@
 
 package es.exmaster.expass.gui;
 
+import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
@@ -52,6 +53,10 @@ public class ContextMenu extends JPopupMenu {
         UIExPass.getGuiManager().view();
     }
 
+    public JButton getViewBtn() {
+        return viewBtn;
+    }
+
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents  @formatter:off
         // Generated using JFormDesigner Educational license - José Manuel Amador Gallardo (José Manuel Amador)
@@ -61,24 +66,32 @@ public class ContextMenu extends JPopupMenu {
         removeBtn = new JButton();
 
         //======== this ========
+        setBackground(new Color(0x1e1e1e));
 
         //---- copyBtn ----
         copyBtn.setText("Copiar");
+        copyBtn.setFocusable(false);
+        copyBtn.setMaximumSize(new Dimension(85, 26));
         copyBtn.addActionListener(e -> copyBtnActionPerformed(e));
         add(copyBtn);
 
         //---- viewBtn ----
         viewBtn.setText("Ver");
+        viewBtn.setFocusable(false);
+        viewBtn.setMaximumSize(new Dimension(85, 26));
         viewBtn.addActionListener(e -> viewBtnActionPerformed(e));
         add(viewBtn);
 
         //---- modifyBtn ----
         modifyBtn.setText("Modificar");
+        modifyBtn.setFocusable(false);
         modifyBtn.addActionListener(e -> modifyBtnActionPerformed(e));
         add(modifyBtn);
 
         //---- removeBtn ----
         removeBtn.setText("Eliminar");
+        removeBtn.setFocusable(false);
+        removeBtn.setMaximumSize(new Dimension(85, 26));
         removeBtn.addActionListener(e -> removeBtnActionPerformed(e));
         add(removeBtn);
         // JFormDesigner - End of component initialization  //GEN-END:initComponents  @formatter:on
