@@ -17,7 +17,7 @@ import es.exmaster.expass.util.ExLogger;
 import es.exmaster.expass.util.PopupHandler;
 
 public class ExPasswordManager {
-	public static final String VERSION = "v2.3.1";
+	public static final String VERSION = "v2.4.0";
 	public static final KeyPairManager kpm = new KeyPairManager();
 
 	public static boolean isReady = false;
