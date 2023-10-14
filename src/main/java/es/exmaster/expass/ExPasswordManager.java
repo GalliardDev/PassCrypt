@@ -3,8 +3,9 @@ package es.exmaster.expass;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.util.Objects;
 
-import javax.swing.UIManager;
+import javax.swing.*;
 
 import com.formdev.flatlaf.themes.FlatMacDarkLaf;
 
@@ -17,7 +18,7 @@ import es.exmaster.expass.util.ExLogger;
 import es.exmaster.expass.util.PopupHandler;
 
 public class ExPasswordManager {
-	public static final String VERSION = "v2.4.0";
+	public static final String VERSION = "v2.4.1";
 	public static final KeyPairManager kpm = new KeyPairManager();
 
 	public static boolean isReady = false;
@@ -35,6 +36,7 @@ public class ExPasswordManager {
 			UIManager.put("TableHeader.background", Color.decode("#c2701b"));
 			UIManager.put("Table.selectionBackground", Color.decode("#ffa84f"));
 			UIManager.put("Table.selectionForeground", Color.decode("#000000"));
+			UIManager.put("TextField.caretForeground", Color.decode("#c2701b"));
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             new ExLogger(ExPasswordManager.class).error(ex.getMessage());
         }

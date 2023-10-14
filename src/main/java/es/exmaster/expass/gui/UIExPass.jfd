@@ -4,14 +4,15 @@ new FormModel {
 	contentType: "form/swing"
 	root: new FormRoot {
 		add( new FormWindow( "javax.swing.JFrame", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-			"$horizontalGroup": "par l {seq t {space :::p, par t {comp tablePanel::::506:x, seq {comp buscarLabel:::p::p, space :::p, comp searchField::::465:x}}, space :::p}}"
-			"$verticalGroup": "par l {seq l {space :::p, par b {comp buscarLabel::b:p::p, comp searchField::b:p::p}, space :::p, comp tablePanel::::550:x, space :::p}}"
+			"$horizontalGroup": "par l {seq t {space :::p, par l {comp tablePanel::::516:x, comp searchField::::516:x}, space :::p}}"
+			"$verticalGroup": "par l {seq l {space :::p, comp searchField:::p::p, space :::p, comp tablePanel::::542:x, space :::p}}"
 		} ) {
 			name: "this"
 			"defaultCloseOperation": 3
 			"iconImage": new com.jformdesigner.model.SwingIcon( 0, "/images/passlogo.png" )
 			"autoRequestFocus": false
 			"resizable": false
+			"title": "{VERSION}"
 			auxiliary() {
 				"JavaCodeGenerator.preInitCode": "System.setProperty(\"flatlaf.useWindowDecorations\", \"true\");\nSystem.setProperty(\"flatlaf.menuBarEmbedded\", \"true\");"
 			}
@@ -23,6 +24,7 @@ new FormModel {
 				}
 				add( new FormComponent( "javax.swing.JTable" ) {
 					name: "table"
+					"autoResizeMode": 4
 					auxiliary() {
 						"JavaCodeGenerator.variableModifiers": 12
 						"JavaCodeGenerator.postInitCode": "table.setModel(new javax.swing.table.DefaultTableModel(\n            new Object [][] {\n\n            },\n            new String [] {\n                \"Usuario\", \"Sitio\", \"Contraseña\", \"Fuerza\"\n            }\n        ) {\n            @SuppressWarnings(\"rawtypes\")\n\t\t\tClass[] types = new Class [] {\n                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class\n            };\n            boolean[] canEdit = new boolean [] {\n                false, false, false, false\n            };\n\n            @SuppressWarnings(\"rawtypes\")\n\t\t\tpublic Class getColumnClass(int columnIndex) {\n                return types [columnIndex];\n            }\n\n            public boolean isCellEditable(int rowIndex, int columnIndex) {\n                return canEdit [columnIndex];\n            }\n        });\n        table.getTableHeader().setReorderingAllowed(false);\n        table.addMouseListener(new java.awt.event.MouseAdapter() {\n            public void mouseClicked(java.awt.event.MouseEvent evt) {\n                tableMouseClicked(evt);\n            }\n        });\n        table.addKeyListener(new java.awt.event.KeyAdapter() {\n            public void keyPressed(java.awt.event.KeyEvent evt) {\n                tableKeyPressed(evt);\n            }\n        });\n        tablePanel.setViewportView(table);\n        if (table.getColumnModel().getColumnCount() > 0) {\n            table.getColumnModel().getColumn(0).setResizable(false);\n            table.getColumnModel().getColumn(1).setResizable(false);\n            table.getColumnModel().getColumn(2).setResizable(false);\n            table.getColumnModel().getColumn(3).setResizable(false);\n        }\nguiManager.setColumnWidths(table, new int[] {200,140,80,68});"
@@ -32,28 +34,29 @@ new FormModel {
 			} )
 			add( new FormComponent( "javax.swing.JTextField" ) {
 				name: "searchField"
+				"toolTipText": "Busca contraseñas"
+				"cursor": new java.awt.Cursor( 2 )
+				"margin": new java.awt.Insets( 6, 6, 6, 6 )
 				auxiliary() {
 					"JavaCodeGenerator.variableModifiers": 9
 					"JavaCodeGenerator.variableGetter": true
 				}
 			} )
-			add( new FormComponent( "javax.swing.JLabel" ) {
-				name: "buscarLabel"
-				"text": "Buscar"
-			} )
 		}, new FormLayoutConstraints( null ) {
 			"location": new java.awt.Point( 0, 0 )
-			"size": new java.awt.Dimension( 520, 625 )
+			"size": new java.awt.Dimension( 530, 625 )
 		} )
 		add( new FormContainer( "javax.swing.JMenuBar", new FormLayoutManager( class javax.swing.JMenuBar ) ) {
 			name: "toolBar"
 			add( new FormComponent( "javax.swing.JButton" ) {
 				name: "newBtn"
 				"text": "Nueva"
-				"maximumSize": new java.awt.Dimension( 88, 26 )
 				"margin": new java.awt.Insets( 2, 2, 2, 2 )
 				"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/newpass_small.png" )
 				"focusable": false
+				"background": &Color0 new java.awt.Color( 30, 30, 30, 255 )
+				"iconTextGap": 5
+				"preferredSize": new java.awt.Dimension( 80, 30 )
 				auxiliary() {
 					"JavaCodeGenerator.variableModifiers": 12
 					"JavaCodeGenerator.variableGetter": true
@@ -66,6 +69,9 @@ new FormModel {
 				"margin": new java.awt.Insets( 2, 2, 2, 12 )
 				"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/view_small.png" )
 				"focusable": false
+				"background": #Color0
+				"iconTextGap": 5
+				"preferredSize": new java.awt.Dimension( 70, 30 )
 				auxiliary() {
 					"JavaCodeGenerator.variableModifiers": 12
 					"JavaCodeGenerator.variableGetter": true
@@ -78,15 +84,14 @@ new FormModel {
 				"text": "Editar"
 				"margin": new java.awt.Insets( 2, 2, 2, 12 )
 				"focusable": false
+				"background": #Color0
+				"iconTextGap": 5
+				"preferredSize": new java.awt.Dimension( 80, 30 )
 				auxiliary() {
 					"JavaCodeGenerator.variableModifiers": 12
 					"JavaCodeGenerator.variableGetter": true
 				}
 				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "modifyBtnActionPerformed", true ) )
-			} )
-			add( new FormComponent( "javax.swing.JPopupMenu$Separator" ) {
-				name: "separator1"
-				"foreground": new java.awt.Color( 221, 221, 221, 255 )
 			} )
 			add( new FormComponent( "javax.swing.JButton" ) {
 				name: "importBtn"
@@ -94,6 +99,9 @@ new FormModel {
 				"text": "Importar"
 				"margin": new java.awt.Insets( 2, 2, 2, 12 )
 				"focusable": false
+				"background": #Color0
+				"iconTextGap": 5
+				"preferredSize": new java.awt.Dimension( 96, 30 )
 				auxiliary() {
 					"JavaCodeGenerator.variableModifiers": 12
 					"JavaCodeGenerator.variableGetter": true
@@ -106,6 +114,9 @@ new FormModel {
 				"text": "Exportar"
 				"margin": new java.awt.Insets( 2, 2, 2, 12 )
 				"focusable": false
+				"background": #Color0
+				"iconTextGap": 5
+				"preferredSize": new java.awt.Dimension( 96, 30 )
 				auxiliary() {
 					"JavaCodeGenerator.variableModifiers": 12
 					"JavaCodeGenerator.variableGetter": true
