@@ -189,13 +189,13 @@ public class UIExPass extends JFrame {
         {
 
             //---- table ----
-            table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+            table.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
             table.setModel(new javax.swing.table.DefaultTableModel(
                         new Object [][] {
 
                         },
                         new String [] {
-                            "Usuario", "Sitio", "Contraseña", "Fuerza"
+                            "USUARIO", "SITIO", "CONTRASEÑA", "FUERZA"
                         }
                     ) {
                         @SuppressWarnings("rawtypes")

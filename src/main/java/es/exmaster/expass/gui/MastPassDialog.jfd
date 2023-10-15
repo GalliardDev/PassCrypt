@@ -15,7 +15,7 @@ new FormModel {
 					"JavaCodeGenerator.variableGetter": true
 				}
 				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-					"$horizontalGroup": "par l {seq {space :::p, par l:::p {comp introduceLabel:::p::p, seq {comp masterPassField:::p:134:p, space u:::p, comp showPassLabel::::0:x}}, space :::x}}"
+					"$horizontalGroup": "par l {seq {space :::p, par l {seq {comp introduceLabel:::p::p, space :0:0:x}, seq {comp masterPassField:::p:140:p, space :::x, comp showPassLabel:::p:26:p}}, space :::x}}"
 					"$verticalGroup": "par l {seq l {space :::p, comp introduceLabel:::p::p, space :::p, par l {comp showPassLabel:::p:26:p, comp masterPassField:::p::p}, space ::3:x}}"
 				} ) {
 					name: "contentPanel"
@@ -29,10 +29,12 @@ new FormModel {
 							"JavaCodeGenerator.variableGetter": true
 						}
 					} )
-					add( new FormComponent( "javax.swing.JButton" ) {
+					add( new FormComponent( "javax.swing.JToggleButton" ) {
 						name: "showPassLabel"
 						"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/view_small.png" )
 						"focusable": false
+						"background": new java.awt.Color( 88, 88, 88, 255 )
+						"selectedIcon": new com.jformdesigner.model.SwingIcon( 0, "/images/view_selected_small.png" )
 						auxiliary() {
 							"JavaCodeGenerator.variableGetter": true
 						}
@@ -62,7 +64,8 @@ new FormModel {
 					}
 					add( new FormComponent( "javax.swing.JButton" ) {
 						name: "okButton"
-						"text": "OK"
+						"text": "Aceptar"
+						"background": new java.awt.Color( 88, 88, 88, 255 )
 						auxiliary() {
 							"JavaCodeGenerator.variableGetter": true
 						}

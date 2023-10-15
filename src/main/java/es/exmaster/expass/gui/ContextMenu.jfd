@@ -11,6 +11,7 @@ new FormModel {
 				"text": "Copiar"
 				"focusable": false
 				"maximumSize": new java.awt.Dimension( 85, 26 )
+				"background": &Color0 new java.awt.Color( 30, 30, 30, 255 )
 				auxiliary() {
 					"JavaCodeGenerator.variableGetter": true
 				}
@@ -21,6 +22,7 @@ new FormModel {
 				"text": "Ver"
 				"focusable": false
 				"maximumSize": new java.awt.Dimension( 85, 26 )
+				"background": #Color0
 				auxiliary() {
 					"JavaCodeGenerator.variableGetter": true
 				}
@@ -30,6 +32,7 @@ new FormModel {
 				name: "modifyBtn"
 				"text": "Modificar"
 				"focusable": false
+				"background": #Color0
 				auxiliary() {
 					"JavaCodeGenerator.variableGetter": true
 				}
@@ -40,6 +43,7 @@ new FormModel {
 				"text": "Eliminar"
 				"focusable": false
 				"maximumSize": new java.awt.Dimension( 85, 26 )
+				"background": #Color0
 				auxiliary() {
 					"JavaCodeGenerator.variableGetter": true
 				}

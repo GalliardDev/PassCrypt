@@ -72,6 +72,7 @@ public class ContextMenu extends JPopupMenu {
         copyBtn.setText("Copiar");
         copyBtn.setFocusable(false);
         copyBtn.setMaximumSize(new Dimension(85, 26));
+        copyBtn.setBackground(new Color(0x1e1e1e));
         copyBtn.addActionListener(e -> copyBtnActionPerformed(e));
         add(copyBtn);
 
@@ -79,12 +80,14 @@ public class ContextMenu extends JPopupMenu {
         viewBtn.setText("Ver");
         viewBtn.setFocusable(false);
         viewBtn.setMaximumSize(new Dimension(85, 26));
+        viewBtn.setBackground(new Color(0x1e1e1e));
         viewBtn.addActionListener(e -> viewBtnActionPerformed(e));
         add(viewBtn);
 
         //---- modifyBtn ----
         modifyBtn.setText("Modificar");
         modifyBtn.setFocusable(false);
+        modifyBtn.setBackground(new Color(0x1e1e1e));
         modifyBtn.addActionListener(e -> modifyBtnActionPerformed(e));
         add(modifyBtn);
 
@@ -92,6 +95,7 @@ public class ContextMenu extends JPopupMenu {
         removeBtn.setText("Eliminar");
         removeBtn.setFocusable(false);
         removeBtn.setMaximumSize(new Dimension(85, 26));
+        removeBtn.setBackground(new Color(0x1e1e1e));
         removeBtn.addActionListener(e -> removeBtnActionPerformed(e));
         add(removeBtn);
         // JFormDesigner - End of component initialization  //GEN-END:initComponents  @formatter:on

@@ -6,16 +6,12 @@ import es.exmaster.expass.ExPasswordManager;
 import es.exmaster.expass.util.ExLogger;
 
 import javax.swing.*;
-import java.awt.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.net.HttpURLConnection;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URL;
 
 public class UpdateChecker implements Runnable{
-
     public UpdateChecker() {
         super();
     }
@@ -27,12 +23,7 @@ public class UpdateChecker implements Runnable{
             if(getLatestRelease(API_URL).compareTo(ExPasswordManager.VERSION) > 0) {
                 int answer = JOptionPane.showConfirmDialog(UIExPass.getFrame(), "Hay una nueva versión disponible. ¿Quieres descargarla?", "Actualización disponible", JOptionPane.OK_CANCEL_OPTION);
                 if(answer == JOptionPane.OK_OPTION) {
-                    try {
-                        String VERSION_URL = "https://github.com/ExceptionMaster/ExPasswordManager/releases/latest";
-                        Desktop.getDesktop().browse(new URI(VERSION_URL));
-                    } catch (IOException | URISyntaxException e) {
-                        new ExLogger(ExPasswordManager.class).error(e.getMessage());
-                    }
+                    new Thread(new UpdateInstaller()).start();
                 }
             }
         } catch (IOException e) {
@@ -40,7 +31,7 @@ public class UpdateChecker implements Runnable{
         }
     }
 
-    private static String getLatestRelease(String apiUrl) throws IOException {
+    static String getLatestRelease(String apiUrl) throws IOException {
         URL url = new URL(apiUrl);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("GET");
@@ -62,7 +53,6 @@ public class UpdateChecker implements Runnable{
                 // Obtén el valor de 'tag_name' que contiene la versión.
                 String version = jsonNode.get("tag_name").asText();
                 new ExLogger(UpdateChecker.class).info("Versión nueva: " + version);
-
                 return version;
             }
         } else {

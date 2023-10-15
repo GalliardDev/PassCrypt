@@ -10,6 +10,7 @@ import es.exmaster.expass.ExPasswordManager;
 import es.exmaster.expass.util.ExLogger;
 import es.exmaster.expass.util.RSAUtils;
 
+import java.awt.*;
 import java.util.List;
 import java.util.Objects;
 import javax.swing.*;
@@ -44,7 +45,7 @@ public class DataPopup extends javax.swing.JFrame {
         passwordField = new javax.swing.JPasswordField();
         siteField = new javax.swing.JTextField();
         userField = new javax.swing.JTextField();
-        showBtn = new javax.swing.JButton();
+        showBtn = new javax.swing.JToggleButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
@@ -75,8 +76,10 @@ public class DataPopup extends javax.swing.JFrame {
         });
 
         showBtn.setIcon(new ImageIcon(Objects.requireNonNull(getClass().getResource("/images/view_small.png")))); // NOI18N
+        showBtn.setSelectedIcon(new ImageIcon(Objects.requireNonNull(getClass().getResource("/images/view_selected_small.png"))));
         showBtn.setAlignmentX(0.5F);
         showBtn.setFocusable(false);
+        showBtn.setBackground(Color.decode("#585858"));
         showBtn.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         showBtn.setIconTextGap(0);
         showBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -227,7 +230,7 @@ public class DataPopup extends javax.swing.JFrame {
     // Variables declaration - do not modify                     
     public static javax.swing.JPasswordField passwordField;
     private javax.swing.JLabel passwordLabel;
-    private javax.swing.JButton showBtn;
+    private javax.swing.JToggleButton showBtn;
     public static javax.swing.JTextField siteField;
     private javax.swing.JLabel siteLabel;
     public static javax.swing.JTextField userField;

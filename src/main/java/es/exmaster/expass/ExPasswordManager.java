@@ -9,42 +9,74 @@ import javax.swing.*;
 
 import com.formdev.flatlaf.themes.FlatMacDarkLaf;
 
+import com.formdev.flatlaf.ui.FlatTextBorder;
 import es.exmaster.expass.common.ActionType;
 import es.exmaster.expass.common.KeyPairManager;
 import es.exmaster.expass.database.ExPassDAO;
 import es.exmaster.expass.gui.MastPassDialog;
 import es.exmaster.expass.gui.UIExPass;
+import es.exmaster.expass.themes.ExPassLaf;
 import es.exmaster.expass.util.ExLogger;
 import es.exmaster.expass.util.PopupHandler;
+import es.exmaster.expass.util.Utils;
 
 public class ExPasswordManager {
-	public static final String VERSION = "v2.4.1";
+	public static final String VERSION = "v2.4.2";
 	public static final KeyPairManager kpm = new KeyPairManager();
+
+	private static final String ORANGE = "#fc8600";
+	private static final String YELLOW = "#ffae00";
+	private static final String LIGHT_YELLOW = "#eac575";
+	private static final String LIGHT_ORANGE = "#dca261";
+	private static final String DARK_ORANGE = "#a65800";
+	private static final String BLACK = "#000000";
+	private static final String BACKGROUND = "#1e1e1e";
 
 	public static boolean isReady = false;
 
 	public static void main(String[] args) {
-		try {
-            UIManager.setLookAndFeel(new FlatMacDarkLaf());
-			UIManager.put("TextField.selectionBackground", Color.decode("#ffa84f"));
-			UIManager.put("TextField.selectionForeground", Color.decode("#000000"));
-			UIManager.put("Component.focusedBorderColor", Color.decode("#febf00"));
-			UIManager.put("Button.arc", 5);
-			UIManager.put("JComponent.background", Color.decode("#c2701b"));
-			UIManager.put("TitlePane.closeHoverBackground", Color.decode("#c2701b"));
-			UIManager.put("TitlePane.closePressedBackground", Color.decode("#be6000"));
-			UIManager.put("TableHeader.background", Color.decode("#c2701b"));
-			UIManager.put("Table.selectionBackground", Color.decode("#ffa84f"));
-			UIManager.put("Table.selectionForeground", Color.decode("#000000"));
-			UIManager.put("TextField.caretForeground", Color.decode("#c2701b"));
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            new ExLogger(ExPasswordManager.class).error(ex.getMessage());
-        }
+		ExPassLaf.setup();
+		UIManager.put("TextField.selectionBackground", Color.decode(LIGHT_ORANGE));
+		UIManager.put("TextField.selectionForeground", Color.decode(BLACK));
 
-		createDBFile();
-        ExPassDAO.inicializarBaseDeDatos();
+		UIManager.put("Component.focusedBorderColor", Color.decode(YELLOW));
+		UIManager.put("Component.focusWidth", 0);
+		UIManager.put("Component.innerFocusWidth", 0);
 
-		showSplashScreen();
+		UIManager.put("Button.arc", 10);
+		UIManager.put("Button.background", Color.decode(ORANGE));
+
+		UIManager.put("TitlePane.closeHoverBackground", Color.decode(ORANGE));
+		UIManager.put("TitlePane.closePressedBackground", Color.decode(DARK_ORANGE));
+		UIManager.put("TitlePane.borderColor", Color.decode(ORANGE));
+
+		UIManager.put("ScrollPane.smoothScrolling", true);
+
+		UIManager.put("TableHeader.background", Color.decode(YELLOW));
+		UIManager.put("TableHeader.foreground", Color.decode(BLACK));
+		UIManager.put("TableHeader.cellBorder", BorderFactory.createEmptyBorder());
+		UIManager.put("Table.selectionBackground", Color.decode(LIGHT_YELLOW));
+		UIManager.put("Table.selectionForeground", Color.decode(BLACK));
+		UIManager.put("Table.border", BorderFactory.createEmptyBorder());
+
+		UIManager.put("ComboBox.squareButton", true);
+		UIManager.put("ComboBox.selectionBackground", Color.decode(LIGHT_ORANGE));
+		UIManager.put("ComboBox.selectionForeground", Color.decode(BLACK));
+		UIManager.put("ComboBox.buttonDarkShadow", Color.decode(BLACK));
+		UIManager.put("ComboBox.buttonBackground", Color.decode(ORANGE));
+		UIManager.put("ComboBox.buttonHighlight", Color.decode(YELLOW));
+		UIManager.put("ComboBox.buttonShadow", Color.decode(ORANGE));
+
+		UIManager.put("ScrollBar.thumb", Color.decode(ORANGE));
+		UIManager.put("ScrollBar.thumbDarkShadow", Color.decode(ORANGE));
+		UIManager.put("ScrollBar.thumbHighlight", Color.decode(ORANGE));
+		UIManager.put("ScrollBar.thumbShadow", Color.decode(ORANGE));
+		UIManager.put("ScrollBar.track", Color.decode(BACKGROUND));
+		UIManager.put("ScrollBar.trackHighlight", Color.decode(BACKGROUND));
+		UIManager.put("ScrollBar.trackHighlightForeground", Color.decode(BACKGROUND));
+		UIManager.put("ScrollBar.trackForeground", Color.decode(BACKGROUND));
+
+		Utils.appInit();
 
         while(!isReady) {
 			try {
@@ -67,26 +99,4 @@ public class ExPasswordManager {
 			});
 		}
 	}
-
-	private static void showSplashScreen() {
-		java.awt.EventQueue.invokeLater(() -> {
-			new es.exmaster.expass.gui.SplashScreen().setVisible(true);
-		});
-	}
-
-	private static void createDBFile() {
-		String databaseFolderPath = "C:/Databases";
-		
-		File db = new File(databaseFolderPath, "expass.db");
-
-    	if(!(db.exists())) {
-    		try {
-    	        db.createNewFile();
-    	        PopupHandler.BDDCreated();
-    	    } catch (IOException e) {
-    	        PopupHandler.BDDCreationError();
-    	    }
-    	}
-	}
-
 }
