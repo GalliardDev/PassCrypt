@@ -21,7 +21,7 @@ import es.exmaster.expass.util.PopupHandler;
 import es.exmaster.expass.util.Utils;
 
 public class ExPasswordManager {
-	public static final String VERSION = "v2.4.2";
+	public static final String VERSION = "v2.4.3";
 	public static final KeyPairManager kpm = new KeyPairManager();
 
 	private static final String ORANGE = "#fc8600";
