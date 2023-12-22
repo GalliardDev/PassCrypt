@@ -1,8 +1,8 @@
-package es.exmaster.expass.password;
+package dev.galliard.passcrypt.password;
 
 import java.util.Objects;
 
-import es.exmaster.expass.common.Strength;
+import dev.galliard.passcrypt.common.Strength;
 
 public class Password implements Comparable<Password> {
 	private String user;

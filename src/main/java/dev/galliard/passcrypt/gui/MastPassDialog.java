@@ -2,14 +2,14 @@
  * Created by JFormDesigner on Thu Sep 28 03:24:29 CEST 2023
  */
 
-package es.exmaster.expass.gui;
+package dev.galliard.passcrypt.gui;
 
-import es.exmaster.expass.database.ExPassDAO;
-import es.exmaster.expass.ExPasswordManager;
-import es.exmaster.expass.common.ActionType;
-import es.exmaster.expass.util.ExLogger;
-import es.exmaster.expass.util.PopupHandler;
-import es.exmaster.expass.util.RSAUtils;
+import dev.galliard.passcrypt.common.ActionType;
+import dev.galliard.passcrypt.database.PassCryptDAO;
+import dev.galliard.passcrypt.PassCrypt;
+import dev.galliard.passcrypt.util.ExLogger;
+import dev.galliard.passcrypt.util.PopupHandler;
+import dev.galliard.passcrypt.util.RSAUtils;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -60,7 +60,7 @@ public class MastPassDialog extends JDialog {
         String input = new String(masterPassField.getPassword());
         String masterPass = null;
         try {
-            masterPass = RSAUtils.decrypt(ExPassDAO.leerTabla("master").get(0), ExPasswordManager.kpm.getKeyPair().getPrivate());
+            masterPass = RSAUtils.decrypt(PassCryptDAO.leerTabla("master").get(0), PassCrypt.kpm.getKeyPair().getPrivate());
         } catch (Exception ex) {
             throw new RuntimeException(ex);
         }
@@ -72,8 +72,8 @@ public class MastPassDialog extends JDialog {
         if(actionType.equals(ActionType.INIT)) {
             String input = new String(masterPassField.getPassword());
             try {
-                ExPassDAO.agregarDatos("master", new String[] {RSAUtils.encrypt(input, ExPasswordManager.kpm.getKeyPair().getPublic())});
-                ExPassDAO.agregarDatos("passwords",
+                PassCryptDAO.agregarDatos("master", new String[] {RSAUtils.encrypt(input, PassCrypt.kpm.getKeyPair().getPublic())});
+                PassCryptDAO.agregarDatos("passwords",
                         new String[] {"", "", "", "", "0"});
                 java.awt.EventQueue.invokeLater(() -> {
                     new UIExPass().setVisible(true);

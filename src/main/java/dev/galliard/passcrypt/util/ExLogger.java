@@ -1,6 +1,4 @@
-package es.exmaster.expass.util;
-
-import java.io.Console;
+package dev.galliard.passcrypt.util;
 
 public class ExLogger {
     public ExLogger(Class<?> clazz) {

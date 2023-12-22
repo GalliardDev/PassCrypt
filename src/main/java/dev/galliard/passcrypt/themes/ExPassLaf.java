@@ -1,4 +1,4 @@
-package es.exmaster.expass.themes;
+package dev.galliard.passcrypt.themes;
 
 import com.formdev.flatlaf.themes.FlatMacDarkLaf;
 

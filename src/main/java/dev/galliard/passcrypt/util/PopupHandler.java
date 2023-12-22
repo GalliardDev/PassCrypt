@@ -1,4 +1,4 @@
-package es.exmaster.expass.util;
+package dev.galliard.passcrypt.util;
 
 import java.awt.HeadlessException;
 

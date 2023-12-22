@@ -2,32 +2,18 @@
  * Created by JFormDesigner on Thu Sep 28 02:37:02 CEST 2023
  */
 
-package es.exmaster.expass.gui;
+package dev.galliard.passcrypt.gui;
 
 import java.awt.event.*;
-import java.util.*;
-import es.exmaster.expass.database.ExPassDAO;
-import es.exmaster.expass.ExPasswordManager;
-import es.exmaster.expass.common.ActionType;
-import es.exmaster.expass.util.ExLogger;
-import es.exmaster.expass.util.PasswordCellRenderer;
-import es.exmaster.expass.util.PopupHandler;
-import es.exmaster.expass.util.RSAUtils;
+
+import dev.galliard.passcrypt.common.ActionType;
+import dev.galliard.passcrypt.PassCrypt;
 
 import javax.swing.*;
 import javax.swing.GroupLayout;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellRenderer;
-import javax.swing.table.TableColumn;
-import javax.swing.table.TableColumnModel;
 import java.awt.*;
-import java.awt.datatransfer.StringSelection;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.StandardCopyOption;
 
 /**
  * @author jomaa
@@ -83,7 +69,7 @@ public class UIExPass extends JFrame {
     }
 
     private void parseVersion() {
-        this.setTitle(this.getTitle().replace("{VERSION}", ExPasswordManager.VERSION));
+        this.setTitle(this.getTitle().replace("{VERSION}", PassCrypt.VERSION));
     }
 
     private void newBtnActionPerformed(java.awt.event.ActionEvent evt) {

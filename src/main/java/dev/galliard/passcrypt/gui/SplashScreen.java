@@ -2,12 +2,12 @@
  * Created by JFormDesigner on Wed Oct 04 03:33:26 CEST 2023
  */
 
-package es.exmaster.expass.gui;
+package dev.galliard.passcrypt.gui;
 
-import es.exmaster.expass.ExPasswordManager;
-import es.exmaster.expass.common.KeyPairManager;
-import es.exmaster.expass.database.ExPassDAO;
-import es.exmaster.expass.util.ExLogger;
+import dev.galliard.passcrypt.database.PassCryptDAO;
+import dev.galliard.passcrypt.PassCrypt;
+import dev.galliard.passcrypt.common.KeyPairManager;
+import dev.galliard.passcrypt.util.ExLogger;
 
 import java.awt.*;
 import javax.swing.*;
@@ -32,11 +32,11 @@ public class SplashScreen extends JFrame {
             @Override
             protected Void doInBackground() throws InterruptedException {
                 int currentProgress = 0;
-                if (!ExPassDAO.leerTabla("keys").isEmpty()
-                        && !ExPassDAO.leerTabla("master").isEmpty()
-                        && !ExPassDAO.leerTabla("passwords").isEmpty()) {
+                if (!PassCryptDAO.leerTabla("keys").isEmpty()
+                        && !PassCryptDAO.leerTabla("master").isEmpty()
+                        && !PassCryptDAO.leerTabla("passwords").isEmpty()) {
 
-                    ExPassDAO.parseOldStrengthValues();
+                    PassCryptDAO.parseOldStrengthValues();
                     currentProgress += 20;
                     publish(currentProgress);
                     new ExLogger(SplashScreen.class).info("Progreso: " + currentProgress + "%");
@@ -59,7 +59,7 @@ public class SplashScreen extends JFrame {
                     publish(currentProgress);
                     new ExLogger(SplashScreen.class).info("Progreso: " + currentProgress + "%");
                 }
-                ExPasswordManager.isReady = true;
+                PassCrypt.isReady = true;
                 return null;
             }
 

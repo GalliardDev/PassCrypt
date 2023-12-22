@@ -1,7 +1,5 @@
-package es.exmaster.expass.util;
+package dev.galliard.passcrypt.util;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.security.*;

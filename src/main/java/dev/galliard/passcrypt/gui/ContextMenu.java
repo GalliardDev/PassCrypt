@@ -2,7 +2,7 @@
  * Created by JFormDesigner on Sun Oct 01 04:29:20 CEST 2023
  */
 
-package es.exmaster.expass.gui;
+package dev.galliard.passcrypt.gui;
 
 import java.awt.*;
 import java.awt.event.*;

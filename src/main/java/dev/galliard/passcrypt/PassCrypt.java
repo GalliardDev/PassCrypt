@@ -1,26 +1,19 @@
-package es.exmaster.expass;
+package dev.galliard.passcrypt;
 
 import java.awt.*;
-import java.io.File;
-import java.io.IOException;
-import java.util.Objects;
 
 import javax.swing.*;
 
-import com.formdev.flatlaf.themes.FlatMacDarkLaf;
+import dev.galliard.passcrypt.common.ActionType;
+import dev.galliard.passcrypt.common.KeyPairManager;
+import dev.galliard.passcrypt.database.PassCryptDAO;
+import dev.galliard.passcrypt.gui.MastPassDialog;
+import dev.galliard.passcrypt.gui.UIExPass;
+import dev.galliard.passcrypt.themes.ExPassLaf;
+import dev.galliard.passcrypt.util.ExLogger;
+import dev.galliard.passcrypt.util.Utils;
 
-import com.formdev.flatlaf.ui.FlatTextBorder;
-import es.exmaster.expass.common.ActionType;
-import es.exmaster.expass.common.KeyPairManager;
-import es.exmaster.expass.database.ExPassDAO;
-import es.exmaster.expass.gui.MastPassDialog;
-import es.exmaster.expass.gui.UIExPass;
-import es.exmaster.expass.themes.ExPassLaf;
-import es.exmaster.expass.util.ExLogger;
-import es.exmaster.expass.util.PopupHandler;
-import es.exmaster.expass.util.Utils;
-
-public class ExPasswordManager {
+public class PassCrypt {
 	public static final String VERSION = "v2.4.3";
 	public static final KeyPairManager kpm = new KeyPairManager();
 
@@ -82,11 +75,11 @@ public class ExPasswordManager {
 			try {
 				Thread.sleep(100);
 			} catch (InterruptedException e) {
-				new ExLogger(ExPasswordManager.class).error(e.getMessage());
+				new ExLogger(PassCrypt.class).error(e.getMessage());
 			}
 		}
 
-		if(ExPassDAO.leerTabla("master").isEmpty()) {
+		if(PassCryptDAO.leerTabla("master").isEmpty()) {
 			MastPassDialog mpd = new MastPassDialog(UIExPass.getFrame());
 			mpd.setActionType(ActionType.INIT);
 			mpd.setTitle("Inicializar contraseña maestra");

@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/src/ExPasswordManager.iml" filepath="$PROJECT_DIR$/src/ExPasswordManager.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ExPasswordManager.iml" filepath="$PROJECT_DIR$/ExPasswordManager.iml" />
     </modules>
   </component>
 </project>

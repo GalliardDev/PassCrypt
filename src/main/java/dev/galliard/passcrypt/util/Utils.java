@@ -1,6 +1,7 @@
-package es.exmaster.expass.util;
+package dev.galliard.passcrypt.util;
 
-import es.exmaster.expass.database.ExPassDAO;
+import dev.galliard.passcrypt.database.PassCryptDAO;
+import dev.galliard.passcrypt.gui.SplashScreen;
 
 import java.io.File;
 import java.io.IOException;
@@ -8,13 +9,13 @@ import java.io.IOException;
 public class Utils {
     public static void appInit() {
         createDBFile();
-        ExPassDAO.inicializarBaseDeDatos();
+        PassCryptDAO.inicializarBaseDeDatos();
         showSplashScreen();
     }
 
     private static void showSplashScreen() {
         java.awt.EventQueue.invokeLater(() -> {
-            new es.exmaster.expass.gui.SplashScreen().setVisible(true);
+            new SplashScreen().setVisible(true);
         });
     }
 

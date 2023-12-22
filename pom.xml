@@ -4,8 +4,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>es.exmaster</groupId>
-    <artifactId>ExPasswordManager</artifactId>
+    <groupId>dev.galliard</groupId>
+    <artifactId>PassCrypt</artifactId>
     <version>2.4.3</version>
 
     <build>
@@ -24,7 +24,7 @@
                             <transformers>
                                 <!-- Este transformer evita que el sufijo "jar-with-dependencies" aparezca en el nombre -->
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>es.exmaster.expass.ExPasswordManager</mainClass>
+                                    <mainClass>dev.galliard.passcrypt.PassCrypt</mainClass>
                                 </transformer>
                             </transformers>
                         </configuration>

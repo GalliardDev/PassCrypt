@@ -24,7 +24,7 @@
             <configuration>
               <transformers>
                 <transformer>
-                  <mainClass>es.exmaster.expass.ExPasswordManager</mainClass>
+                  <mainClass>dev.galliard.passcrypt.PassCrypt</mainClass>
                 </transformer>
               </transformers>
             </configuration>

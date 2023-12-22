@@ -1,19 +1,16 @@
-package es.exmaster.expass.gui;
+package dev.galliard.passcrypt.gui;
 
-import es.exmaster.expass.ExPasswordManager;
-import es.exmaster.expass.database.ExPassDAO;
-import es.exmaster.expass.util.ExLogger;
-import es.exmaster.expass.util.PasswordCellRenderer;
-import es.exmaster.expass.util.PopupHandler;
-import es.exmaster.expass.util.RSAUtils;
+import dev.galliard.passcrypt.database.PassCryptDAO;
+import dev.galliard.passcrypt.PassCrypt;
+import dev.galliard.passcrypt.util.ExLogger;
+import dev.galliard.passcrypt.util.PasswordCellRenderer;
+import dev.galliard.passcrypt.util.RSAUtils;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
-import javax.swing.text.Position;
-import javax.xml.stream.Location;
 import java.awt.*;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.KeyAdapter;
@@ -48,7 +45,7 @@ public class GUIManager {
     }
 
     protected void parseVersion(UIExPass ui) {
-        ui.setTitle(ui.getTitle().replace("{VERSION}", ExPasswordManager.VERSION));
+        ui.setTitle(ui.getTitle().replace("{VERSION}", PassCrypt.VERSION));
     }
 
     protected void importBDD(UIExPass ui) {
@@ -119,7 +116,7 @@ public class GUIManager {
         if (rowIndex >= 0) {
             String password = null;
             try {
-                password = RSAUtils.decrypt(UIExPass.getTabla().getValueAt(rowIndex, 2).toString(), ExPasswordManager.kpm.getKeyPair().getPrivate());
+                password = RSAUtils.decrypt(UIExPass.getTabla().getValueAt(rowIndex, 2).toString(), PassCrypt.kpm.getKeyPair().getPrivate());
             } catch (Exception ex) {
                 new ExLogger(UIExPass.class).error("Error al desencriptar la contraseña", ex);
             }
@@ -139,7 +136,7 @@ public class GUIManager {
             String selectedPassword = UIExPass.getTabla().getValueAt(UIExPass.getTabla().getSelectedRow(), 2).toString();
             String password = "";
             try {
-                password = RSAUtils.decrypt(selectedPassword, ExPasswordManager.kpm.getKeyPair().getPrivate());
+                password = RSAUtils.decrypt(selectedPassword, PassCrypt.kpm.getKeyPair().getPrivate());
             } catch (Exception ex) {
                 throw new RuntimeException(ex);
             }
@@ -153,7 +150,7 @@ public class GUIManager {
         int sel = JOptionPane.showOptionDialog(null, "¿Seguro que quieres eliminar el dato?", "Confirmar Eliminación", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
         switch (sel) {
             case JOptionPane.YES_OPTION:
-                ExPassDAO.eliminarDatosDobleEntrada("passwords", "user", tempUser, "site", tempSite);
+                PassCryptDAO.eliminarDatosDobleEntrada("passwords", "user", tempUser, "site", tempSite);
                 break;
             case JOptionPane.NO_OPTION:
                 break;
@@ -165,7 +162,7 @@ public class GUIManager {
         if (rowIndex >= 0) {
             String password = null;
             try {
-                password = RSAUtils.decrypt(UIExPass.getTabla().getValueAt(rowIndex, 2).toString(), ExPasswordManager.kpm.getKeyPair().getPrivate());
+                password = RSAUtils.decrypt(UIExPass.getTabla().getValueAt(rowIndex, 2).toString(), PassCrypt.kpm.getKeyPair().getPrivate());
             } catch (Exception ex) {
                 new ExLogger(UIExPass.class).error("Error al desencriptar la contraseña", ex);
             }
@@ -178,7 +175,7 @@ public class GUIManager {
 
     protected void update(UIExPass ui) {
         ((DefaultTableModel) UIExPass.table.getModel()).setRowCount(0);
-        ExPassDAO.fillTableFromDatabase((DefaultTableModel) UIExPass.table.getModel());
+        PassCryptDAO.fillTableFromDatabase((DefaultTableModel) UIExPass.table.getModel());
     }
 
     protected void applyPassFilter(){
@@ -230,7 +227,7 @@ public class GUIManager {
     protected Object[][] search(String text) {
         DefaultTableModel model = (DefaultTableModel) UIExPass.table.getModel();
         int columnCount = model.getColumnCount();
-        List<String> aux = ExPassDAO.leerTabla("passwords").stream()
+        List<String> aux = PassCryptDAO.leerTabla("passwords").stream()
                 .filter(s -> s.split(";")[1].toLowerCase().contains(text.toLowerCase()))
                 .toList();
 

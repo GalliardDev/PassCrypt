@@ -2,13 +2,14 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package es.exmaster.expass.gui;
+package dev.galliard.passcrypt.gui;
 
 import com.formdev.flatlaf.themes.FlatMacDarkLaf;
-import es.exmaster.expass.database.ExPassDAO;
-import es.exmaster.expass.ExPasswordManager;
-import es.exmaster.expass.util.ExLogger;
-import es.exmaster.expass.util.RSAUtils;
+import dev.galliard.passcrypt.database.PassCryptDAO;
+import dev.galliard.passcrypt.password.Password;
+import dev.galliard.passcrypt.PassCrypt;
+import dev.galliard.passcrypt.util.ExLogger;
+import dev.galliard.passcrypt.util.RSAUtils;
 
 import java.awt.*;
 import java.util.List;
@@ -156,7 +157,7 @@ public class DataPopup extends javax.swing.JFrame {
     }                                        
     
     private void enterKeyEvent(java.awt.event.KeyEvent evt) {
-        List<String> registroExistente = ExPassDAO.buscarDatosDobleEntrada("passwords", "user", userField.getText(), "site", siteField.getText());
+        List<String> registroExistente = PassCryptDAO.buscarDatosDobleEntrada("passwords", "user", userField.getText(), "site", siteField.getText());
         if (!(userField.getText().isEmpty()
                 && siteField.getText().isEmpty()
                 && new String(passwordField.getPassword()).isEmpty())) {
@@ -173,17 +174,17 @@ public class DataPopup extends javax.swing.JFrame {
     }
             
     private void añadir() {
-        String id = ExPassDAO.leerTabla("passwords").get(ExPassDAO.leerTabla("passwords").size()-1).split(";")[4];
+        String id = PassCryptDAO.leerTabla("passwords").get(PassCryptDAO.leerTabla("passwords").size()-1).split(";")[4];
         try {
-            if(ExPassDAO.leerTabla("passwords").get(0).contains(";;;;0")) {
-                ExPassDAO.limpiarTabla("passwords");
+            if(PassCryptDAO.leerTabla("passwords").get(0).contains(";;;;0")) {
+                PassCryptDAO.limpiarTabla("passwords");
                 UIExPass.getGuiManager().update(UIExPass.getInstance());
             }
-			ExPassDAO.agregarDatos("passwords", new String[]{
+			PassCryptDAO.agregarDatos("passwords", new String[]{
 			    userField.getText(),
 			    siteField.getText(),
-			    RSAUtils.encrypt(new String(passwordField.getPassword()), ExPasswordManager.kpm.getKeyPair().getPublic()),
-			    es.exmaster.expass.password.Password.isStrong(new String(passwordField.getPassword())).name(),
+			    RSAUtils.encrypt(new String(passwordField.getPassword()), PassCrypt.kpm.getKeyPair().getPublic()),
+			    Password.isStrong(new String(passwordField.getPassword())).name(),
                 String.valueOf(Integer.parseInt(id)+1)
 			});
 		} catch (Exception e) {
@@ -196,11 +197,11 @@ public class DataPopup extends javax.swing.JFrame {
     
     private void modificar() {
         try {
-			ExPassDAO.modificarDatosDobleEntrada("passwords", "user", userField.getText(),
+			PassCryptDAO.modificarDatosDobleEntrada("passwords", "user", userField.getText(),
 			        "site", siteField.getText(), 
 			        new String[] {"password", "strength"},
-			        new String[] {RSAUtils.encrypt(new String(passwordField.getPassword()), ExPasswordManager.kpm.getKeyPair().getPublic()),
-			        es.exmaster.expass.password.Password.isStrong(new String(passwordField.getPassword())).name()});
+			        new String[] {RSAUtils.encrypt(new String(passwordField.getPassword()), PassCrypt.kpm.getKeyPair().getPublic()),
+			        Password.isStrong(new String(passwordField.getPassword())).name()});
 		} catch (Exception e) {
 			new ExLogger(this.getClass()).error("Error al modificar datos", e);
 		}

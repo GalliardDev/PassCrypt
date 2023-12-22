@@ -1,6 +1,4 @@
-package es.exmaster.expass.gui;
-
-import es.exmaster.expass.ExPasswordManager;
+package dev.galliard.passcrypt.gui;
 
 import java.io.File;
 import java.io.IOException;
