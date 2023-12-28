@@ -14,7 +14,7 @@ import dev.galliard.passcrypt.util.PCLogger;
 import dev.galliard.passcrypt.util.Utils;
 
 public class PassCrypt {
-	public static final String VERSION = "v2.4.3";
+	public static final String VERSION = "v2.4.4";
 	public static final KeyPairManager kpm = new KeyPairManager();
 
 	private static final String ORANGE = "#fc8600";
