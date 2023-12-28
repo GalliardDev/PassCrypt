@@ -2,17 +2,17 @@ package dev.galliard.passcrypt.themes;
 
 import com.formdev.flatlaf.themes.FlatMacDarkLaf;
 
-public class ExPassLaf
+public class PassCryptLaf
         extends FlatMacDarkLaf
 {
     public static final String NAME = "expass";
 
     public static boolean setup() {
-        return setup( new ExPassLaf() );
+        return setup( new PassCryptLaf() );
     }
 
     public static void installLafInfo() {
-        installLafInfo( NAME, ExPassLaf.class );
+        installLafInfo( NAME, PassCryptLaf.class );
     }
 
     @Override

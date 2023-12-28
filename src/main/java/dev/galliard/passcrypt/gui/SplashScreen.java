@@ -7,7 +7,7 @@ package dev.galliard.passcrypt.gui;
 import dev.galliard.passcrypt.database.PassCryptDAO;
 import dev.galliard.passcrypt.PassCrypt;
 import dev.galliard.passcrypt.common.KeyPairManager;
-import dev.galliard.passcrypt.util.ExLogger;
+import dev.galliard.passcrypt.util.PCLogger;
 
 import java.awt.*;
 import javax.swing.*;
@@ -39,25 +39,25 @@ public class SplashScreen extends JFrame {
                     PassCryptDAO.parseOldStrengthValues();
                     currentProgress += 20;
                     publish(currentProgress);
-                    new ExLogger(SplashScreen.class).info("Progreso: " + currentProgress + "%");
+                    new PCLogger(SplashScreen.class).info("Progreso: " + currentProgress + "%");
                     Thread.sleep(50);
 
                     KeyPairManager.decryptOldThenEncryptNew();
                     currentProgress += 70;
                     publish(currentProgress);
-                    new ExLogger(SplashScreen.class).info("Progreso: " + currentProgress + "%");
+                    new PCLogger(SplashScreen.class).info("Progreso: " + currentProgress + "%");
                     Thread.sleep(50);
 
                     KeyPairManager.saveKeysBase64();
                     currentProgress += 10;
                     publish(currentProgress);
-                    new ExLogger(SplashScreen.class).info("Progreso: " + currentProgress + "%");
+                    new PCLogger(SplashScreen.class).info("Progreso: " + currentProgress + "%");
                     Thread.sleep(50);
                 } else {
                     KeyPairManager.saveKeysBase64();
                     currentProgress += 100;
                     publish(currentProgress);
-                    new ExLogger(SplashScreen.class).info("Progreso: " + currentProgress + "%");
+                    new PCLogger(SplashScreen.class).info("Progreso: " + currentProgress + "%");
                 }
                 PassCrypt.isReady = true;
                 return null;

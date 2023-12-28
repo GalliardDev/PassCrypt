@@ -31,26 +31,26 @@ public class ContextMenu extends JPopupMenu {
     private void copyBtnActionPerformed(ActionEvent e) {
         // TODO add your code here
         this.setVisible(false);
-        UIExPass.getGuiManager().copy();
+        UIPassCrypt.getGuiManager().copy();
     }
 
     private void modifyBtnActionPerformed(ActionEvent e) {
         // TODO add your code here
         this.setVisible(false);
-        UIExPass.getGuiManager().modify();
+        UIPassCrypt.getGuiManager().modify();
     }
 
     private void removeBtnActionPerformed(ActionEvent e) {
         // TODO add your code here
         this.setVisible(false);
-        UIExPass.getGuiManager().remove();
-        UIExPass.getGuiManager().update(UIExPass.getInstance());
+        UIPassCrypt.getGuiManager().remove();
+        UIPassCrypt.getGuiManager().update(UIPassCrypt.getInstance());
     }
 
     private void viewBtnActionPerformed(ActionEvent e) {
         // TODO add your code here
         this.setVisible(false);
-        UIExPass.getGuiManager().view();
+        UIPassCrypt.getGuiManager().view();
     }
 
     public JButton getViewBtn() {

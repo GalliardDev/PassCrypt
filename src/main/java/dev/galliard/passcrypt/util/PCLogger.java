@@ -1,7 +1,7 @@
 package dev.galliard.passcrypt.util;
 
-public class ExLogger {
-    public ExLogger(Class<?> clazz) {
+public class PCLogger {
+    public PCLogger(Class<?> clazz) {
 
     }
 

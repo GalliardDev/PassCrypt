@@ -1,7 +1,7 @@
 package dev.galliard.passcrypt.common;
 
 import dev.galliard.passcrypt.database.PassCryptDAO;
-import dev.galliard.passcrypt.util.ExLogger;
+import dev.galliard.passcrypt.util.PCLogger;
 import dev.galliard.passcrypt.util.RSAUtils;
 
 import java.security.KeyPair;
@@ -92,6 +92,6 @@ public class KeyPairManager {
             regs = id;
         }
         PassCryptDAO.update("passwords", ls.size(), aux.get(ls.size()-1));
-        new ExLogger(KeyPairManager.class).success("Se han actualizado " + Math.addExact(regs, 1) + " registros.");
+        new PCLogger(KeyPairManager.class).success("Se han actualizado " + Math.addExact(regs, 1) + " registros.");
     }
 }

@@ -18,23 +18,23 @@ import java.awt.event.MouseEvent;
 /**
  * @author jomaa
  */
-public class UIExPass extends JFrame {
+public class UIPassCrypt extends JFrame {
     private static JFrame frame;
     private GUIManager guiManager = new GUIManager();
 
-    public UIExPass() {
+    public UIPassCrypt() {
         frame = this;
         initComponents();
         finalizeInit();
 
     }
 
-    protected static UIExPass getInstance() {
-        return (UIExPass) frame;
+    protected static UIPassCrypt getInstance() {
+        return (UIPassCrypt) frame;
     }
 
     public static GUIManager getGuiManager() {
-        return UIExPass.getInstance().guiManager;
+        return UIPassCrypt.getInstance().guiManager;
     }
 
     @Override

@@ -7,7 +7,7 @@ package dev.galliard.passcrypt.gui;
 import dev.galliard.passcrypt.common.ActionType;
 import dev.galliard.passcrypt.database.PassCryptDAO;
 import dev.galliard.passcrypt.PassCrypt;
-import dev.galliard.passcrypt.util.ExLogger;
+import dev.galliard.passcrypt.util.PCLogger;
 import dev.galliard.passcrypt.util.PopupHandler;
 import dev.galliard.passcrypt.util.RSAUtils;
 
@@ -28,7 +28,7 @@ public class MastPassDialog extends JDialog {
         super(owner);
         actionType = ActionType.INIT;
         initComponents();
-        setLocationRelativeTo(UIExPass.getFrame());
+        setLocationRelativeTo(UIPassCrypt.getFrame());
         setResizable(false);
         setFocusableWindowState(true);
         setAutoRequestFocus(true);
@@ -76,7 +76,7 @@ public class MastPassDialog extends JDialog {
                 PassCryptDAO.agregarDatos("passwords",
                         new String[] {"", "", "", "", "0"});
                 java.awt.EventQueue.invokeLater(() -> {
-                    new UIExPass().setVisible(true);
+                    new UIPassCrypt().setVisible(true);
                 });
             } catch (Exception ex) {
                 throw new RuntimeException(ex);
@@ -84,26 +84,26 @@ public class MastPassDialog extends JDialog {
         } else if(masterPassOk()) {
             switch (actionType) {
                 case LOGIN:
-                    UIExPass.getGuiManager().login(UIExPass.getInstance());
+                    UIPassCrypt.getGuiManager().login(UIPassCrypt.getInstance());
                     break;
                 case NEW:
-                    UIExPass.getGuiManager().newPass();
+                    UIPassCrypt.getGuiManager().newPass();
                     break;
                 case VIEW:
-                    UIExPass.getGuiManager().view();
+                    UIPassCrypt.getGuiManager().view();
                     break;
                 case MODIFY:
-                    UIExPass.getGuiManager().modify();
+                    UIPassCrypt.getGuiManager().modify();
                     break;
                 case IMPORT:
-                    UIExPass.getGuiManager().importBDD(UIExPass.getInstance());
+                    UIPassCrypt.getGuiManager().importBDD(UIPassCrypt.getInstance());
                     break;
                 case EXPORT:
-                    UIExPass.getGuiManager().exportBDD();
+                    UIPassCrypt.getGuiManager().exportBDD();
                     break;
                 case REMOVE:
-                    UIExPass.getGuiManager().remove();
-                    UIExPass.getGuiManager().update(UIExPass.getInstance());
+                    UIPassCrypt.getGuiManager().remove();
+                    UIPassCrypt.getGuiManager().update(UIPassCrypt.getInstance());
                     break;
             }
         } else {
@@ -112,7 +112,7 @@ public class MastPassDialog extends JDialog {
                 System.exit(0);
             } else {
                 PopupHandler.wrongMasterPassword();
-                new ExLogger(MastPassDialog.class).error("Contraseña maestra incorrecta");
+                new PCLogger(MastPassDialog.class).error("Contraseña maestra incorrecta");
             }
         }
         // de momento así

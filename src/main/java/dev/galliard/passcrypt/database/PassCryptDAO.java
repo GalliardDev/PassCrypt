@@ -17,7 +17,7 @@ import java.util.List;
 
 import javax.swing.table.DefaultTableModel;
 
-import dev.galliard.passcrypt.util.ExLogger;
+import dev.galliard.passcrypt.util.PCLogger;
 
 
 /**
@@ -35,10 +35,10 @@ public class PassCryptDAO {
                 stmt.execute("CREATE TABLE IF NOT EXISTS master (password TEXT)");
                 stmt.execute("CREATE TABLE IF NOT EXISTS passwords (user TEXT, site TEXT, password TEXT, strength TEXT, id INTEGER PRIMARY KEY AUTOINCREMENT); ");
                 stmt.execute("CREATE TABLE IF NOT EXISTS keys (publicLast TEXT, privateLast TEXT);");
-                new ExLogger(PassCryptDAO.class).success("BDD inicializada con éxito!");
+                new PCLogger(PassCryptDAO.class).success("BDD inicializada con éxito!");
 
             } catch (SQLException e) {
-                new ExLogger(PassCryptDAO.class).error("Error al inicializar la base de datos", e);
+                new PCLogger(PassCryptDAO.class).error("Error al inicializar la base de datos", e);
         }
     }
 	
@@ -67,7 +67,7 @@ public class PassCryptDAO {
 	            aux.add(dataBuilder.toString());
 	        }
 	    } catch (SQLException e) {
-            new ExLogger(PassCryptDAO.class).error("Error al leer la tabla " + nombreTabla, e);
+            new PCLogger(PassCryptDAO.class).error("Error al leer la tabla " + nombreTabla, e);
 	    }
 
 	    return aux;
@@ -97,7 +97,7 @@ public class PassCryptDAO {
 
             stmt.executeUpdate();
         } catch (SQLException e) {
-            new ExLogger(PassCryptDAO.class).error("Error al agregar datos a la tabla " + nombreTabla, e);
+            new PCLogger(PassCryptDAO.class).error("Error al agregar datos a la tabla " + nombreTabla, e);
         }
     }
 
@@ -128,7 +128,7 @@ public class PassCryptDAO {
 
             stmt.executeUpdate();
         } catch (SQLException e) {
-            new ExLogger(PassCryptDAO.class).error("Error al modificar datos de la tabla " + nombreTabla, e);
+            new PCLogger(PassCryptDAO.class).error("Error al modificar datos de la tabla " + nombreTabla, e);
         }
     }
     
@@ -157,7 +157,7 @@ public class PassCryptDAO {
 
             stmt.executeUpdate();
         } catch (SQLException e) {
-            new ExLogger(PassCryptDAO.class).error("Error al modificar datos de la tabla " + nombreTabla, e);
+            new PCLogger(PassCryptDAO.class).error("Error al modificar datos de la tabla " + nombreTabla, e);
         }
     }
 
@@ -189,7 +189,7 @@ public class PassCryptDAO {
                 }
             }
         } catch (SQLException e) {
-            new ExLogger(PassCryptDAO.class).error("Error al buscar datos en la tabla " + nombreTabla, e);
+            new PCLogger(PassCryptDAO.class).error("Error al buscar datos en la tabla " + nombreTabla, e);
         }
 
         return aux.stream().map(s -> s.split(";")).toArray(String[][]::new);
@@ -224,7 +224,7 @@ public class PassCryptDAO {
                 }
             }
         } catch (SQLException e) {
-            new ExLogger(PassCryptDAO.class).error("Error al buscar datos en la tabla " + nombreTabla, e);
+            new PCLogger(PassCryptDAO.class).error("Error al buscar datos en la tabla " + nombreTabla, e);
         }
         return aux;
     }
@@ -240,7 +240,7 @@ public class PassCryptDAO {
 
             stmt.executeUpdate();
         } catch (SQLException e) {
-            new ExLogger(PassCryptDAO.class).error("Error al eliminar datos de la tabla " + nombreTabla, e);
+            new PCLogger(PassCryptDAO.class).error("Error al eliminar datos de la tabla " + nombreTabla, e);
         }
     }
     
@@ -254,7 +254,7 @@ public class PassCryptDAO {
 
             stmt.executeUpdate();
         } catch (SQLException e) {
-            new ExLogger(PassCryptDAO.class).error("Error al eliminar datos de la tabla " + nombreTabla, e);
+            new PCLogger(PassCryptDAO.class).error("Error al eliminar datos de la tabla " + nombreTabla, e);
         }
     }
         
@@ -271,7 +271,7 @@ public class PassCryptDAO {
                 }
             }
         } catch (SQLException e) {
-            new ExLogger(PassCryptDAO.class).error("Error al obtener valor de la tabla " + nombreTabla, e);
+            new PCLogger(PassCryptDAO.class).error("Error al obtener valor de la tabla " + nombreTabla, e);
         }
 
         return null;
@@ -307,7 +307,7 @@ public class PassCryptDAO {
                 }
             }
         } catch (SQLException e) {
-            new ExLogger(PassCryptDAO.class).error("Error al rellenar la tabla", e);
+            new PCLogger(PassCryptDAO.class).error("Error al rellenar la tabla", e);
         }
     }
 
@@ -327,12 +327,12 @@ public class PassCryptDAO {
             // Preparar y ejecutar la sentencia SQL
             try (PreparedStatement preparedStatement = connection.prepareStatement(updateSql)) {
                 preparedStatement.executeUpdate();
-                new ExLogger(PassCryptDAO.class).success("Valores actualizados correctamente");
+                new PCLogger(PassCryptDAO.class).success("Valores actualizados correctamente");
             } catch (SQLException e) {
-                new ExLogger(PassCryptDAO.class).error("Error al ejecutar la sentencia SQL", e);
+                new PCLogger(PassCryptDAO.class).error("Error al ejecutar la sentencia SQL", e);
             }
         } catch (SQLException e) {
-            new ExLogger(PassCryptDAO.class).error("Error al conectar a la base de datos", e);
+            new PCLogger(PassCryptDAO.class).error("Error al conectar a la base de datos", e);
         } finally {
             // Cerrar la conexión
             try {
@@ -340,7 +340,7 @@ public class PassCryptDAO {
                     connection.close();
                 }
             } catch (SQLException e) {
-               new ExLogger(PassCryptDAO.class).error("Error al cerrar la conexión", e);
+               new PCLogger(PassCryptDAO.class).error("Error al cerrar la conexión", e);
             }
         }
     }
@@ -360,10 +360,10 @@ public class PassCryptDAO {
             String sql = "DELETE FROM " + table;
             statement.executeUpdate(sql);
 
-            new ExLogger(PassCryptDAO.class).success("Tabla " + table + " limpiada correctamente");
+            new PCLogger(PassCryptDAO.class).success("Tabla " + table + " limpiada correctamente");
 
         } catch (SQLException e) {
-            new ExLogger(PassCryptDAO.class).error("Error al limpiar la tabla " + table, e);
+            new PCLogger(PassCryptDAO.class).error("Error al limpiar la tabla " + table, e);
         } finally {
             try {
                 if (statement != null) {
@@ -373,7 +373,7 @@ public class PassCryptDAO {
                     connection.close();
                 }
             } catch (SQLException e) {
-                new ExLogger(PassCryptDAO.class).error("Error al cerrar la conexión", e);
+                new PCLogger(PassCryptDAO.class).error("Error al cerrar la conexión", e);
             }
         }
     }
@@ -396,7 +396,7 @@ public class PassCryptDAO {
             // Cerrar la sentencia preparada
             preparedStatement.close();
         } catch (SQLException e) {
-            new ExLogger(PassCryptDAO.class).error("Error al actualizar el registro", e);
+            new PCLogger(PassCryptDAO.class).error("Error al actualizar el registro", e);
         }
     }
 

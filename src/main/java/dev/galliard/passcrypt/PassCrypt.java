@@ -8,9 +8,9 @@ import dev.galliard.passcrypt.common.ActionType;
 import dev.galliard.passcrypt.common.KeyPairManager;
 import dev.galliard.passcrypt.database.PassCryptDAO;
 import dev.galliard.passcrypt.gui.MastPassDialog;
-import dev.galliard.passcrypt.gui.UIExPass;
-import dev.galliard.passcrypt.themes.ExPassLaf;
-import dev.galliard.passcrypt.util.ExLogger;
+import dev.galliard.passcrypt.gui.UIPassCrypt;
+import dev.galliard.passcrypt.themes.PassCryptLaf;
+import dev.galliard.passcrypt.util.PCLogger;
 import dev.galliard.passcrypt.util.Utils;
 
 public class PassCrypt {
@@ -28,7 +28,7 @@ public class PassCrypt {
 	public static boolean isReady = false;
 
 	public static void main(String[] args) {
-		ExPassLaf.setup();
+		PassCryptLaf.setup();
 		UIManager.put("TextField.selectionBackground", Color.decode(LIGHT_ORANGE));
 		UIManager.put("TextField.selectionForeground", Color.decode(BLACK));
 
@@ -75,12 +75,12 @@ public class PassCrypt {
 			try {
 				Thread.sleep(100);
 			} catch (InterruptedException e) {
-				new ExLogger(PassCrypt.class).error(e.getMessage());
+				new PCLogger(PassCrypt.class).error(e.getMessage());
 			}
 		}
 
 		if(PassCryptDAO.leerTabla("master").isEmpty()) {
-			MastPassDialog mpd = new MastPassDialog(UIExPass.getFrame());
+			MastPassDialog mpd = new MastPassDialog(UIPassCrypt.getFrame());
 			mpd.setActionType(ActionType.INIT);
 			mpd.setTitle("Inicializar contraseña maestra");
 			mpd.getIntroduceLabel().setText("Nueva contraseña maestra:");
@@ -88,7 +88,7 @@ public class PassCrypt {
 			mpd.getMasterPassField().requestFocus();
 		} else {
 			java.awt.EventQueue.invokeLater(() -> {
-				new UIExPass().setVisible(true);
+				new UIPassCrypt().setVisible(true);
 			});
 		}
 	}

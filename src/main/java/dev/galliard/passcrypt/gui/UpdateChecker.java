@@ -3,7 +3,7 @@ package dev.galliard.passcrypt.gui;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import dev.galliard.passcrypt.PassCrypt;
-import dev.galliard.passcrypt.util.ExLogger;
+import dev.galliard.passcrypt.util.PCLogger;
 
 import javax.swing.*;
 import java.io.BufferedReader;
@@ -21,7 +21,7 @@ public class UpdateChecker implements Runnable{
         try {
             String API_URL = "https://api.github.com/repos/ExceptionMaster/ExPasswordManager/releases/latest";
             if(getLatestRelease(API_URL).compareTo(PassCrypt.VERSION) > 0) {
-                int answer = JOptionPane.showConfirmDialog(UIExPass.getFrame(), "Hay una nueva versión disponible. ¿Quieres descargarla?", "Actualización disponible", JOptionPane.OK_CANCEL_OPTION);
+                int answer = JOptionPane.showConfirmDialog(UIPassCrypt.getFrame(), "Hay una nueva versión disponible. ¿Quieres descargarla?", "Actualización disponible", JOptionPane.OK_CANCEL_OPTION);
                 if(answer == JOptionPane.OK_OPTION) {
                     new Thread(new UpdateInstaller()).start();
                 }
@@ -52,7 +52,7 @@ public class UpdateChecker implements Runnable{
 
                 // Obtén el valor de 'tag_name' que contiene la versión.
                 String version = jsonNode.get("tag_name").asText();
-                new ExLogger(UpdateChecker.class).info("Versión nueva: " + version);
+                new PCLogger(UpdateChecker.class).info("Versión nueva: " + version);
                 return version;
             }
         } else {

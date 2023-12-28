@@ -9,5 +9,8 @@
         <module name="ExPasswordManager" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="ExPasswordManager" target="17" />
+    </bytecodeTargetLevel>
   </component>
 </project>

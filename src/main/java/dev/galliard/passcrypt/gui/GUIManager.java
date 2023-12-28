@@ -2,7 +2,7 @@ package dev.galliard.passcrypt.gui;
 
 import dev.galliard.passcrypt.database.PassCryptDAO;
 import dev.galliard.passcrypt.PassCrypt;
-import dev.galliard.passcrypt.util.ExLogger;
+import dev.galliard.passcrypt.util.PCLogger;
 import dev.galliard.passcrypt.util.PasswordCellRenderer;
 import dev.galliard.passcrypt.util.RSAUtils;
 
@@ -44,11 +44,11 @@ public class GUIManager {
         this.tempSite = tempSite;
     }
 
-    protected void parseVersion(UIExPass ui) {
+    protected void parseVersion(UIPassCrypt ui) {
         ui.setTitle(ui.getTitle().replace("{VERSION}", PassCrypt.VERSION));
     }
 
-    protected void importBDD(UIExPass ui) {
+    protected void importBDD(UIPassCrypt ui) {
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setDialogTitle("Selecciona el archivo para importar");
         int seleccion = fileChooser.showOpenDialog(null);
@@ -91,7 +91,7 @@ public class GUIManager {
         }
     }
 
-    protected void login(UIExPass ui) {
+    protected void login(UIPassCrypt ui) {
         update(ui);
         ui.getNewBtn().setEnabled(true);
         ui.getViewBtn().setEnabled(true);
@@ -112,28 +112,28 @@ public class GUIManager {
     }
 
     protected void view() {
-        int rowIndex = UIExPass.getTabla().getSelectedRow();
+        int rowIndex = UIPassCrypt.getTabla().getSelectedRow();
         if (rowIndex >= 0) {
             String password = null;
             try {
-                password = RSAUtils.decrypt(UIExPass.getTabla().getValueAt(rowIndex, 2).toString(), PassCrypt.kpm.getKeyPair().getPrivate());
+                password = RSAUtils.decrypt(UIPassCrypt.getTabla().getValueAt(rowIndex, 2).toString(), PassCrypt.kpm.getKeyPair().getPrivate());
             } catch (Exception ex) {
-                new ExLogger(UIExPass.class).error("Error al desencriptar la contraseña", ex);
+                new PCLogger(UIPassCrypt.class).error("Error al desencriptar la contraseña", ex);
             }
             if (password != null) {
-                JOptionPane.showMessageDialog(UIExPass.getFrame(), password, "Contraseña", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(UIPassCrypt.getFrame(), password, "Contraseña", JOptionPane.INFORMATION_MESSAGE);
             }
         }
     }
 
 
     protected void modify() {
-        if(UIExPass.table.getSelectedRow()!=-1) {
+        if(UIPassCrypt.table.getSelectedRow()!=-1) {
             dp.setTitle("Modificar entrada");
             dp.setVisible(true);
-            DataPopup.userField.setText(UIExPass.getTabla().getValueAt(UIExPass.getTabla().getSelectedRow(), 0).toString());
-            DataPopup.siteField.setText(UIExPass.getTabla().getValueAt(UIExPass.getTabla().getSelectedRow(), 1).toString());
-            String selectedPassword = UIExPass.getTabla().getValueAt(UIExPass.getTabla().getSelectedRow(), 2).toString();
+            DataPopup.userField.setText(UIPassCrypt.getTabla().getValueAt(UIPassCrypt.getTabla().getSelectedRow(), 0).toString());
+            DataPopup.siteField.setText(UIPassCrypt.getTabla().getValueAt(UIPassCrypt.getTabla().getSelectedRow(), 1).toString());
+            String selectedPassword = UIPassCrypt.getTabla().getValueAt(UIPassCrypt.getTabla().getSelectedRow(), 2).toString();
             String password = "";
             try {
                 password = RSAUtils.decrypt(selectedPassword, PassCrypt.kpm.getKeyPair().getPrivate());
@@ -158,13 +158,13 @@ public class GUIManager {
     }
 
     protected void copy() {
-        int rowIndex = UIExPass.getTabla().getSelectedRow();
+        int rowIndex = UIPassCrypt.getTabla().getSelectedRow();
         if (rowIndex >= 0) {
             String password = null;
             try {
-                password = RSAUtils.decrypt(UIExPass.getTabla().getValueAt(rowIndex, 2).toString(), PassCrypt.kpm.getKeyPair().getPrivate());
+                password = RSAUtils.decrypt(UIPassCrypt.getTabla().getValueAt(rowIndex, 2).toString(), PassCrypt.kpm.getKeyPair().getPrivate());
             } catch (Exception ex) {
-                new ExLogger(UIExPass.class).error("Error al desencriptar la contraseña", ex);
+                new PCLogger(UIPassCrypt.class).error("Error al desencriptar la contraseña", ex);
             }
             if (password != null) {
                 Toolkit.getDefaultToolkit().getSystemClipboard().setContents(new StringSelection(password), null);
@@ -173,13 +173,13 @@ public class GUIManager {
         }
     }
 
-    protected void update(UIExPass ui) {
-        ((DefaultTableModel) UIExPass.table.getModel()).setRowCount(0);
-        PassCryptDAO.fillTableFromDatabase((DefaultTableModel) UIExPass.table.getModel());
+    protected void update(UIPassCrypt ui) {
+        ((DefaultTableModel) UIPassCrypt.table.getModel()).setRowCount(0);
+        PassCryptDAO.fillTableFromDatabase((DefaultTableModel) UIPassCrypt.table.getModel());
     }
 
     protected void applyPassFilter(){
-        TableColumnModel columnModel = UIExPass.table.getColumnModel();
+        TableColumnModel columnModel = UIPassCrypt.table.getColumnModel();
         // Crear un nuevo CellRenderer personalizado
         TableCellRenderer passwordCellRenderer = new PasswordCellRenderer();
 
@@ -199,7 +199,7 @@ public class GUIManager {
         }
     }
 
-    protected void addListenerToSearchBar(UIExPass ui) {
+    protected void addListenerToSearchBar(UIPassCrypt ui) {
         ui.getSearchField().addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent e) {
@@ -207,7 +207,7 @@ public class GUIManager {
                 String text = ui.getSearchField().getText();
                 if(!text.isEmpty()) {
                     fillTableFrom2DArray(
-                            UIExPass.table,
+                            UIPassCrypt.table,
                             search(text),
                             new String[]{"Usuario", "Sitio", "Contraseña", "Fuerza"}
                     );
@@ -225,7 +225,7 @@ public class GUIManager {
     }
 
     protected Object[][] search(String text) {
-        DefaultTableModel model = (DefaultTableModel) UIExPass.table.getModel();
+        DefaultTableModel model = (DefaultTableModel) UIPassCrypt.table.getModel();
         int columnCount = model.getColumnCount();
         List<String> aux = PassCryptDAO.leerTabla("passwords").stream()
                 .filter(s -> s.split(";")[1].toLowerCase().contains(text.toLowerCase()))
@@ -239,13 +239,13 @@ public class GUIManager {
     }
 
     public void blockUntilLogin() {
-        ((DefaultTableModel) UIExPass.table.getModel()).setRowCount(0);
-        UIExPass.getInstance().getNewBtn().setEnabled(false);
-        UIExPass.getInstance().getViewBtn().setEnabled(false);
-        UIExPass.getInstance().getModifyBtn().setEnabled(false);
-        UIExPass.getInstance().getImportBtn().setEnabled(false);
-        UIExPass.getInstance().getExportBtn().setEnabled(false);
-        UIExPass.getInstance().getSearchField().setEnabled(false);
-        UIExPass.getInstance().getSearchField().setEnabled(false);
+        ((DefaultTableModel) UIPassCrypt.table.getModel()).setRowCount(0);
+        UIPassCrypt.getInstance().getNewBtn().setEnabled(false);
+        UIPassCrypt.getInstance().getViewBtn().setEnabled(false);
+        UIPassCrypt.getInstance().getModifyBtn().setEnabled(false);
+        UIPassCrypt.getInstance().getImportBtn().setEnabled(false);
+        UIPassCrypt.getInstance().getExportBtn().setEnabled(false);
+        UIPassCrypt.getInstance().getSearchField().setEnabled(false);
+        UIPassCrypt.getInstance().getSearchField().setEnabled(false);
     }
 }

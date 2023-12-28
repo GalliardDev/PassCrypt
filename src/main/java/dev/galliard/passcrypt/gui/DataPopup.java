@@ -8,7 +8,7 @@ import com.formdev.flatlaf.themes.FlatMacDarkLaf;
 import dev.galliard.passcrypt.database.PassCryptDAO;
 import dev.galliard.passcrypt.password.Password;
 import dev.galliard.passcrypt.PassCrypt;
-import dev.galliard.passcrypt.util.ExLogger;
+import dev.galliard.passcrypt.util.PCLogger;
 import dev.galliard.passcrypt.util.RSAUtils;
 
 import java.awt.*;
@@ -26,7 +26,7 @@ public class DataPopup extends javax.swing.JFrame {
      */
     public DataPopup() {
         initComponents();
-        setLocationRelativeTo(UIExPass.getFrame());
+        setLocationRelativeTo(UIPassCrypt.getFrame());
         setResizable(false);
 
     }
@@ -178,7 +178,7 @@ public class DataPopup extends javax.swing.JFrame {
         try {
             if(PassCryptDAO.leerTabla("passwords").get(0).contains(";;;;0")) {
                 PassCryptDAO.limpiarTabla("passwords");
-                UIExPass.getGuiManager().update(UIExPass.getInstance());
+                UIPassCrypt.getGuiManager().update(UIPassCrypt.getInstance());
             }
 			PassCryptDAO.agregarDatos("passwords", new String[]{
 			    userField.getText(),
@@ -188,9 +188,9 @@ public class DataPopup extends javax.swing.JFrame {
                 String.valueOf(Integer.parseInt(id)+1)
 			});
 		} catch (Exception e) {
-			new ExLogger(this.getClass()).error("Error al añadir datos", e);
+			new PCLogger(this.getClass()).error("Error al añadir datos", e);
 		}
-        UIExPass.getGuiManager().update(UIExPass.getInstance());
+        UIPassCrypt.getGuiManager().update(UIPassCrypt.getInstance());
         clearFields();
         this.dispose();
     }
@@ -203,9 +203,9 @@ public class DataPopup extends javax.swing.JFrame {
 			        new String[] {RSAUtils.encrypt(new String(passwordField.getPassword()), PassCrypt.kpm.getKeyPair().getPublic()),
 			        Password.isStrong(new String(passwordField.getPassword())).name()});
 		} catch (Exception e) {
-			new ExLogger(this.getClass()).error("Error al modificar datos", e);
+			new PCLogger(this.getClass()).error("Error al modificar datos", e);
 		}
-        UIExPass.getGuiManager().update(UIExPass.getInstance());
+        UIPassCrypt.getGuiManager().update(UIPassCrypt.getInstance());
         clearFields();
         this.dispose();
     }
